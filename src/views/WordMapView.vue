@@ -5,8 +5,8 @@
       v-for="(output, index) in word.output"
       v-bind:key="index"
     >
-      <glyph-view :glyph="output?.firstIn.a"></glyph-view>
       <glyph-view :glyph="output?.firstIn.b"></glyph-view>
+      <glyph-view :glyph="output?.firstIn.a"></glyph-view>
       <glyph-view :glyph="output?.firstIn.c"></glyph-view>
     </div>
   </div>

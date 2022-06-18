@@ -7,7 +7,6 @@ import { TriGlyph } from "./TriGlyph";
 
 export class Glyph extends AbstractSubject {
   private maps: Array<Array<GlyphCircleReference>> = [];
-  private mapIndex = 0;
   //
   constructor(
     public character: string,
@@ -25,59 +24,24 @@ export class Glyph extends AbstractSubject {
     return this.triadsInByOrder[0];
   }
   //
-  public addMap(
-    c: number,
-    r: number,
-    type: TriadMappingDirection,
-    triadMap: TriadMap,
-    remap = false,
-    readIndex = 0
-  ) {
-    if (this.maps[r] == undefined) {
-      this.maps[r] = [];
+  public mapCirclePoint(map: GlyphCircleReference) {
+    if (this.maps[map.direction] == undefined) {
+      this.maps[map.direction] = [];
     }
-    this.maps[r][c] = new GlyphCircleReference(
-      c,
-      r,
-      this,
-      readIndex,
-      type,
-      triadMap,
-      remap
-    );
-    this.mapIndex += 1;
-    return this.maps[r][c];
-  }
-  //
-  public getIncrementedIndex(): number {
-    this.mapIndex += 1;
-    return this.mapIndex;
+    this.maps[map.direction].push(map);
   }
   //
   public get triadsInByOrder(): Array<TriGlyph> {
-    return this.maps
-      .flat()
-      .sort(
-        (a: GlyphCircleReference, b: GlyphCircleReference) => a.index - b.index
-      )
-      .filter(
-        (v: GlyphCircleReference) =>
-          v.triad.direction == TriadMappingDirection.BAC
-      )
-      .map((v: GlyphCircleReference) => {
-        console.log(v);
-        return v;
-      })
-      .map((v: GlyphCircleReference) => v.triad);
+    return this.maps[TriadMappingDirection.BAC]
+      .map((v: GlyphCircleReference) => v.triad)
+      .sort((a: TriGlyph, b: TriGlyph) => a.readIndex - b.readIndex);
   }
   //
   public get triadsInOrderOfRegistration(): Array<TriGlyph> {
     return this.maps
       .flat()
-      .sort(
-        (a: GlyphCircleReference, b: GlyphCircleReference) => a.index - b.index
-      )
-      .map((v: GlyphCircleReference) => v.triad);
+      .map((v: GlyphCircleReference) => v.triad)
+      .sort((a: TriGlyph, b: TriGlyph) => a.readIndex - b.readIndex);
   }
   //
   public getChildBiGlyphsAsIndexes(): Array<number> {

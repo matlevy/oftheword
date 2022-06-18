@@ -6,7 +6,7 @@ import { TriadMappingDirection } from "./TriadMappingDirection";
 import { TriGlyph } from "./TriGlyph";
 
 export class TriadMap {
-  private triadMap: Array<Array<GlyphCircleReference>> = [];
+  private triadMap: Array<Array<any>> = [];
 
   constructor(public glyphMap: GlyphMap) {}
   //
@@ -22,21 +22,47 @@ export class TriadMap {
   public addMap(
     pair: BiGlyph,
     single?: Glyph,
-    type: TriadMappingDirection = TriadMappingDirection.ABC,
+    direction: TriadMappingDirection = TriadMappingDirection.ABC,
     readIndex = 0,
     remap = false
   ) {
-    const [r, i] = this.calcCircle(pair, single);
-    if (!this.triadMap[r]) {
-      this.triadMap[r] = new Array(6);
+    const [radii, circle] = this.calcCircle(pair, single);
+    if (!this.triadMap[radii]) {
+      this.triadMap[radii] = new Array(6);
     }
-    if (r != undefined && i != undefined && single) {
-      if (this.triadMap[r][i] == undefined) {
-        this.triadMap[r][i] = single.addMap(r, i, type, this, remap, readIndex);
-      } else {
-        console.log("skip:", r, i);
+    if (!this.triadMap[radii][circle]) {
+      this.triadMap[radii][circle] = {};
+    }
+    if (radii != undefined && circle != undefined && single) {
+      //
+      let circlePoint: GlyphCircleReference = this.getMap(
+        circle,
+        radii,
+        single.character + pair.a?.character + pair.b?.character
+      );
+      //
+      if (!circlePoint) {
+        circlePoint = new GlyphCircleReference(
+          circle,
+          radii,
+          single,
+          pair,
+          readIndex,
+          direction,
+          this,
+          remap
+        );
       }
+      //
+      single.mapCirclePoint(circlePoint);
     }
+  }
+  public getMap(
+    circle: number,
+    radii: number,
+    ref: string
+  ): GlyphCircleReference {
+    return this.triadMap[radii][circle][ref];
   }
   //
   public getGlyphFromIndex(index: number): Glyph {

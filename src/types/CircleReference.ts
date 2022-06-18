@@ -1,3 +1,4 @@
+import { BiGlyph } from "./BiGlyph";
 import { Glyph } from "./Glyph";
 import { TriadMap } from "./TriadMap";
 import { TriadMappingDirection } from "./TriadMappingDirection";
@@ -10,19 +11,21 @@ export class GlyphCircleReference {
     public circle: number,
     public radii: number,
     public glyph: Glyph,
+    public biGlyph: BiGlyph,
     public index: number,
     public direction: TriadMappingDirection,
     public triadMap: TriadMap,
     remap = false
   ) {
-    const a: Glyph = this.glyph;
-    const b: Glyph = this.glyph.glyphMap.getFromIndex(
-      this.getPairedGlyphs()[0]
+    this.triad = new TriGlyph(
+      glyph,
+      biGlyph.a,
+      biGlyph.b,
+      triadMap,
+      direction,
+      remap,
+      this.index
     );
-    const c: Glyph = this.glyph.glyphMap.getFromIndex(
-      this.getPairedGlyphs()[1]
-    );
-    this.triad = new TriGlyph(a, b, c, triadMap, direction, remap, this.index);
   }
   public getBiGlyphIndex(): number {
     return (this.circle * 7 + this.radii) / this.glyph.index;
