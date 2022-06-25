@@ -1,15 +1,13 @@
 <template>
-  <div class="word">
-    <div
-      class="stack"
-      v-for="(output, index) in word.output"
-      v-bind:key="index"
-    >
-      <glyph-view :glyph="output?.firstIn.a"></glyph-view>
-      <glyph-view :glyph="output?.firstIn.b"></glyph-view>
-      <glyph-view :glyph="output?.firstIn.c"></glyph-view>
-    </div>
-  </div>
+  <span class="word">
+    <span class="stack" v-for="(output, index) in word.A" v-bind:key="index">
+      <span class="glyph" v-if="output.IN[0]">
+        <glyph-view :glyph="output.IN[0].a"></glyph-view>
+        <glyph-view :glyph="output.IN[0].b"></glyph-view>
+        <glyph-view :glyph="output.IN[0].c"></glyph-view>
+      </span>
+    </span>
+  </span>
 </template>
 <script lang="ts">
 import { Word } from "@/types/Word";
@@ -33,17 +31,19 @@ export default class WordMapView extends Vue {
 <style scoped lang="scss">
 .word {
   display: flex;
-  flex-wrap: wrap;
   .stack {
-    flex-basis: calc(100% / 22);
     padding: 10px 0;
     text-align: center;
     color: white;
     font-weight: bold;
     font-size: 24px;
     display: flex;
-    flex-flow: column;
+    width: 40px;
     .glyph {
+      display: flex;
+      flex-flow: column;
+      text-align: center;
+      padding: 10px 0;
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="word">
     <a
       href="#index"
-      v-for="(glyph, index) in word.output"
+      v-for="(glyph, index) in word.A"
       v-bind:key="index"
       :title="(index + 1).toString()"
       class="glyph"

@@ -90,9 +90,7 @@ export class Scripture {
           });
         }
       }
-      console.log();
     }
-    console.log(this);
     return this;
   }
   //

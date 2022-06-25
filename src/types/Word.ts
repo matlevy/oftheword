@@ -41,7 +41,6 @@ export class Word {
   //
   public and() {
     if (this.R.length > 2) {
-      console.log(this.R);
       for (let p = 0; p < this.E.length; p++) {
         if (this.A[p + 2]) {
           new Triad({

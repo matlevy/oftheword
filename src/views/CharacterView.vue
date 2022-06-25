@@ -1,5 +1,5 @@
 <template>
-    <span class="char">{{ char }}</span>
+  <span class="char">{{ char }}</span>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";

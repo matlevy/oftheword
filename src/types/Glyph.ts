@@ -21,6 +21,7 @@ export class Glyph {
   }
   //
   public get IN(): Array<TriGlyph> {
+    if (!this.maps[TriadMappingDirection.BAC]) return [];
     return this.maps[TriadMappingDirection.BAC]
       .sort((a: Triad, b: Triad) => a.IN.i - b.IN.i)
       .map((v: Triad) => v.get(TriadMappingDirection.BAC));
@@ -43,7 +44,6 @@ export class Glyph {
   }
   //
   public getConnections(): Array<Glyph> {
-    console.log(this.triadsInOrderOfRegistration);
     return this.getBiGlyphs().reduce((p: Array<Glyph>, c: BiGlyph) => {
       if (p.indexOf(c.a) == -1) {
         p.push(c.a);

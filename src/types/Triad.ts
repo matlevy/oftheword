@@ -51,7 +51,6 @@ export class Triad implements TriGlyph {
     const remap: TriadRemap = Triad.REMAP_ARRAY.find(
       (v: TriadRemap) => v.direction == direction
     ) as TriadRemap;
-    console.log(remap);
     return {
       a: this.AD[remap.a],
       b: this.AD[remap.b],

@@ -11,6 +11,14 @@
     >
       {{ word.WR?.R }}&nbsp;
     </span>
+    <div class="words">
+      <word-map-view
+        v-for="(word, index) in scripture.I"
+        v-bind:key="index"
+        :title="(index + 1).toString()"
+        :word="word"
+      ></word-map-view>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -21,9 +29,12 @@ import { Word } from "@/types/Word";
 import { God } from "@/types/wordActions/God";
 import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { TriadMap } from "@/types/TriadMap";
+import WordMapView from "@/views/WordMapView.vue";
 //
 @Options({
-  components: {},
+  components: {
+    WordMapView,
+  },
 })
 export default class TestView extends Vue {
   public scripture: Scripture;
@@ -46,6 +57,8 @@ export default class TestView extends Vue {
         verse: 1,
       },
     });
+    this.think =
+      "IN THE BEGINNING GOD CREATED THE HEAVEN AND THE EARTH AND THE EARTH WAS WITHOUT FORM; AND VOID ";
   }
   //
   set think(value: string) {
@@ -57,8 +70,12 @@ export default class TestView extends Vue {
   }
 }
 </script>
-<style>
+<style scoped>
 .scripture {
   color: white;
+}
+.words {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
