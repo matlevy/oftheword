@@ -1,19 +1,17 @@
-import { Glyph } from "./Glyph";
-import { GlyphMap } from "./GlyphMap";
 import { Word } from "./Word";
-
+import { God } from "./wordActions/God";
 export interface ScriptureReference {
   book: number;
   chapter: number;
   verse: number;
 }
 export interface ScriptureIn {
-  god?: any;
-  glyphs?: GlyphMap;
+  GOD: God;
   ref: ScriptureReference;
 }
 
 export class Scripture {
+  public I: Array<Word> = [];
   public E = "";
   //
   private text = "";
@@ -40,11 +38,14 @@ export class Scripture {
       const lE: number = this.E.length;
       if (code == 32) {
         // a space, signifies new word
-        new Word({
-          start: lastWordStart,
-          end: lE,
-          scripture: this,
-        });
+        this.I.push(
+          new Word({
+            start: lastWordStart,
+            end: lE,
+            scripture: this,
+            GOD: this.IN.GOD,
+          }).WR as Word
+        );
         lastWordStart = lE;
       } else if (code < 65 || code > 90) {
         // a character, therefore acts as a glyph decorator

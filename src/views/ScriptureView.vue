@@ -7,18 +7,28 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { Scripture } from "@/types/Scripture";
+import { WordMap } from "@/types/WordMap";
+import { Word } from "@/types/Word";
+import { God } from "@/types/wordActions/God";
 //
 @Options({
   components: {},
 })
 export default class ScriptureView extends Vue {
   public _scripture: Scripture;
-
+  public _wordMap: WordMap = new WordMap({
+    map: new Map<string, Word>(),
+  });
   private _s = "";
 
   constructor(...args: any[]) {
     super(args);
     this._scripture = new Scripture({
+      GOD: new God({
+        O: {
+          D: this._wordMap,
+        },
+      }),
       ref: {
         book: 1,
         chapter: 1,
