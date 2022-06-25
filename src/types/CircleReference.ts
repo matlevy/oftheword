@@ -32,8 +32,10 @@ export class GlyphCircleReference {
   }
   public link(point: GlyphCircleReference | undefined) {
     if (point) {
-      let link: CircleLink | undefined = this.connections.find((v:CircleLink) => v.point == point);
-      if ( link ) {
+      let link: CircleLink | undefined = this.connections.find(
+        (v: CircleLink) => v.point == point
+      );
+      if (link) {
         link.increment();
       } else {
         link = new CircleLink(this);

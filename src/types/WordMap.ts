@@ -4,7 +4,7 @@ import { GlyphCircleReference } from "./CircleReference";
 import { Glyph } from "./Glyph";
 import { GlyphMap } from "./GlyphMap";
 import { TriadMap } from "./TriadMap";
-import { Word } from "./Word";
+import { Words } from "./Words";
 
 export class WordMap {
     private words: any = {};
@@ -17,7 +17,7 @@ export class WordMap {
 
     }
     //
-    public god(value:string): Word {
+    public god(value:string): Words {
         const a: Glyph = this.glyphMap.getGlyph(value[0]);
         const b: Glyph = this.glyphMap.getGlyph(value[1]);
         const c: Glyph = this.glyphMap.getGlyph(value[2]);
@@ -26,11 +26,11 @@ export class WordMap {
         return this.words[value];
     }
     //
-    public read(word: Word) {
+    public read(word: Words) {
         
     }
     //
     public create() {
-        return new Word("", this.glyphMap, this.triadMap);
+        return new Words("", this.glyphMap, this.triadMap);
     }
 }

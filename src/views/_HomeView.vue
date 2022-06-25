@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <input type="text" key="" v-model="inputText" size="88" /><button
+    <!-- <input type="text" key="" v-model="inputText" size="88" /><button
       @click="go"
     >
       GO
@@ -17,25 +17,17 @@
         [ {{ option }} ]&nbsp;&nbsp;</span
       >
     </div>
-    <!--<div>
-      <span
-        style="float: left; padding-right: 5px"
-        v-for="(triad, index) of allTriads"
-        v-bind:key="index"
-      >
-        {{ triad.a?.character }}{{ triad.b?.character }}{{ triad.c?.character }}
-      </span>
-    </div>-->
     <div style="padding-top: 20px">
       <word-map-view :word="theearth"></word-map-view>
     </div>
     <div style="padding-top: 20px">
       <word-view :word="word"></word-view>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script lang="ts">
+/** 
 import { Glyph } from "@/types/Glyph";
 import { GlyphMap } from "@/types/GlyphMap";
 import { GlyphMapLatin } from "@/types/GlyphMapLatin";
@@ -166,7 +158,7 @@ export default class HomeView extends Vue {
   get options(): Array<string> {
     return this.nextPermitted;
   }
-}
+}**/
 </script>
 <style>
 .home {

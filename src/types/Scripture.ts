@@ -1,53 +1,82 @@
-import { WordMap } from "./WordMap";
-import { Word } from "./Word";
 import { Glyph } from "./Glyph";
+import { GlyphMap } from "./GlyphMap";
+import { Word } from "./Word";
+
+export interface ScriptureReference {
+  book: number;
+  chapter: number;
+  verse: number;
+}
+export interface ScriptureIn {
+  god?: any;
+  glyphs?: GlyphMap;
+  ref: ScriptureReference;
+}
 
 export class Scripture {
-  private current: Word;
-
-  public words: Array<Word> = [];
-
-  constructor(public wordMap: WordMap) {
-    this.current = this.create();
-  }
+  public E = "";
   //
-  god(): Array<Glyph | undefined> | undefined {
-    return this.words.reduce(
-      (prev: Array<Glyph | undefined>, current: Word) =>
-        prev.concat(current.output),
-      []
-    );
+  private text = "";
+  private A: Array<number> = [];
+  //
+  constructor(public IN: ScriptureIn) {}
+  //
+  god() {
+    console.log("god");
   }
-  theearth() {
-    
+  theearth(value: string) {
+    this.read(value);
   }
   //
   read(value: string) {
-    if (value === " ") {
-      if (!this.wordMap.god(value.replace(" ", ""))) {
-        this.currentWord.update(value.replace(" ", ""));
-        this.and().create();
+    this.text = value.toLocaleUpperCase();
+    this.E = "";
+    //
+    let lastWordStart = 0;
+    //
+    for (let p = 0; p < this.text.length; p++) {
+      const code: number = this.text.charCodeAt(p);
+      const char: string = this.text.charAt(p);
+      const lE: number = this.E.length;
+      if (code == 32) {
+        // a space, signifies new word
+        new Word({
+          start: lastWordStart,
+          end: lE,
+          scripture: this,
+        });
+        lastWordStart = lE;
+      } else if (code < 65 || code > 90) {
+        // a character, therefore acts as a glyph decorator
       } else {
-        this.current = this.wordMap.god(value.replace(" ", ""));
-        this.and().create();
+        this.E = this.E.concat(char);
       }
-    } 
-  }
-  //
-  and() {
-    this.wordMap.read(this.currentWord);
-    this.words.push(this.currentWord);
+    }
+    this.and();
     return this;
   }
   //
-  create(): Word {
-    return this.wordMap.create();
+  and() {
+    // extract glyphs
+    for (let p = 0; p < this.text.length; p++) {
+      const code: number = this.text.charCodeAt(p);
+      const char: string = this.text.charAt(p);
+      if (code < 65 || code > 90) {
+        // a character, therefore acts as a glyph decorator
+      }
+      if (this.text.indexOf(char) == p) {
+        // a unique character for the string, and is stored in
+      }
+      if (p > 2) {
+        // make a triad
+        const triadText: string = this.text.slice(p, p - 3);
+      }
+    }
+    //this.god();
+    return this;
   }
   //
-  get currentWord(): Word {
-    if (this.current == undefined) {
-      this.current = this.create();
-    }
-    return this.current;
+  create() {
+    console.log("create");
   }
 }

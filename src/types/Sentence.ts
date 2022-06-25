@@ -1,8 +1,8 @@
-import { Word } from "./Word";
+import { Words } from "./Words";
 
 export class Sentence {
   private wordsAsStrings: string[] = [];
-  private words: Word[] = [];
+  private words: Words[] = [];
   //
   constructor(private source: string) {
     this.process();
