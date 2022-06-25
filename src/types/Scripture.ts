@@ -29,6 +29,7 @@ export class Scripture {
   read(value: string) {
     this.text = value.toLocaleUpperCase();
     this.E = "";
+    this.I = [];
     //
     let lastWordStart = 0;
     //
@@ -53,6 +54,7 @@ export class Scripture {
         this.E = this.E.concat(char);
       }
     }
+    console.log(this.I);
     this.and();
     return this;
   }

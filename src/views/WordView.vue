@@ -14,7 +14,7 @@
 <script lang="ts">
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
-import GlyphView from "./GlyphView.vue";
+import CharacterView from "./CharacterView.vue";
 
 @Options({
   name: "word-view",
@@ -22,7 +22,7 @@ import GlyphView from "./GlyphView.vue";
     word: Word,
   },
   components: {
-    GlyphView,
+    CharacterView,
   },
 })
 export default class WordView extends Vue {
@@ -34,8 +34,8 @@ export default class WordView extends Vue {
 .word {
   display: flex;
   flex-wrap: wrap;
-  .glyph {
-    flex-basis: calc(100% / 22);
+  .char {
+    // flex-basis: calc(100% / 22);
     padding: 10px 0;
     text-align: center;
     color: white;

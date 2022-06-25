@@ -2,6 +2,15 @@
   <div class="scripture">
     <input type="text" key="" v-model="think" size="88" />
     <div>{{ _scripture.E }}</div>
+    <span
+      href="#index"
+      v-for="(word, index) in _scripture.I"
+      v-bind:key="index"
+      :title="(index + 1).toString()"
+      class="glyph"
+    >
+      {{ word.WR?.R }}&nbsp;
+    </span>
   </div>
 </template>
 <script lang="ts">
