@@ -1,6 +1,7 @@
 import { BiGlyph } from "./BiGlyph";
 import { CircleLink } from "./CircleLink";
 import { Glyph } from "./Glyph";
+import { Scripture } from "./Scripture";
 import { TriadMap } from "./TriadMap";
 import { TriadMappingDirection } from "./TriadMappingDirection";
 import { TriGlyph } from "./TriGlyph";
@@ -18,7 +19,8 @@ export class GlyphCircleReference {
     public index: number,
     public direction: TriadMappingDirection,
     public triadMap: TriadMap,
-    remap = false
+    remap = false,
+    public scripture?: Scripture
   ) {
     this.triad = new TriGlyph(
       glyph,

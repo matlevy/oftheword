@@ -1,27 +1,31 @@
 import { BiGlyph } from "./BiGlyph";
 import { Glyph } from "./Glyph";
+import { Scripture } from "./Scripture";
 import { TriadMappingDirection } from "./TriadMappingDirection";
 import { God } from "./wordActions/God";
 
 export interface TriadIn {
-    a: Glyph,
-    b: Glyph,
-    c: Glyph,
-    i: number,
-    remap: boolean,
-    GOD: God
+  a: Glyph;
+  b: Glyph;
+  c: Glyph;
+  scripture: Scripture;
+  i: number;
+  remap: boolean;
+  GOD: God;
 }
 
 export class Triad {
   static REMAP_ARRAY: Array<Array<any>> = [
+    [0, 1, 2, TriadMappingDirection.ABC],
+    [2, 3, 4, TriadMappingDirection.CAB],
     [4, 5, 6, TriadMappingDirection.BAC],
-    [2, 3, 4, TriadMappingDirection.CBA],
-    [1, 2, 3, TriadMappingDirection.BCA],
     [3, 2, 1, TriadMappingDirection.ACB],
+    [1, 2, 3, TriadMappingDirection.BCA],
     [6, 4, 5, TriadMappingDirection.CBA],
   ];
 
-  constructor(public IN:TriadIn ) {
+  constructor(public IN: TriadIn) {
+    console.log(IN);
     if (this.IN.remap) {
       this.reMap();
     }
@@ -30,34 +34,26 @@ export class Triad {
   private reMap() {
     Triad.REMAP_ARRAY.forEach((v) => {
       this.IN.GOD.O.addMap(
-        new BiGlyph(this.pentMap[v[1]], this.pentMap[v[2]]),
         this.pentMap[v[0]],
+        this.pentMap[v[1]],
+        this.pentMap[v[2]],
         v[3],
-        0,
-        false
+        this.IN.i,
+        false,
+        this.IN.scripture
       );
     });
   }
 
-  get ab(): BiGlyph {
-    return new BiGlyph(this.IN.a, this.IN.b);
-  }
-
-  get bc(): BiGlyph {
-    return new BiGlyph(this.IN.b, this.IN.c);
-  }
-
-  get ac(): BiGlyph {
-    return new BiGlyph(this.IN.a, this.IN.c);
-  }
-
-  get pentMap(): Array<Glyph | undefined> {
-    return [this.IN.a, this.IN.b, this.IN.c, this.IN.a, this.IN.b, this.IN.a, this.IN.c];
-  }
-
-  get pentMapString(): string {
-    return this.pentMap
-      .map((v: Glyph | undefined) => (v ? v.character : ""))
-      .join("");
+  get pentMap(): Array<Glyph> {
+    return [
+      this.IN.a,
+      this.IN.b,
+      this.IN.c,
+      this.IN.a,
+      this.IN.b,
+      this.IN.a,
+      this.IN.c,
+    ];
   }
 }

@@ -1,5 +1,6 @@
 import { Glyph } from "./Glyph";
 import { Scripture } from "./Scripture";
+import { Triad } from "./Triad";
 import { God } from "./wordActions/God";
 export interface WordIn {
   scripture: Scripture;
@@ -14,11 +15,11 @@ export class Word {
   public U: Array<number> = [];
 
   constructor(public IN: WordIn) {
-    this.read();
+    this.read().and();
     this.IN.GOD.ORD(this);
   }
   //
-  public read() {
+  public read(): Word {
     this.E = this.R;
     this.A = [];
     this.U = [];
@@ -34,12 +35,29 @@ export class Word {
       //
       const glyph: Glyph = this.IN.GOD.IN.G.getFromIndex(this.U[this.O[p]]);
       this.A.push(glyph);
-      if (p > 2) {
-        // make a triad
-        // const triadText: string = this.text.slice(p, p - 3);
+    }
+    return this;
+  }
+  //
+  public and() {
+    if (this.R.length > 2) {
+      console.log(this.R);
+      for (let p = 0; p < this.E.length; p++) {
+        if (this.A[p + 2]) {
+          new Triad({
+            a: this.A[p],
+            b: this.A[p + 1],
+            c: this.A[p + 2],
+            i: this.IN.start + p,
+            GOD: this.IN.GOD,
+            remap: true,
+            scripture: this.IN.scripture,
+          });
+        }
       }
     }
   }
+  //
   get R(): string {
     return this.IN.scripture.E.slice(this.IN.start, this.IN.end);
   }

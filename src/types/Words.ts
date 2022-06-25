@@ -87,7 +87,8 @@ export class Words {
   private mapGlyphTriad(triplet: Array<Glyph>, index: number) {
     if (this.mapGlyphsToTriadMap) {
       const point: GlyphCircleReference | undefined = this.triadMap.addMap(
-        new BiGlyph(triplet[1], triplet[2]),
+        triplet[1], 
+        triplet[2],
         triplet[0],
         TriadMappingDirection.ABC,
         index,

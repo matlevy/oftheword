@@ -33,7 +33,8 @@ export class TriGlyph {
   private reMap() {
     TriGlyph.REMAP_ARRAY.forEach((v) => {
       this.triadMap?.addMap(
-        new BiGlyph(this.pentMap[v[1]], this.pentMap[v[2]]),
+        this.pentMap[v[1]],
+        this.pentMap[v[2]],
         this.pentMap[v[0]],
         v[3],
         this.readIndex,
@@ -54,8 +55,16 @@ export class TriGlyph {
     return new BiGlyph(this.a, this.c);
   }
 
-  get pentMap(): Array<Glyph | undefined> {
-    return [this.a, this.b, this.c, this.a, this.b, this.a, this.c];
+  get pentMap(): Array<Glyph> {
+    return [
+      this.a as Glyph,
+      this.b as Glyph,
+      this.c as Glyph,
+      this.a as Glyph,
+      this.b as Glyph,
+      this.a as Glyph,
+      this.c as Glyph,
+    ];
   }
 
   get pentMapString(): string {
