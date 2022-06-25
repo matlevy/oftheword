@@ -1,24 +1,25 @@
 <template>
   <div class="scripture">
-    <input type="text" key="" v-model="think" size="88" />
-    <div>{{ scripture.E }}</div>
-    <span
+    <a
       href="#index"
       v-for="(word, index) in scripture.I"
       v-bind:key="index"
       :title="(index + 1).toString()"
       class="glyph"
+      @click="selectWord(word)"
     >
       {{ word.WR?.R }}&nbsp;
-    </span>
+    </a>
     <div class="words">
       <word-map-view
-        v-for="(word, index) in scripture.I"
-        v-bind:key="index"
-        :title="(index + 1).toString()"
-        :word="word"
+        v-if="selectWord != null"
+        :word="selectedWord"
       ></word-map-view>
     </div>
+    <scripture-map-view
+      v-if="scripture"
+      :scripture="scripture"
+    ></scripture-map-view>
   </div>
 </template>
 <script lang="ts">
@@ -30,10 +31,12 @@ import { God } from "@/types/wordActions/God";
 import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { TriadMap } from "@/types/TriadMap";
 import WordMapView from "@/views/WordMapView.vue";
+import ScriptureMapView from "@/views/ScriptureMapView.vue";
 //
 @Options({
   components: {
     WordMapView,
+    ScriptureMapView,
   },
 })
 export default class TestView extends Vue {
@@ -42,6 +45,8 @@ export default class TestView extends Vue {
     map: new Map<string, Word>(),
   });
   private s = "";
+
+  public selectedWord: Word;
 
   constructor(...args: any[]) {
     super(args);
@@ -59,6 +64,11 @@ export default class TestView extends Vue {
     });
     this.think =
       "IN THE BEGINNING GOD CREATED THE HEAVEN AND THE EARTH AND THE EARTH WAS WITHOUT FORM; AND VOID ";
+    this.selectedWord = this.scripture.I[0];
+  }
+  //
+  public selectWord(word: Word) {
+    this.selectedWord = word;
   }
   //
   set think(value: string) {

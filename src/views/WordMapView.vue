@@ -1,9 +1,9 @@
 <template>
-  <span class="word">
+  <span class="word" v-if="word !== null">
     <span class="stack" v-for="(output, index) in word.A" v-bind:key="index">
       <span class="glyph" v-if="output.IN[0]">
-        <glyph-view :glyph="output.IN[0].a"></glyph-view>
         <glyph-view :glyph="output.IN[0].b"></glyph-view>
+        <glyph-view :glyph="output.IN[0].a"></glyph-view>
         <glyph-view :glyph="output.IN[0].c"></glyph-view>
       </span>
     </span>
