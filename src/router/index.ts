@@ -1,11 +1,11 @@
-import ScriptureView from "@/views/ScriptureView.vue";
+import TestView from "@/views/TestView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
-    component: ScriptureView,
+    component: TestView,
   },
   {
     path: "/about",

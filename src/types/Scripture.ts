@@ -11,11 +11,13 @@ export interface ScriptureIn {
 }
 
 export class Scripture {
-  public I: Array<Word> = [];
+  public A: Array<number> = [];
   public E = "";
+  public I: Array<Word> = [];
+  public O: Array<number> = [];
+  public U: Array<number> = [];
   //
   private text = "";
-  private A: Array<number> = [];
   //
   constructor(public IN: ScriptureIn) {}
   //
@@ -28,8 +30,11 @@ export class Scripture {
   //
   read(value: string) {
     this.text = value.toLocaleUpperCase();
+    this.A = [];
     this.E = "";
     this.I = [];
+    this.O = [];
+    this.U = [];
     //
     let lastWordStart = 0;
     //
@@ -54,28 +59,12 @@ export class Scripture {
         this.E = this.E.concat(char);
       }
     }
-    console.log(this.I);
     this.and();
+    console.log(this);
     return this;
   }
   //
   and() {
-    // extract glyphs
-    for (let p = 0; p < this.text.length; p++) {
-      const code: number = this.text.charCodeAt(p);
-      const char: string = this.text.charAt(p);
-      if (code < 65 || code > 90) {
-        // a character, therefore acts as a glyph decorator
-      }
-      if (this.text.indexOf(char) == p) {
-        // a unique character for the string, and is stored in
-      }
-      if (p > 2) {
-        // make a triad
-        const triadText: string = this.text.slice(p, p - 3);
-      }
-    }
-    //this.god();
     return this;
   }
   //

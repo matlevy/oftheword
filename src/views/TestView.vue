@@ -1,10 +1,10 @@
 <template>
   <div class="scripture">
     <input type="text" key="" v-model="think" size="88" />
-    <div>{{ _scripture.E }}</div>
+    <div>{{ scripture.E }}</div>
     <span
       href="#index"
-      v-for="(word, index) in _scripture.I"
+      v-for="(word, index) in scripture.I"
       v-bind:key="index"
       :title="(index + 1).toString()"
       class="glyph"
@@ -19,24 +19,26 @@ import { Scripture } from "@/types/Scripture";
 import { WordMap } from "@/types/WordMap";
 import { Word } from "@/types/Word";
 import { God } from "@/types/wordActions/God";
+import { GlyphMapLatin } from "@/types/GlyphMapLatin";
+import { TriadMap } from "@/types/TriadMap";
 //
 @Options({
   components: {},
 })
-export default class ScriptureView extends Vue {
-  public _scripture: Scripture;
-  public _wordMap: WordMap = new WordMap({
+export default class TestView extends Vue {
+  public scripture: Scripture;
+  public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),
   });
-  private _s = "";
+  private s = "";
 
   constructor(...args: any[]) {
     super(args);
-    this._scripture = new Scripture({
+    this.scripture = new Scripture({
       GOD: new God({
-        O: {
-          D: this._wordMap,
-        },
+        OD: this.wordMap,
+        O: new TriadMap(GlyphMapLatin.getInstance()),
+        G: GlyphMapLatin.getInstance(),
       }),
       ref: {
         book: 1,
@@ -47,11 +49,11 @@ export default class ScriptureView extends Vue {
   }
   //
   set think(value: string) {
-    this._scripture.read(value);
-    this._s = value.toLocaleUpperCase();
+    this.scripture.read(value);
+    this.s = value.toLocaleUpperCase();
   }
   get think() {
-    return this._s;
+    return this.s;
   }
 }
 </script>
