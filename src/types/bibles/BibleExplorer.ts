@@ -15,8 +15,12 @@ export interface BibleChapter {
 export class BibleExplorer {
   constructor(public bible: BibleSource) {}
   //
-  getBook(name: string): BibleBook | undefined {
-    return this.bible.books.find((book:BibleBook) => book.name == name);
+  getBook(name: string): BibleBook {
+    return this.bible.books.find((book:BibleBook) => book.name == name) as BibleBook;
+  }
+  //
+  getChapter(book: string, chapter: number): BibleChapter {
+    return this.getBook(book)?.chapters.find((c:BibleChapter) => c.chapter == chapter) as BibleChapter;
   }
   //
   getVerse(book: string, chapter: number, verse: number):string {
