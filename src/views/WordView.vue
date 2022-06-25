@@ -1,10 +1,14 @@
 <template>
   <div class="word">
-    <glyph-view
-      :glyph="glyph"
+    <a
+      href="#index"
       v-for="(glyph, index) in word.output"
       v-bind:key="index"
-    ></glyph-view>
+      :title="(index + 1).toString()"
+      class="glyph"
+    >
+      <glyph-view :glyph="glyph"></glyph-view>
+    </a>
   </div>
 </template>
 <script lang="ts">
@@ -37,6 +41,7 @@ export default class WordView extends Vue {
     color: white;
     font-weight: bold;
     font-size: 24px;
+    text-decoration: none;
   }
 }
 </style>

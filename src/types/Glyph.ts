@@ -1,7 +1,6 @@
 import { AbstractSubject } from "./AbstractSubject";
 import { GlyphCircleReference } from "./CircleReference";
 import { GlyphMap } from "./GlyphMap";
-import { TriadMap } from "./TriadMap";
 import { TriadMappingDirection } from "./TriadMappingDirection";
 import { TriGlyph } from "./TriGlyph";
 

@@ -9,6 +9,9 @@ export class Word {
   public glyphs: Glyph[] = [];
   public output: Array<Glyph | undefined> | undefined = [];
   public mapGlyphsToTriadMap = true;
+
+  private firstPoint: GlyphCircleReference | undefined;
+  private lastPoint: GlyphCircleReference | undefined;
   //
   constructor(
     public source: string,
@@ -32,7 +35,6 @@ export class Word {
       this.source = value;
     }
     this.reset();
-    console.log(this.glyphs);
   }
   //
   private updateOutput() {
@@ -63,36 +65,41 @@ export class Word {
   private mapConectingTriads() {
     this.source
       .match(/\w/gi)
-      ?.reduce(
-        (
-          prev: Array<Array<Glyph>>,
-          curr: string,
-          index: number,
-          all: string[]
-        ): Array<Array<Glyph>> => {
-          if (all[index + 1] && all[index + 2]) {
-            const returned: Array<Glyph> = [
-              curr,
-              all[index + 1],
-              all[index + 2],
-            ].map((char: string) => this.glyphMap.getGlyph(char));
-            prev.push(returned);
-          }
-          return prev;
-        },
-        []
-      )
-      .forEach((triplet: Array<Glyph>, index: number) => {
-        if (this.mapGlyphsToTriadMap) {
-          this.triadMap.addMap(
-            new BiGlyph(triplet[1], triplet[2]),
-            triplet[0],
-            TriadMappingDirection.ABC,
-            index,
-            true
-          );
-        }
-      });
+      ?.reduce(this.createTriadSet, [])
+      .forEach(this.mapGlyphTriad);
+  }
+  //
+  private createTriadSet(
+    prev: Array<Array<Glyph>>,
+    curr: string,
+    index: number,
+    all: string[]
+  ): Array<Array<Glyph>> {
+    if (all[index + 1] && all[index + 2]) {
+      const returned: Array<Glyph> = [curr, all[index + 1], all[index + 2]].map(
+        (char: string) => this.glyphMap.getGlyph(char)
+      );
+      prev.push(returned);
+    }
+    return prev;
+  }
+  //
+  private mapGlyphTriad(triplet: Array<Glyph>, index: number) {
+    if (this.mapGlyphsToTriadMap) {
+      const point: GlyphCircleReference | undefined = this.triadMap.addMap(
+        new BiGlyph(triplet[1], triplet[2]),
+        triplet[0],
+        TriadMappingDirection.ABC,
+        index,
+        true
+      );
+      if (this.lastPoint) {
+        this.lastPoint.link(point);
+      } else {
+        this.firstPoint = point;
+      }
+      this.lastPoint = point;
+    }
   }
   //
   getGlyph(search: string): Glyph | undefined {

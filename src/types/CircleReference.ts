@@ -1,4 +1,5 @@
 import { BiGlyph } from "./BiGlyph";
+import { CircleLink } from "./CircleLink";
 import { Glyph } from "./Glyph";
 import { TriadMap } from "./TriadMap";
 import { TriadMappingDirection } from "./TriadMappingDirection";
@@ -6,7 +7,9 @@ import { TriGlyph } from "./TriGlyph";
 
 export class GlyphCircleReference {
   public triad: TriGlyph;
-
+  public words: any = {};
+  public connections: Array<CircleLink> = [];
+  //
   constructor(
     public circle: number,
     public radii: number,
@@ -26,6 +29,18 @@ export class GlyphCircleReference {
       remap,
       this.index
     );
+  }
+  public link(point: GlyphCircleReference | undefined) {
+    if (point) {
+      let link: CircleLink | undefined = this.connections.find((v:CircleLink) => v.point == point);
+      if ( link ) {
+        link.increment();
+      } else {
+        link = new CircleLink(this);
+        link.increment();
+        this.connections.push(link);
+      }
+    }
   }
   public getBiGlyphIndex(): number {
     return (this.circle * 7 + this.radii) / this.glyph.index;

@@ -3,14 +3,13 @@ import { GlyphCircleReference } from "./CircleReference";
 import { Glyph } from "./Glyph";
 import { GlyphMap } from "./GlyphMap";
 import { TriadMappingDirection } from "./TriadMappingDirection";
-import { TriGlyph } from "./TriGlyph";
 
 export class TriadMap {
   private triadMap: Array<Array<any>> = [];
 
   constructor(public glyphMap: GlyphMap) {}
   //
-  private calcCircle(pair: BiGlyph, single?: Glyph): Array<number> {
+  public calcCircle(pair: BiGlyph, single?: Glyph): Array<number> {
     if (pair && single) {
       const ofSeven = (pair.getMapValue() * single.index) % 7;
       const index = (pair.getMapValue() * single.index - ofSeven) / 7;
@@ -55,6 +54,7 @@ export class TriadMap {
       }
       //
       single.mapCirclePoint(circlePoint);
+      return circlePoint;
     }
   }
   public getMap(
