@@ -1,70 +1,57 @@
-import { AbstractSubject } from "./AbstractSubject";
-import { GlyphCircleReference } from "./CircleReference";
+import { TriadMapPoint } from "./TriadMapPoint";
 import { GlyphMap } from "./GlyphMap";
+import { Triad, TriGlyph } from "./Triad";
 import { TriadMappingDirection } from "./TriadMappingDirection";
-import { TriGlyph } from "./TriGlyph";
+import { BiGlyph } from "./BiGlyph";
 
-export class Glyph extends AbstractSubject {
-  private maps: Array<Array<GlyphCircleReference>> = [];
+export class Glyph {
+  private maps: Array<Array<Triad>> = [];
   //
   constructor(
     public character: string,
     public index: number,
     public glyphMap: GlyphMap
-  ) {
-    super();
-  }
+  ) {}
   //
-  public get first(): TriGlyph {
-    return this.triadsInOrderOfRegistration[0];
-  }
-  //
-  public get firstIn(): TriGlyph {
-    return this.triadsInByOrder[0];
-  }
-  //
-  public mapCirclePoint(map: GlyphCircleReference) {
-    if (this.maps[map.direction] == undefined) {
-      this.maps[map.direction] = [];
+  public mapTriad(triad: Triad, direction: TriadMappingDirection) {
+    if (this.maps[direction] == undefined) {
+      this.maps[direction] = [];
     }
-    this.maps[map.direction].push(map);
+    this.maps[direction].push(triad);
   }
   //
-  public get triadsInByOrder(): Array<TriGlyph> {
+  public get IN(): Array<TriGlyph> {
     return this.maps[TriadMappingDirection.BAC]
-      .map((v: GlyphCircleReference) => v.triad)
-      .sort((a: TriGlyph, b: TriGlyph) => a.readIndex - b.readIndex);
+      .sort((a: Triad, b: Triad) => a.IN.i - b.IN.i)
+      .map((v: Triad) => v.get(TriadMappingDirection.BAC));
   }
   //
-  public get triadsInOrderOfRegistration(): Array<TriGlyph> {
-    return this.maps
-      .flat()
-      .map((v: GlyphCircleReference) => v.triad)
-      .sort((a: TriGlyph, b: TriGlyph) => a.readIndex - b.readIndex);
+  public get triadsInOrderOfRegistration(): Array<Triad> {
+    return this.maps.flat().sort((a: Triad, b: Triad) => a.IN.i - b.IN.i);
   }
   //
-  public getChildBiGlyphsAsIndexes(): Array<number> {
+  public getBiGlyphsIndex(): Array<number> {
     return this.maps
       .flat()
-      .map((v: GlyphCircleReference) => v.getBiGlyphIndex());
+      .map((v: TriGlyph) => this.glyphMap.getBiGlyphIndex(v.b, v.c));
   }
   //
-  public getPairedGlyphIndexes(): Array<Array<number>> {
-    return this.maps
-      .flat()
-      .map((v: GlyphCircleReference) => v.getPairedGlyphs());
+  public getBiGlyphs(): Array<BiGlyph> {
+    return this.maps.flat().map((v: TriGlyph) => {
+      return { a: v.b, b: v.c };
+    });
   }
   //
   public getConnections(): Array<Glyph> {
     console.log(this.triadsInOrderOfRegistration);
-    return this.getPairedGlyphIndexes()
-      .flat()
-      .reduce((p: Array<number>, c: number) => {
-        if (p.indexOf(c) == -1) {
-          p.push(c);
-        }
-        return p;
-      }, [])
-      .map((v: number) => this.glyphMap.getFromIndex(v));
+    return this.getBiGlyphs().reduce((p: Array<Glyph>, c: BiGlyph) => {
+      if (p.indexOf(c.a) == -1) {
+        p.push(c.a);
+      }
+      if (p.indexOf(c.b) == -1) {
+        p.push(c.b);
+      }
+      return p;
+    }, []);
   }
 }

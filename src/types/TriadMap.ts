@@ -1,74 +1,62 @@
 import { BiGlyph } from "./BiGlyph";
-import { GlyphCircleReference } from "./CircleReference";
+import { TriadMapPoint } from "./TriadMapPoint";
 import { Glyph } from "./Glyph";
 import { GlyphMap } from "./GlyphMap";
-import { Scripture } from "./Scripture";
-import { TriadMappingDirection } from "./TriadMappingDirection";
+import { MappedTriad, Triad } from "./Triad";
 
 export class TriadMap {
-  private triadMap: Array<Array<any>> = [];
+  public A: Array<Array<any>> = [];
 
   constructor(public glyphMap: GlyphMap) {}
   //
   public calcCircle(pair: BiGlyph, single?: Glyph): Array<number> {
     if (pair && single) {
-      const ofSeven = (pair.getMapValue() * single.index) % 7;
-      const index = (pair.getMapValue() * single.index - ofSeven) / 7;
+      const ofSeven =
+        (this.glyphMap.getBiGlyphIndex(pair.a, pair.b) * single.index) % 7;
+      const index =
+        (this.glyphMap.getBiGlyphIndex(pair.a, pair.b) * single.index -
+          ofSeven) /
+        7;
       return [index, ofSeven];
     }
     return [0, 0]; // TODO: WARN OF NULL
   }
   //
-  public addMap(
-    a: Glyph,
-    b: Glyph,
-    c: Glyph,
-    direction: TriadMappingDirection = TriadMappingDirection.ABC,
-    readIndex = 0,
-    remap = false,
-    scripture?: Scripture
-  ) {
-    // console.log("mapping:", a.character + b.character + c.character, direction);
-    const pair = new BiGlyph(a, b);
-    const [radii, circle] = this.calcCircle(pair, c);
-    if (!this.triadMap[radii]) {
-      this.triadMap[radii] = new Array(6);
+  public mapTriad(triad: Triad) {
+    triad.and().forEach((v: MappedTriad) => this.and(v));
+  }
+
+  private and(value: MappedTriad) {
+    const pair = {
+      a: value.b,
+      b: value.c,
+    };
+    const [radii, circle] = this.calcCircle(pair, value.a);
+    //
+    if (!this.A[radii]) {
+      this.A[radii] = new Array(6);
     }
-    if (!this.triadMap[radii][circle]) {
-      this.triadMap[radii][circle] = {};
+    //
+    if (!this.A[radii][circle]) {
+      this.A[radii][circle] = {};
     }
-    if (radii != undefined && circle != undefined && c) {
-      //
-      let circlePoint: GlyphCircleReference = this.getMap(
+    //
+    if (radii != undefined && circle != undefined && value.a) {
+      const ref = value.a.character + pair.a?.character + pair.b?.character;
+      this.A[radii][circle][ref] = new TriadMapPoint(
         circle,
         radii,
-        c.character + pair.a?.character + pair.b?.character
+        ref,
+        value.a
       );
       //
-      if (!circlePoint) {
-        circlePoint = new GlyphCircleReference(
-          circle,
-          radii,
-          c,
-          pair,
-          readIndex,
-          direction,
-          this,
-          remap,
-          scripture
-        );
-      }
-      //
-      c.mapCirclePoint(circlePoint);
-      return circlePoint;
+      value.a.mapTriad(value.triad, value.direction);
+      value.triad.mapToCircle(this.getMap(circle, radii, ref), value.direction);
     }
   }
-  public getMap(
-    circle: number,
-    radii: number,
-    ref: string
-  ): GlyphCircleReference {
-    return this.triadMap[radii][circle][ref];
+  //
+  public getMap(circle: number, radii: number, ref: string): TriadMapPoint {
+    return this.A[radii][circle][ref];
   }
   //
   public getGlyphFromIndex(index: number): Glyph {

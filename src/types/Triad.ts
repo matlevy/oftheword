@@ -1,51 +1,85 @@
-import { BiGlyph } from "./BiGlyph";
 import { Glyph } from "./Glyph";
 import { Scripture } from "./Scripture";
 import { TriadMappingDirection } from "./TriadMappingDirection";
+import { TriadMapPoint } from "./TriadMapPoint";
 import { God } from "./wordActions/God";
 
-export interface TriadIn {
+export interface TriGlyph {
   a: Glyph;
   b: Glyph;
   c: Glyph;
+}
+export interface TriadIn extends TriGlyph {
   scripture: Scripture;
   i: number;
   remap: boolean;
   GOD: God;
 }
 
-export class Triad {
-  static REMAP_ARRAY: Array<Array<any>> = [
-    [0, 1, 2, TriadMappingDirection.ABC],
-    [2, 3, 4, TriadMappingDirection.CAB],
-    [4, 5, 6, TriadMappingDirection.BAC],
-    [3, 2, 1, TriadMappingDirection.ACB],
-    [1, 2, 3, TriadMappingDirection.BCA],
-    [6, 4, 5, TriadMappingDirection.CBA],
+export interface TriadRemap {
+  a: number;
+  b: number;
+  c: number;
+  direction: TriadMappingDirection;
+}
+export interface MappedTriad extends TriGlyph {
+  direction: TriadMappingDirection;
+  triad: Triad;
+}
+
+export class Triad implements TriGlyph {
+  static REMAP_ARRAY: Array<TriadRemap> = [
+    { a: 0, b: 1, c: 2, direction: TriadMappingDirection.ABC },
+    { a: 2, b: 3, c: 4, direction: TriadMappingDirection.CAB },
+    { a: 4, b: 5, c: 6, direction: TriadMappingDirection.BAC },
+    { a: 3, b: 2, c: 1, direction: TriadMappingDirection.ACB },
+    { a: 1, b: 2, c: 3, direction: TriadMappingDirection.BCA },
+    { a: 6, b: 4, c: 5, direction: TriadMappingDirection.CBA },
   ];
 
+  public D: Array<TriadMapPoint> = [];
+
   constructor(public IN: TriadIn) {
-    console.log(IN);
-    if (this.IN.remap) {
-      this.reMap();
-    }
+    this.IN.GOD.O.mapTriad(this);
   }
 
-  private reMap() {
-    Triad.REMAP_ARRAY.forEach((v) => {
-      this.IN.GOD.O.addMap(
-        this.pentMap[v[0]],
-        this.pentMap[v[1]],
-        this.pentMap[v[2]],
-        v[3],
-        this.IN.i,
-        false,
-        this.IN.scripture
-      );
-    });
+  public mapToCircle(point: TriadMapPoint, direction: TriadMappingDirection) {
+    this.D[direction] = point;
   }
 
-  get pentMap(): Array<Glyph> {
+  public get(direction: TriadMappingDirection): MappedTriad {
+    const remap: TriadRemap = Triad.REMAP_ARRAY.find(
+      (v: TriadRemap) => v.direction == direction
+    ) as TriadRemap;
+    console.log(remap);
+    return {
+      a: this.AD[remap.a],
+      b: this.AD[remap.b],
+      c: this.AD[remap.c],
+      direction,
+      triad: this,
+    };
+  }
+
+  public and(): Array<MappedTriad> {
+    return Triad.REMAP_ARRAY.map(
+      (v: TriadRemap): MappedTriad => this.get(v.direction)
+    );
+  }
+
+  get a(): Glyph {
+    return this.IN.a;
+  }
+
+  get b(): Glyph {
+    return this.IN.b;
+  }
+
+  get c(): Glyph {
+    return this.IN.c;
+  }
+
+  get AD(): Array<Glyph> {
     return [
       this.IN.a,
       this.IN.b,

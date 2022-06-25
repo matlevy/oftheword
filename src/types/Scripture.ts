@@ -77,11 +77,13 @@ export class Scripture {
       ];
       for (let p = 0; p < maps.length; p++) {
         if (maps[p + 2]) {
+          const str =
+            maps[p].character + maps[p + 1].character + maps[p + 2].character;
           new Triad({
             a: maps[p],
             b: maps[p + 1],
             c: maps[p + 2],
-            i: 0,
+            i: this.E.indexOf(str),
             GOD: this.IN.GOD,
             remap: true,
             scripture: this,

@@ -49,4 +49,11 @@ export class GlyphMapLatin implements GlyphMap {
   getFromIndex(index: number): Glyph {
     return this.glyphs[index - 1];
   }
+  //
+  public getBiGlyphIndex(a: Glyph, b: Glyph): number {
+    if (a.index && b.index) {
+      return a.index * 26 + b.index - 26;
+    }
+    return 0;
+  }
 }

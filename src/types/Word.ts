@@ -48,7 +48,7 @@ export class Word {
             a: this.A[p],
             b: this.A[p + 1],
             c: this.A[p + 2],
-            i: this.IN.start + p,
+            i: this.IN.scripture.E.indexOf(this.R),
             GOD: this.IN.GOD,
             remap: true,
             scripture: this.IN.scripture,
