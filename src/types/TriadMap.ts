@@ -28,6 +28,7 @@ export class TriadMap {
     remap = false,
     scripture?: Scripture
   ) {
+    // console.log("mapping:", a.character + b.character + c.character, direction);
     const pair = new BiGlyph(a, b);
     const [radii, circle] = this.calcCircle(pair, c);
     if (!this.triadMap[radii]) {
