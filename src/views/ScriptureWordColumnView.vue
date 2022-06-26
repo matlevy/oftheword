@@ -1,12 +1,14 @@
 <template>
   <div class="words" v-if="scripture">
     <span class="word" v-for="(word, index) in scripture.I" v-bind:key="index">
-      <span class="stack" v-for="(output, index) in word.A" v-bind:key="index">
-        <span class="glyph" v-if="output.IN[0]">
-          <glyph-view :glyph="output.IN[0].b"></glyph-view>
-          <glyph-view :glyph="output.IN[0].a"></glyph-view>
-          <glyph-view :glyph="output.IN[0].c"></glyph-view>
-        </span>
+      <span class="stack" v-for="n in 30" v-bind:key="n">
+        <glyph-view
+          :glyph="output"
+          class="glyph"
+          v-for="(output, index) in word.A"
+          v-bind:key="index"
+          v-show="canRender(n, index, word.A.length)"
+        ></glyph-view>
       </span>
     </span>
   </div>
@@ -17,7 +19,7 @@ import { Options, Vue } from "vue-class-component";
 import GlyphView from "./GlyphView.vue";
 
 @Options({
-  name: "scripture-map-view",
+  name: "scripture-word-column-view",
   props: {
     scripture: Scripture,
   },
@@ -25,8 +27,11 @@ import GlyphView from "./GlyphView.vue";
     GlyphView,
   },
 })
-export default class ScriptureMapView extends Vue {
+export default class ScriptureWordColumnView extends Vue {
   public scripture!: Scripture;
+  public canRender(n: number, i: number, len: number): boolean {
+    return n * len - i < 30;
+  }
 }
 </script>
 
@@ -37,22 +42,23 @@ export default class ScriptureMapView extends Vue {
 }
 .word {
   display: flex;
-
+  flex-flow: column;
   .stack {
-    padding: 10px 0;
     text-align: center;
     color: white;
     font-weight: bold;
     font-size: 14px;
     display: flex;
     width: 25px;
-    padding: 10px 0;
+    flex-flow: column;
+    padding: 0 auto;
     align-items: center;
     justify-content: center;
     .glyph {
       display: flex;
-      flex-flow: column;
+      flex-flow: row;
       text-align: center;
+      padding: auto auto;
     }
   }
 }

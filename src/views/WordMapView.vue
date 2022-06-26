@@ -39,6 +39,8 @@ export default class WordMapView extends Vue {
     font-size: 24px;
     display: flex;
     width: 40px;
+    align-items: center;
+    justify-content: center;
     .glyph {
       display: flex;
       flex-flow: column;

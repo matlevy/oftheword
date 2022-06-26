@@ -20,6 +20,10 @@
       v-if="scripture"
       :scripture="scripture"
     ></scripture-map-view>
+    <scripture-word-column-view
+      v-if="scripture"
+      :scripture="scripture"
+    ></scripture-word-column-view>
   </div>
 </template>
 <script lang="ts">
@@ -32,11 +36,13 @@ import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { TriadMap } from "@/types/TriadMap";
 import WordMapView from "@/views/WordMapView.vue";
 import ScriptureMapView from "@/views/ScriptureMapView.vue";
+import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
 //
 @Options({
   components: {
     WordMapView,
     ScriptureMapView,
+    ScriptureWordColumnView,
   },
 })
 export default class TestView extends Vue {
@@ -63,7 +69,7 @@ export default class TestView extends Vue {
       },
     });
     this.think =
-      "IN THE BEGINNING GOD CREATED THE HEAVEN AND THE EARTH AND THE EARTH WAS WITHOUT FORM; AND VOID ";
+      "IN THE BEGINNING GOD CREATED THE HEAVEN AND THE EARTH AND THE EARTH WAS WITHOUT FORM; AND VOID; AND DARKNESS WAS UPON THE FACE OF THE EARTH; AND THE SPIRIT OF GOD MOVED UPON THE FACE OF THE WATERS ";
     this.selectedWord = this.scripture.I[0];
   }
   //
