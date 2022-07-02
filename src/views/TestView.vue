@@ -1,15 +1,9 @@
 <template>
   <div class="scripture">
-    <a
-      href="#index"
-      v-for="(word, index) in scripture.I"
-      v-bind:key="index"
-      :title="(index + 1).toString()"
-      class="glyph"
-      @click="selectWord(word)"
-    >
-      {{ word.WR?.R }}&nbsp;
-    </a>
+    <raw-scripture-view
+      :scripture="scripture"
+      @word-select="selectWord"
+    ></raw-scripture-view>
     <div class="words">
       <word-map-view
         v-if="selectWord != null"
@@ -39,12 +33,14 @@ import { TriadMap } from "@/types/TriadMap";
 import WordMapView from "@/views/WordMapView.vue";
 import ScriptureMapView from "@/views/ScriptureMapView.vue";
 import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
+import RawScriptureView from "@/views/RawScriptureView.vue";
 import OutputView from "./OutputView.vue";
 import { BibleChapter, BibleExplorer } from "@/types/bibles/BibleExplorer";
 import Bibles from "@/types/bibles/Bibles";
 import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
-import { Book } from "@/types/Book";
 import { Chapter } from "@/types/Chapter";
+import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
+
 //
 @Options({
   components: {
@@ -52,6 +48,7 @@ import { Chapter } from "@/types/Chapter";
     ScriptureMapView,
     ScriptureWordColumnView,
     OutputView,
+    RawScriptureView,
   },
 })
 export default class TestView extends Vue {
@@ -73,6 +70,7 @@ export default class TestView extends Vue {
       OD: this.wordMap,
       O: this.triadMap,
       G: GlyphMapLatin.getInstance(),
+      X: GlyphMapSpecial.getInstance(),
     });
 
     let GENESIS_1: BibleChapter = new BibleExplorer(
@@ -125,15 +123,15 @@ export default class TestView extends Vue {
       .read({
         book: 1,
         chapter: GENESIS_5.chapter,
-        scripture: GENESIS_6.scripture,
+        scripture: GENESIS_5.scripture,
       })
       .read({
         book: 1,
-        chapter: GENESIS_5.chapter,
+        chapter: GENESIS_6.chapter,
         scripture: GENESIS_6.scripture,
       });
 
-    this.scripture = GEN.scriptures[0];
+    this.scripture = GEN.scriptures[1];
 
     this.selectedWord = this.scripture.I[0];
   }

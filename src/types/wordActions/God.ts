@@ -1,4 +1,5 @@
 import { GlyphMap } from "../GlyphMap";
+import { GlyphMapSpecial } from "../GlyphMapSpecial";
 import { TriadMap } from "../TriadMap";
 import { Word } from "../Word";
 import { WordMap } from "../WordMap";
@@ -8,6 +9,7 @@ export interface GodIn {
   O?: TriadMap;
   D?: any;
   G: GlyphMap;
+  X: GlyphMapSpecial;
 }
 //
 export class God {

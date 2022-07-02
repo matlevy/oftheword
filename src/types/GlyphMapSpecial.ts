@@ -4,18 +4,20 @@ import { GlyphMap } from "./GlyphMap";
 export class GlyphMapSpecial implements GlyphMap {
   private static _instance: GlyphMapSpecial;
 
-  private static A: Array<string> = [";", ",", "\"", "'"];
-  private static B: Array<string> = ["-", "?", "[", "]"];
+  private static A: Array<string> = [";", ",", ":", "."];
+  private static B: Array<string> = ["-", "?"];
+
+  // TODO: Brackets
 
   private glyphs: Array<Glyph> = [];
 
   private static SPECIAL: Array<string> = GlyphMapSpecial.A.concat(
     GlyphMapSpecial.B
-  )
+  );
 
   public static getInstance(): GlyphMapSpecial {
     if (!GlyphMapSpecial._instance) {
-        GlyphMapSpecial._instance = new GlyphMapSpecial();
+      GlyphMapSpecial._instance = new GlyphMapSpecial();
     }
     return GlyphMapSpecial._instance;
   }
@@ -35,7 +37,7 @@ export class GlyphMapSpecial implements GlyphMap {
    */
   getGlyph(search: string): Glyph {
     const val = this.glyphs.find((current: Glyph) => {
-      return current.character.toUpperCase() == search.toUpperCase();
+      return current.character == search;
     });
     return val ? val : new Glyph("*", 0, this); // TODO: Warn on empty
   }

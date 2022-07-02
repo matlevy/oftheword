@@ -1,4 +1,3 @@
-import { thisExpression } from "@babel/types";
 import { Chapter } from "./Chapter";
 import { Glyph } from "./Glyph";
 import { Triad } from "./Triad";
@@ -22,6 +21,7 @@ export class Scripture {
   public I: Array<Word> = [];
   public O: Array<number> = [];
   public U: Array<number> = [];
+  public X: Array<Glyph> = [];
   //
   private text = "";
   //
@@ -41,6 +41,7 @@ export class Scripture {
     this.I = [];
     this.O = [];
     this.U = [];
+    this.X = [];
     //
     let lastWordStart = 0;
     //
@@ -62,6 +63,10 @@ export class Scripture {
         lastWordStart = lE;
       } else if (code < 65 || code > 90) {
         // a character, therefore acts as a glyph decorator
+        if (this.IN.GOD.IN.X.getGlyph(char).character != "*") {
+          console.log(char, this.IN.GOD.IN.X.getGlyph(char));
+          this.X[this.I.length] = this.IN.GOD.IN.X.getGlyph(char);
+        }
       } else {
         this.E = this.E.concat(char);
       }
@@ -73,9 +78,18 @@ export class Scripture {
   }
   //
   and() {
-    for (let i = 0; i < this.I.length - 1; i++) {
-      const wordA: Word = this.I[i];
-      const wordB: Word = this.I[i + 1];
+    const words: Array<Word> = [];
+    if (this.IN.chapter.scriptures[this.IN.ref!.verse - 2]) {
+      const lastWordsOfPrevious =
+        this.IN.chapter.scriptures[this.IN.ref!.verse - 2].I;
+      const lastWordOfPrevious: Word =
+        lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
+      words.push(lastWordOfPrevious);
+    }
+    words.push(...this.I);
+    for (let i = 0; i < words.length - 1; i++) {
+      const wordA: Word = words[i];
+      const wordB: Word = words[i + 1];
       const maps: Array<Glyph> = [
         wordA.A[wordA.A.length - 2],
         wordA.A[wordA.A.length - 1],
@@ -83,21 +97,11 @@ export class Scripture {
         wordB.A[1],
       ];
       if (wordA.A.length == 1) {
-        const wordP = this.I[i - 1];
-        if (wordP) {
-          maps[0] = wordP.A[wordP.A.length - 1];
-        } else {
-          if (this.IN.chapter.scriptures[this.IN.ref!.verse - 2]) {
-            const lastWordsOfPrevious =
-              this.IN.chapter.scriptures[this.IN.ref!.verse - 2].I;
-            const lastWordOfPrevious: Word =
-              lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
-            maps[0] = lastWordOfPrevious.A[lastWordOfPrevious.A.length - 1];
-          }
-        }
+        const wordP = words[i - 1];
+        maps[0] = wordP.A[wordP.A.length - 1];
       }
       if (wordB.A.length == 1) {
-        const wordN = this.I[i + 2];
+        const wordN = words[i + 2];
         maps[3] = wordN.A[0];
       }
       for (let p = 0; p < maps.length; p++) {
