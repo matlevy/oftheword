@@ -1,5 +1,5 @@
 export interface BibleSource {
-  books: Array<BibleBook>;
+  books?: Array<BibleBook>;
 }
 
 export interface BibleBook {
@@ -16,7 +16,7 @@ export class BibleExplorer {
   constructor(public bible: BibleSource) {}
   //
   getBook(name: string): BibleBook {
-    return this.bible.books.find(
+    return this.bible?.books?.find(
       (book: BibleBook) => book.book == name
     ) as BibleBook;
   }

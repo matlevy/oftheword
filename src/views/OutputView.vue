@@ -26,6 +26,7 @@ import { TriadMap } from "@/types/TriadMap";
 import WordMapView from "@/views/WordMapView.vue";
 import ScriptureMapView from "@/views/ScriptureMapView.vue";
 import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
+import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
 
 //
 @Options({
@@ -50,6 +51,7 @@ export default class OutputView extends Vue {
     OD: this.wordMap,
     O: this.triad,
     G: GlyphMapLatin.getInstance(),
+    X: GlyphMapSpecial.getInstance(),
   });
   public scripture: Scripture = new Scripture({
     GOD: this.GOD,

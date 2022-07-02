@@ -13,7 +13,7 @@ export interface ScriptureIn {
   ref?: ScriptureReference;
   map: boolean;
   prev?: string;
-  chapter: Chapter;
+  chapter?: Chapter;
 }
 export class Scripture {
   public A: Array<number> = [];
@@ -64,7 +64,6 @@ export class Scripture {
       } else if (code < 65 || code > 90) {
         // a character, therefore acts as a glyph decorator
         if (this.IN.GOD.IN.X.getGlyph(char).character != "*") {
-          console.log(char, this.IN.GOD.IN.X.getGlyph(char));
           this.X[this.I.length] = this.IN.GOD.IN.X.getGlyph(char);
         }
       } else {
@@ -79,12 +78,18 @@ export class Scripture {
   //
   and() {
     const words: Array<Word> = [];
-    if (this.IN.chapter.scriptures[this.IN.ref!.verse - 2]) {
-      const lastWordsOfPrevious =
-        this.IN.chapter.scriptures[this.IN.ref!.verse - 2].I;
-      const lastWordOfPrevious: Word =
-        lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
-      words.push(lastWordOfPrevious);
+    if (this.IN.chapter) {
+      if (this.IN.chapter.scriptures[this.IN.ref!.verse - 2]) {
+        const lastWordsOfPrevious =
+          this.IN.chapter.scriptures[this.IN.ref!.verse - 2].I;
+        const lastWordOfPrevious: Word =
+          lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
+        if (lastWordOfPrevious.A.length == 1) {
+          words.push(lastWordsOfPrevious[lastWordsOfPrevious.length - 2]);
+          console.warn("had to get previous but one word... ");
+        }
+        words.push(lastWordOfPrevious);
+      }
     }
     words.push(...this.I);
     for (let i = 0; i < words.length - 1; i++) {
@@ -100,7 +105,7 @@ export class Scripture {
         const wordP = words[i - 1];
         maps[0] = wordP.A[wordP.A.length - 1];
       }
-      if (wordB.A.length == 1) {
+      if (wordB.A.length == 1 && words[i + 2]) {
         const wordN = words[i + 2];
         maps[3] = wordN.A[0];
       }
