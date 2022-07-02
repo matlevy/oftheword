@@ -16,6 +16,7 @@
         :word="selectedWord"
       ></word-map-view>
     </div>
+    <output-view :triad="triadMap"></output-view>
     <scripture-map-view
       v-if="scripture"
       :scripture="scripture"
@@ -34,15 +35,18 @@ import { Word } from "@/types/Word";
 import { God } from "@/types/wordActions/God";
 import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { TriadMap } from "@/types/TriadMap";
+
 import WordMapView from "@/views/WordMapView.vue";
 import ScriptureMapView from "@/views/ScriptureMapView.vue";
 import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
+import OutputView from "./OutputView.vue";
 //
 @Options({
   components: {
     WordMapView,
     ScriptureMapView,
     ScriptureWordColumnView,
+    OutputView,
   },
 })
 export default class TestView extends Vue {
@@ -50,23 +54,29 @@ export default class TestView extends Vue {
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),
   });
+  public triadMap: TriadMap;
+  public O: God;
+  //
   private s = "";
-
+  //
   public selectedWord: Word;
-
+  //
   constructor(...args: any[]) {
     super(args);
+    this.triadMap = new TriadMap(GlyphMapLatin.getInstance());
+    this.O = new God({
+      OD: this.wordMap,
+      O: this.triadMap,
+      G: GlyphMapLatin.getInstance(),
+    });
     this.scripture = new Scripture({
-      GOD: new God({
-        OD: this.wordMap,
-        O: new TriadMap(GlyphMapLatin.getInstance()),
-        G: GlyphMapLatin.getInstance(),
-      }),
+      GOD: this.O,
       ref: {
         book: 1,
         chapter: 1,
         verse: 1,
       },
+      map: true,
     });
     this.think =
       "IN THE BEGINNING GOD CREATED THE HEAVEN AND THE EARTH AND THE EARTH WAS WITHOUT FORM; AND VOID; AND DARKNESS WAS UPON THE FACE OF THE EARTH; AND THE SPIRIT OF GOD MOVED UPON THE FACE OF THE WATERS ";

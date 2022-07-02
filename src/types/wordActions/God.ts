@@ -5,7 +5,7 @@ import { WordMap } from "../WordMap";
 
 export interface GodIn {
   OD: WordMap;
-  O: TriadMap;
+  O?: TriadMap;
   D?: any;
   G: GlyphMap;
 }
@@ -20,6 +20,6 @@ export class God {
   }
   //
   get O(): TriadMap {
-    return this.IN.O;
+    return this.IN.O as TriadMap;
   }
 }

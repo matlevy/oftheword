@@ -7,6 +7,7 @@ export interface WordIn {
   start: number;
   end: number;
   GOD: God;
+  map: boolean;
 }
 export class Word {
   public A: Array<Glyph> = [];
@@ -40,18 +41,20 @@ export class Word {
   }
   //
   public and() {
-    if (this.R.length > 2) {
-      for (let p = 0; p < this.E.length; p++) {
-        if (this.A[p + 2]) {
-          new Triad({
-            a: this.A[p],
-            b: this.A[p + 1],
-            c: this.A[p + 2],
-            i: this.IN.scripture.E.indexOf(this.R),
-            GOD: this.IN.GOD,
-            remap: true,
-            scripture: this.IN.scripture,
-          });
+    if (this.IN.map) {
+      if (this.R.length > 2) {
+        for (let p = 0; p < this.E.length; p++) {
+          if (this.A[p + 2]) {
+            new Triad({
+              a: this.A[p],
+              b: this.A[p + 1],
+              c: this.A[p + 2],
+              i: this.IN.scripture.E.indexOf(this.R),
+              GOD: this.IN.GOD,
+              remap: true,
+              scripture: this.IN.scripture,
+            });
+          }
         }
       }
     }

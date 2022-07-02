@@ -1,4 +1,3 @@
-import { TriadMapPoint } from "./TriadMapPoint";
 import { GlyphMap } from "./GlyphMap";
 import { Triad, TriGlyph } from "./Triad";
 import { TriadMappingDirection } from "./TriadMappingDirection";

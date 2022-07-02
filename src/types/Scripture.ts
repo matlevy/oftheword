@@ -9,7 +9,8 @@ export interface ScriptureReference {
 }
 export interface ScriptureIn {
   GOD: God;
-  ref: ScriptureReference;
+  ref?: ScriptureReference;
+  map: boolean;
 }
 
 export class Scripture {
@@ -52,6 +53,7 @@ export class Scripture {
             end: lE,
             scripture: this,
             GOD: this.IN.GOD,
+            map: this.IN.map,
           }).WR as Word
         );
         lastWordStart = lE;
@@ -61,7 +63,9 @@ export class Scripture {
         this.E = this.E.concat(char);
       }
     }
-    this.and();
+    if (this.IN.map) {
+      this.and();
+    }
     return this;
   }
   //
