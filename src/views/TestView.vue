@@ -91,28 +91,47 @@ export default class TestView extends Vue {
       Bibles.KING_JAMES
     ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 4);
 
+    let GENESIS_5: BibleChapter = new BibleExplorer(
+      Bibles.KING_JAMES
+    ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 5);
+
+    let GENESIS_6: BibleChapter = new BibleExplorer(
+      Bibles.KING_JAMES
+    ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 6);
+
     let GEN: Chapter = new Chapter({
       GOD: this.O,
-    }).read({
-      book: 1,
-      chapter: GENESIS_1.chapter,
-      scripture: GENESIS_1.scripture,
-    });
-    // .read({
-    //   book: 1,
-    //   chapter: GENESIS_2.chapter,
-    //   scripture: GENESIS_2.scripture,
-    // })
-    // .read({
-    //   book: 1,
-    //   chapter: GENESIS_3.chapter,
-    //   scripture: GENESIS_3.scripture,
-    // })
-    // .read({
-    //   book: 1,
-    //   chapter: GENESIS_4.chapter,
-    //   scripture: GENESIS_4.scripture,
-    // });
+    })
+      .read({
+        book: 1,
+        chapter: GENESIS_1.chapter,
+        scripture: GENESIS_1.scripture,
+      })
+      .read({
+        book: 1,
+        chapter: GENESIS_2.chapter,
+        scripture: GENESIS_2.scripture,
+      })
+      .read({
+        book: 1,
+        chapter: GENESIS_3.chapter,
+        scripture: GENESIS_3.scripture,
+      })
+      .read({
+        book: 1,
+        chapter: GENESIS_4.chapter,
+        scripture: GENESIS_4.scripture,
+      })
+      .read({
+        book: 1,
+        chapter: GENESIS_5.chapter,
+        scripture: GENESIS_6.scripture,
+      })
+      .read({
+        book: 1,
+        chapter: GENESIS_5.chapter,
+        scripture: GENESIS_6.scripture,
+      });
 
     this.scripture = GEN.scriptures[0];
 

@@ -19,9 +19,9 @@ export class Chapter {
   }
   //
   public read(value: ChapterSeed) {
-    this.scriptures = value.scripture.map((text: string, index: number) => {
+    value.scripture.forEach((text: string, index: number) => {
       console.log(text);
-      return new Scripture({
+      const scripture: Scripture = new Scripture({
         GOD: this.IN.GOD,
         map: true,
         ref: {
@@ -29,7 +29,9 @@ export class Chapter {
           chapter: value.chapter,
           verse: index + 1,
         },
+        chapter: this,
       }).read(text.concat(" "));
+      this.scriptures.push(scripture);
     });
     return this;
   }

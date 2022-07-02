@@ -1,3 +1,5 @@
+import { thisExpression } from "@babel/types";
+import { Chapter } from "./Chapter";
 import { Glyph } from "./Glyph";
 import { Triad } from "./Triad";
 import { Word } from "./Word";
@@ -11,6 +13,8 @@ export interface ScriptureIn {
   GOD: God;
   ref?: ScriptureReference;
   map: boolean;
+  prev?: string;
+  chapter: Chapter;
 }
 export class Scripture {
   public A: Array<number> = [];
@@ -80,7 +84,17 @@ export class Scripture {
       ];
       if (wordA.A.length == 1) {
         const wordP = this.I[i - 1];
-        maps[0] = wordP.A[wordP.A.length - 1];
+        if (wordP) {
+          maps[0] = wordP.A[wordP.A.length - 1];
+        } else {
+          if (this.IN.chapter.scriptures[this.IN.ref!.verse - 2]) {
+            const lastWordsOfPrevious =
+              this.IN.chapter.scriptures[this.IN.ref!.verse - 2].I;
+            const lastWordOfPrevious: Word =
+              lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
+            maps[0] = lastWordOfPrevious.A[lastWordOfPrevious.A.length - 1];
+          }
+        }
       }
       if (wordB.A.length == 1) {
         const wordN = this.I[i + 2];
@@ -106,6 +120,10 @@ export class Scripture {
       }
     }
     return this;
+  }
+  //
+  get end() {
+    return this.I.slice(this.I.length - 2, this.I.length - 1);
   }
   //
   create() {
