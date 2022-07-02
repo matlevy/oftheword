@@ -9,9 +9,13 @@ export interface TriGlyph {
   b: Glyph;
   c: Glyph;
 }
+export interface GlyphPoint {
+  ref: ScriptureReference;
+  index: number;
+}
 export interface TriadIn extends TriGlyph {
   scripture: Scripture;
-  i: number;
+  i: GlyphPoint;
   remap: boolean;
   GOD: God;
 }
@@ -27,6 +31,10 @@ export interface MappedTriad extends TriGlyph {
   triad: Triad;
 }
 
+export interface TriadCircularMapPoint {
+  point: TriadMapPoint;
+  direction: TriadMappingDirection;
+}
 export class Triad implements TriGlyph {
   static REMAP_ARRAY: Array<TriadRemap> = [
     { a: 0, b: 1, c: 2, direction: TriadMappingDirection.ABC },
@@ -45,6 +53,7 @@ export class Triad implements TriGlyph {
   }
 
   public mapToCircle(point: TriadMapPoint, direction: TriadMappingDirection) {
+    const p = this.IN.GOD.O.glyphMap.getBiGlyphIndex(this.b, this.c);
     this.D[direction] = point;
   }
 
@@ -107,5 +116,14 @@ export class Triad implements TriGlyph {
       this.IN.a,
       this.IN.c,
     ];
+  }
+
+  public get P(): number {
+    return (
+      this.IN.i.ref.book * 100000000 +
+      this.IN.i.ref.chapter * 1000000 +
+      this.IN.i.ref.verse * 1000 +
+      this.IN.i.index
+    );
   }
 }

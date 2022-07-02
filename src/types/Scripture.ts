@@ -78,16 +78,26 @@ export class Scripture {
         wordB.A[0],
         wordB.A[1],
       ];
+      if (wordA.A.length == 1) {
+        const wordP = this.I[i - 1];
+        maps[0] = wordP.A[wordP.A.length - 1];
+      }
+      if (wordB.A.length == 1) {
+        const wordN = this.I[i + 2];
+        maps[3] = wordN.A[0];
+      }
       for (let p = 0; p < maps.length; p++) {
-        // TODO: fix for single characters
-        if (maps[p + 2] && maps[p]) {
+        if (maps[p + 2]) {
           const str =
             maps[p].character + maps[p + 1].character + maps[p + 2].character;
           this.IN.GOD.O.O.store<Triad>({
             a: maps[p],
             b: maps[p + 1],
             c: maps[p + 2],
-            i: this.E.indexOf(str),
+            i: {
+              ref: this.IN.ref!,
+              index: this.E.indexOf(str),
+            },
             GOD: this.IN.GOD,
             remap: true,
             scripture: this,

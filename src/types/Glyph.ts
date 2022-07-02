@@ -6,6 +6,7 @@ import { BiGlyph } from "./BiGlyph";
 export class Glyph {
   private maps: Array<Array<Triad>> = [];
   private _IN!: Array<TriGlyph>;
+  private _T!: Array<Triad>;
   //
   constructor(
     public character: string,
@@ -26,7 +27,7 @@ export class Glyph {
         this._IN = [];
       } else {
         this._IN = this.maps[TriadMappingDirection.BAC]
-          .sort((a: Triad, b: Triad) => a.IN.i - b.IN.i)
+          .sort(this.triadSort)
           .map((v: Triad) => v.get(TriadMappingDirection.BAC));
       }
     } else {
@@ -36,7 +37,14 @@ export class Glyph {
   }
   //
   public get triadsInOrderOfRegistration(): Array<Triad> {
-    return this.maps.flat().sort((a: Triad, b: Triad) => a.IN.i - b.IN.i);
+    if (!this._T) {
+      this._T = this.maps.flat().sort(this.triadSort);
+    }
+    return this._T;
+  }
+  //
+  private triadSort(a: Triad, b: Triad) {
+    return a.P - b.P;
   }
   //
   public getBiGlyphsIndex(): Array<number> {

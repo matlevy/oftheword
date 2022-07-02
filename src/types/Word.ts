@@ -50,7 +50,10 @@ export class Word {
               a: this.A[p],
               b: this.A[p + 1],
               c: this.A[p + 2],
-              i: index,
+              i: {
+                ref: this.IN.scripture.IN.ref!,
+                index,
+              },
               GOD: this.IN.GOD,
               remap: true,
               scripture: this.IN.scripture,
