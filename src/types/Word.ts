@@ -1,6 +1,6 @@
 import { Glyph } from "./Glyph";
 import { Scripture } from "./Scripture";
-import { Triad } from "./Triad";
+import { Triad, TriadIn } from "./Triad";
 import { God } from "./wordActions/God";
 export interface WordIn {
   scripture: Scripture;
@@ -45,15 +45,20 @@ export class Word {
       if (this.R.length > 2) {
         for (let p = 0; p < this.E.length; p++) {
           if (this.A[p + 2]) {
-            new Triad({
+            const index = this.IN.scripture.E.indexOf(this.R);
+            const input: TriadIn = {
               a: this.A[p],
               b: this.A[p + 1],
               c: this.A[p + 2],
-              i: this.IN.scripture.E.indexOf(this.R),
+              i: index,
               GOD: this.IN.GOD,
               remap: true,
               scripture: this.IN.scripture,
-            });
+            };
+            this.IN.GOD.O.O.store<Triad>(input).map(
+              this.IN.scripture.IN,
+              index
+            );
           }
         }
       }

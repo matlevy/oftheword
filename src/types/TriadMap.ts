@@ -2,10 +2,12 @@ import { BiGlyph } from "./BiGlyph";
 import { TriadMapPoint } from "./TriadMapPoint";
 import { Glyph } from "./Glyph";
 import { GlyphMap } from "./GlyphMap";
-import { MappedTriad, Triad } from "./Triad";
+import { MappedTriad, Triad, TriadIn, TriGlyph } from "./Triad";
+import { TriadCache } from "./TriadCache";
 
 export class TriadMap {
   public A: Array<Array<any>> = [];
+  public O: TriadCache = new TriadCache();
 
   constructor(public glyphMap: GlyphMap) {}
   //
@@ -25,7 +27,14 @@ export class TriadMap {
   public mapTriad(triad: Triad) {
     triad.and().forEach((v: MappedTriad) => this.and(v));
   }
-
+  //
+  public create<R>(IN: TriadIn): R {
+    if (this.O.get<R>(IN)) {
+      return this.O.get<R>(IN);
+    }
+    return this.O.store<R>(IN);
+  }
+  //
   private and(value: MappedTriad) {
     const pair = {
       a: value.b,

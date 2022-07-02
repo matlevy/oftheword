@@ -17,14 +17,14 @@
       ></word-map-view>
     </div>
     <output-view :triad="triadMap"></output-view>
-    <scripture-map-view
+    <!--<scripture-map-view
       v-if="scripture"
       :scripture="scripture"
     ></scripture-map-view>
     <scripture-word-column-view
       v-if="scripture"
       :scripture="scripture"
-    ></scripture-word-column-view>
+    ></scripture-word-column-view>-->
   </div>
 </template>
 <script lang="ts">
@@ -40,6 +40,11 @@ import WordMapView from "@/views/WordMapView.vue";
 import ScriptureMapView from "@/views/ScriptureMapView.vue";
 import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
 import OutputView from "./OutputView.vue";
+import { BibleChapter, BibleExplorer } from "@/types/bibles/BibleExplorer";
+import Bibles from "@/types/bibles/Bibles";
+import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
+import { Book } from "@/types/Book";
+import { Chapter } from "@/types/Chapter";
 //
 @Options({
   components: {
@@ -69,17 +74,48 @@ export default class TestView extends Vue {
       O: this.triadMap,
       G: GlyphMapLatin.getInstance(),
     });
-    this.scripture = new Scripture({
+
+    let GENESIS_1: BibleChapter = new BibleExplorer(
+      Bibles.KING_JAMES
+    ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 1);
+
+    let GENESIS_2: BibleChapter = new BibleExplorer(
+      Bibles.KING_JAMES
+    ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 2);
+
+    let GENESIS_3: BibleChapter = new BibleExplorer(
+      Bibles.KING_JAMES
+    ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 3);
+
+    let GENESIS_4: BibleChapter = new BibleExplorer(
+      Bibles.KING_JAMES
+    ).getChapter(BibleBooksEnglish.ENGLISH.GENESIS, 4);
+
+    let GEN: Chapter = new Chapter({
       GOD: this.O,
-      ref: {
-        book: 1,
-        chapter: 1,
-        verse: 1,
-      },
-      map: true,
+    }).read({
+      book: 1,
+      chapter: GENESIS_1.chapter,
+      scripture: GENESIS_1.scripture,
     });
-    this.think =
-      "IN THE BEGINNING GOD CREATED THE HEAVEN AND THE EARTH AND THE EARTH WAS WITHOUT FORM; AND VOID; AND DARKNESS WAS UPON THE FACE OF THE EARTH; AND THE SPIRIT OF GOD MOVED UPON THE FACE OF THE WATERS ";
+    // .read({
+    //   book: 1,
+    //   chapter: GENESIS_2.chapter,
+    //   scripture: GENESIS_2.scripture,
+    // })
+    // .read({
+    //   book: 1,
+    //   chapter: GENESIS_3.chapter,
+    //   scripture: GENESIS_3.scripture,
+    // })
+    // .read({
+    //   book: 1,
+    //   chapter: GENESIS_4.chapter,
+    //   scripture: GENESIS_4.scripture,
+    // });
+
+    this.scripture = GEN.scriptures[0];
+
     this.selectedWord = this.scripture.I[0];
   }
   //

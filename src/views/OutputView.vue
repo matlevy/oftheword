@@ -9,7 +9,7 @@
       :scripture="scripture"
     ></scripture-map-view>
     <scripture-word-column-view
-      v-if="scripture"
+      v-if="scripture && gridView"
       :scripture="scripture"
     ></scripture-word-column-view>
   </div>
@@ -37,10 +37,12 @@ import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
   },
   props: {
     triad: TriadMap,
+    gridView: Boolean,
   },
 })
 export default class OutputView extends Vue {
   public triad!: TriadMap;
+  public gridView = false;
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),
   });

@@ -1,5 +1,5 @@
 import { Glyph } from "./Glyph";
-import { Scripture } from "./Scripture";
+import { Scripture, ScriptureIn, ScriptureReference } from "./Scripture";
 import { TriadMappingDirection } from "./TriadMappingDirection";
 import { TriadMapPoint } from "./TriadMapPoint";
 import { God } from "./wordActions/God";
@@ -38,6 +38,7 @@ export class Triad implements TriGlyph {
   ];
 
   public D: Array<TriadMapPoint> = [];
+  public O: Array<Array<Array<number>>> = [];
 
   constructor(public IN: TriadIn) {
     this.IN.GOD.O.mapTriad(this);
@@ -64,6 +65,24 @@ export class Triad implements TriGlyph {
     return Triad.REMAP_ARRAY.map(
       (v: TriadRemap): MappedTriad => this.get(v.direction)
     );
+  }
+
+  public map(IN: ScriptureIn, index: number): Triad {
+    const R: ScriptureReference = IN.ref
+      ? IN.ref
+      : {
+          book: 0,
+          chapter: 0,
+          verse: 0,
+        };
+    if (this.O[R.book] == undefined) {
+      this.O[R.book] = [];
+    }
+    if (this.O[R.book][R.chapter] == undefined) {
+      this.O[R.book][R.chapter] = [];
+    }
+    this.O[R.book][R.chapter][R.verse] = index;
+    return this;
   }
 
   get a(): Glyph {

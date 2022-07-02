@@ -12,7 +12,6 @@ export interface ScriptureIn {
   ref?: ScriptureReference;
   map: boolean;
 }
-
 export class Scripture {
   public A: Array<number> = [];
   public E = "";
@@ -80,10 +79,11 @@ export class Scripture {
         wordB.A[1],
       ];
       for (let p = 0; p < maps.length; p++) {
-        if (maps[p + 2]) {
+        // TODO: fix for single characters
+        if (maps[p + 2] && maps[p]) {
           const str =
             maps[p].character + maps[p + 1].character + maps[p + 2].character;
-          new Triad({
+          this.IN.GOD.O.O.store<Triad>({
             a: maps[p],
             b: maps[p + 1],
             c: maps[p + 2],
@@ -91,7 +91,7 @@ export class Scripture {
             GOD: this.IN.GOD,
             remap: true,
             scripture: this,
-          });
+          }).map(this.IN, this.E.indexOf(str));
         }
       }
     }
