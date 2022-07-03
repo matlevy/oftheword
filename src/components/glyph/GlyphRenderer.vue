@@ -1,5 +1,5 @@
 <template>
-  <span class="glyph" :class="{ [glyphClass]: true }">{{
+  <span class="glyph" @click="pick" :class="{ [glyphClass]: true }">{{
     glyph.character
   }}</span>
 </template>
@@ -13,10 +13,12 @@ import { Options, Vue } from "vue-class-component";
   components: {},
   props: {
     glyph: Glyph,
+    selected: Boolean,
   },
 })
 export default class GlyphRenderer extends Vue {
   public glyph!: Glyph;
+  public selected = false;
 
   constructor(...args: any[]) {
     super(args);
@@ -25,6 +27,16 @@ export default class GlyphRenderer extends Vue {
   public get glyphClass() {
     return this.glyph.glyphMap.getPresenterClass(this.glyph);
   }
+
+  public pick() {
+    if (this.selected) {
+      this.selected = false;
+      this.$emit("unpick", this.glyph);
+    } else {
+      this.selected = true;
+      this.$emit("pick", this.glyph);
+    }
+  }
 }
 </script>
 <style>
@@ -32,6 +44,7 @@ export default class GlyphRenderer extends Vue {
   min-width: 1rem;
   margin: 0.2rem;
   text-align: center;
+  cursor: pointer;
 }
 .glyph-a {
   border: 1px solid red;

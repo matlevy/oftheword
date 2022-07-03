@@ -8,11 +8,11 @@ import { Options, Vue } from "vue-class-component";
 @Options({
   components: {},
   props: {
-    number: String,
+    number: Number,
   },
 })
 export default class NumberRenderer extends Vue {
-  public number!: string;
+  public number!: number;
 
   constructor(...args: any[]) {
     super(args);

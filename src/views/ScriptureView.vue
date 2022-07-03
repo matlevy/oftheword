@@ -26,7 +26,20 @@
       class="scripture-map"
       v-if="scripture"
       :scripture="scripture"
+      @cross-ref="onTriadCrossRef"
     ></scripture-map-renderer>
+    <div v-for="(crossreference, index) in crossReferences" v-bind:key="index">
+      <raw-scripture-renderer
+        :verse="crossreference"
+        :i="scripture.IN.ref?.verse"
+      ></raw-scripture-renderer>
+      <scripture-map-renderer
+        :word-border="true"
+        class="scripture-map"
+        :scripture="crossreference"
+        @cross-ref="onTriadCrossRef"
+      ></scripture-map-renderer>
+    </div>
     <scripture-word-column-renderer
       class="grid-view"
       v-if="scripture && gridView"
@@ -42,6 +55,7 @@ import { Root } from "@/root";
 import ScriptureMapRenderer from "@/components/scripture/ScriptureMapRenderer.vue";
 import ScriptureWordColumnRenderer from "@/components/scripture/ScriptureWordColumnRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
+import { Triad } from "@/types/Triad";
 
 //
 @Options({
@@ -53,6 +67,7 @@ import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vu
 })
 export default class ScriptureView extends Vue {
   public gridView = false;
+  public crossReferences: Array<Scripture> = [];
   //
   constructor(...args: any[]) {
     super(args);
@@ -61,6 +76,26 @@ export default class ScriptureView extends Vue {
     const c = Number(this.$route.params.chapter) - 1;
     const v = Number(this.$route.params.verse) - 1;
     return Root.getInstance().gen.chapters[c].verse[v];
+  }
+  public onTriadCrossRef(triad: Triad) {
+    if (triad && triad.P) {
+      const book: number = Math.floor(triad.P / 100000000);
+      const chapter: number = Math.floor(
+        (triad.P - book * 100000000) / 1000000
+      );
+      const verse: number = Math.floor(
+        (triad.P - book * 100000000 - chapter * 1000000) / 1000
+      );
+      const index = Number(
+        triad.P.toString().slice(triad.P.toString().length - 3)
+      );
+      if (chapter && verse) {
+        const cr: Scripture =
+          Root.getInstance().gen.chapters[chapter - 1].verse[verse - 1];
+        this.crossReferences = [];
+        this.crossReferences.push(cr);
+      }
+    }
   }
 }
 </script>

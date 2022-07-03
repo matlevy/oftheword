@@ -30,8 +30,6 @@ export class Glyph {
           .sort(this.triadSort)
           .map((v: Triad) => v.get(TriadMappingDirection.BAC));
       }
-    } else {
-      console.log(this);
     }
     return this._IN;
   }

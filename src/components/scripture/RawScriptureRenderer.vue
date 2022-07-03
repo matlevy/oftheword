@@ -21,8 +21,7 @@
         class="glyph"
         @click="onWordClick(word)"
       >
-        {{ word.WR?.R
-        }}{{ verse.X[index] ? verse.X[index].character : "" }}&nbsp;
+        {{ word.WR?.R }}{{ verse.X[index] ? verse.X[index].character : "" }}
       </a>
     </div>
   </div>
@@ -52,7 +51,6 @@ a {
   text-decoration: none;
   color: white;
   font-weight: bold;
-  letter-spacing: 0.2rem;
 }
 .raw {
   text-align: left;
@@ -61,6 +59,11 @@ a {
   display: block;
   margin-bottom: 0.8rem;
   display: flex;
+}
+.verse-text {
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .verse-text,
 .verse-label {
