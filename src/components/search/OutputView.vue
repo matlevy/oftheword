@@ -4,14 +4,14 @@
       <input type="text" v-model="think" width="100" />
     </div>
     {{ triad.getGlyphFromIndex(0) }}
-    <scripture-map-view
+    <scripture-map-renderer
       v-if="scripture"
       :scripture="scripture"
-    ></scripture-map-view>
-    <scripture-word-column-view
+    ></scripture-map-renderer>
+    <scripture-word-column-renderer
       v-if="scripture && gridView"
       :scripture="scripture"
-    ></scripture-word-column-view>
+    ></scripture-word-column-renderer>
   </div>
 </template>
 <script lang="ts">
@@ -23,18 +23,19 @@ import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { God } from "@/types/wordActions/God";
 import { TriadMap } from "@/types/TriadMap";
 
-import WordMapView from "@/views/WordMapView.vue";
-import ScriptureMapView from "@/views/ScriptureMapView.vue";
-import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
 import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
+
+import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
+import WordMapRenderer from "../word/WordMapRenderer.vue";
+import ScriptureWordColumnRenderer from "../scripture/ScriptureWordColumnRenderer.vue";
 
 //
 @Options({
   name: "output-view",
   components: {
-    WordMapView,
-    ScriptureMapView,
-    ScriptureWordColumnView,
+    WordMapRenderer,
+    ScriptureMapRenderer,
+    ScriptureWordColumnRenderer,
   },
   props: {
     triad: TriadMap,

@@ -33,13 +33,13 @@ import { Scripture } from "@/types/Scripture";
 import { Word } from "@/types/Word";
 
 @Options({
-  name: "raw-scripture-view",
+  name: "raw-scripture-renderer",
   props: {
     verse: Scripture,
     i: Number,
   },
 })
-export default class RawScriptureView extends Vue {
+export default class RawScriptureRenderer extends Vue {
   public verse!: Scripture;
   public i!: number;
   public onWordClick(word: Word) {

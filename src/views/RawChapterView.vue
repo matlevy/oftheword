@@ -1,24 +1,25 @@
 <template>
   <div class="chapter">
     <h1>Chapter {{ chapter.SEED.chapter }}:</h1>
-    <raw-scripture-view
+    <raw-scripture-renderer
       v-for="(verse, index) in chapter.verse"
       v-bind:key="index"
       :verse="verse"
       :i="index + 1"
       class="verse"
-    ></raw-scripture-view>
+    ></raw-scripture-renderer>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import RawScriptureView from "./RawScriptureView.vue";
 import { Chapter } from "@/types/Chapter";
+
+import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 
 @Options({
   name: "raw-chapter-view",
   components: {
-    RawScriptureView,
+    RawScriptureRenderer,
   },
   props: {
     chapter: Chapter,

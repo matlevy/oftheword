@@ -7,25 +7,25 @@
       :title="(index + 1).toString()"
       class="glyph"
     >
-      <glyph-view :glyph="glyph"></glyph-view>
+      <glyph-renderer :glyph="glyph"></glyph-renderer>
     </a>
   </div>
 </template>
 <script lang="ts">
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
-import CharacterView from "./CharacterView.vue";
+import GlyphRenderer from "../glyph/GlyphRenderer.vue";
 
 @Options({
-  name: "word-view",
+  name: "word-renderer",
   props: {
     word: Word,
   },
   components: {
-    CharacterView,
+    GlyphRenderer,
   },
 })
-export default class WordView extends Vue {
+export default class WordRenderer extends Vue {
   public word!: Word;
 }
 </script>

@@ -7,13 +7,13 @@ import { Glyph } from "@/types/Glyph";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
-  name: "glyph-view",
+  name: "glyph-renderer",
   components: {},
   props: {
     glyph: Glyph,
   },
 })
-export default class GlyphView extends Vue {
+export default class GlyphRenderer extends Vue {
   public glyph!: Glyph;
 
   constructor(...args: any[]) {

@@ -52,4 +52,8 @@ export class GlyphMapSpecial implements GlyphMap {
     }
     return 0;
   }
+  //
+  public getAllAsString(): string {
+    return GlyphMapSpecial.SPECIAL.toString();
+  }
 }

@@ -1,9 +1,9 @@
 <template>
   <div class="scripture">
-    <raw-scripture-view
+    <raw-scripture-renderer
       :scripture="scripture"
       @word-select="selectWord"
-    ></raw-scripture-view>
+    ></raw-scripture-renderer>
     <!-- <div class="words">
       <word-map-view
         v-if="selectWord != null"
@@ -26,21 +26,21 @@ import { Options, Vue } from "vue-class-component";
 import { Scripture } from "@/types/Scripture";
 import { Word } from "@/types/Word";
 
-import WordMapView from "@/views/WordMapView.vue";
-import ScriptureMapView from "@/views/ScriptureMapView.vue";
-import ScriptureWordColumnView from "@/views/ScriptureWordColumnView.vue";
-import RawScriptureView from "@/views/RawScriptureView.vue";
-import OutputView from "./OutputView.vue";
+import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
+import ScriptureMapRenderer from "@/components/scripture/ScriptureMapRenderer.vue";
+import ScriptureWordColumnRenderer from "@/components/scripture/ScriptureWordColumnRenderer.vue";
+import OutputView from "@/components/search/OutputView.vue";
+import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 import { Root } from "@/root";
 
 //
 @Options({
   components: {
-    WordMapView,
-    ScriptureMapView,
-    ScriptureWordColumnView,
+    WordMapRenderer,
+    ScriptureMapRenderer,
+    ScriptureWordColumnRenderer,
     OutputView,
-    RawScriptureView,
+    RawScriptureRenderer,
   },
 })
 export default class TestView extends Vue {

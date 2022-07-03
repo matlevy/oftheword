@@ -2,9 +2,9 @@
   <span class="word" v-if="word !== null">
     <span class="stack" v-for="(output, index) in word.A" v-bind:key="index">
       <span class="glyph" v-if="output.IN[0]">
-        <glyph-view :glyph="output.IN[0].a"></glyph-view>
-        <glyph-view :glyph="output.IN[0].b"></glyph-view>
-        <glyph-view :glyph="output.IN[0].c"></glyph-view>
+        <glyph-renderer :glyph="output.IN[0].a"></glyph-renderer>
+        <glyph-renderer :glyph="output.IN[0].b"></glyph-renderer>
+        <glyph-renderer :glyph="output.IN[0].c"></glyph-renderer>
       </span>
     </span>
   </span>
@@ -12,18 +12,18 @@
 <script lang="ts">
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
-import GlyphView from "./GlyphView.vue";
+import GlyphRenderer from "../glyph/GlyphRenderer.vue";
 
 @Options({
-  name: "word-map-view",
+  name: "word-map-renderer",
   props: {
     word: Word,
   },
   components: {
-    GlyphView,
+    GlyphRenderer,
   },
 })
-export default class WordMapView extends Vue {
+export default class WordMapRenderer extends Vue {
   public word!: Word;
 }
 </script>

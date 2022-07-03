@@ -5,13 +5,13 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({
-  name: "glyph-view",
+  name: "character-renderer",
   components: {},
   props: {
     char: String,
   },
 })
-export default class GlyphView extends Vue {
+export default class CharacterRenderer extends Vue {
   public char!: string;
 
   constructor(...args: any[]) {

@@ -56,4 +56,8 @@ export class GlyphMapLatin implements GlyphMap {
     }
     return 0;
   }
+  //
+  public getAllAsString(): string {
+    return GlyphMapLatin.ALPHABET.toString();
+  }
 }
