@@ -5,4 +5,5 @@ export interface GlyphMap {
   getFromIndex(index: number): Glyph;
   getBiGlyphIndex(a: Glyph, b: Glyph): number;
   getAllAsString(): string;
+  getPresenterClass(glyph:Glyph): string;
 }

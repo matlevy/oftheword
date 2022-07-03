@@ -11,7 +11,7 @@
     ></scripture-map-renderer>
     <scripture-word-column-renderer
       class="grid-view"
-      v-if="scripture"
+      v-if="scripture && gridView"
       :scripture="scripture"
     ></scripture-word-column-renderer>
   </div>
@@ -34,6 +34,7 @@ import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vu
   },
 })
 export default class ScriptureView extends Vue {
+  public gridView = false;
   //
   constructor(...args: any[]) {
     super(args);

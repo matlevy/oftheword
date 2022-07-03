@@ -60,4 +60,23 @@ export class GlyphMapLatin implements GlyphMap {
   public getAllAsString(): string {
     return GlyphMapLatin.ALPHABET.toString();
   }
+  //
+  public getPresenterClass(glyph: Glyph) {
+    if (GlyphMapLatin.A.indexOf(glyph.character) != -1) {
+      return "glyph-a";
+    }
+    if (GlyphMapLatin.E.indexOf(glyph.character) != -1) {
+      return "glyph-e";
+    }
+    if (GlyphMapLatin.I.indexOf(glyph.character) != -1) {
+      return "glyph-i";
+    }
+    if (GlyphMapLatin.O.indexOf(glyph.character) != -1) {
+      return "glyph-o";
+    }
+    if (GlyphMapLatin.U.indexOf(glyph.character) != -1) {
+      return "glyph-o";
+    }
+    return "";
+  }
 }
