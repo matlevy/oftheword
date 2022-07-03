@@ -34,6 +34,7 @@ export default class RawChapterView extends Vue {
   margin-top: 2rem;
   margin-left: 1rem;
   margin-right: 2rem;
+  max-width: 1000px;
 }
 .verse {
   width: 100%;

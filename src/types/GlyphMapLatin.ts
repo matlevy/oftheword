@@ -75,7 +75,7 @@ export class GlyphMapLatin implements GlyphMap {
       return "glyph-o";
     }
     if (GlyphMapLatin.U.indexOf(glyph.character) != -1) {
-      return "glyph-o";
+      return "glyph-u";
     }
     return "";
   }

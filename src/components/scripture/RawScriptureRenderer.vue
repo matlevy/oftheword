@@ -47,7 +47,7 @@ export default class RawScriptureRenderer extends Vue {
   }
 }
 </script>
-<style>
+<style scoped>
 a {
   text-decoration: none;
   color: white;

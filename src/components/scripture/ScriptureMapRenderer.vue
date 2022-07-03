@@ -2,6 +2,7 @@
   <div class="words" v-if="scripture">
     <span
       class="word"
+      :class="{ ['word-border']: wordBorder }"
       v-for="(word, wordIndex) in scripture.I"
       v-bind:key="wordIndex"
     >
@@ -36,6 +37,7 @@ import NumberRenderer from "../glyph/NumberRenderer.vue";
   name: "scripture-map-renderer",
   props: {
     scripture: Scripture,
+    wordBorder: Boolean,
   },
   components: {
     GlyphRenderer,
@@ -44,6 +46,7 @@ import NumberRenderer from "../glyph/NumberRenderer.vue";
 })
 export default class ScriptureMapRenderer extends Vue {
   public scripture!: Scripture;
+  public wordBorder!: boolean;
   //
   private tally = 0;
 
@@ -61,7 +64,10 @@ export default class ScriptureMapRenderer extends Vue {
 }
 .word {
   display: flex;
-  border-right: 1px dashed rgba(255, 255, 255, 0.3);
+  padding-right: 0.3rem;
+  &.word-border {
+    border-right: 1px dashed rgba(255, 255, 255, 0.5);
+  }
   .stack {
     padding: 10px 0;
     text-align: center;

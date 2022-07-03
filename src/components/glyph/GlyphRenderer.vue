@@ -52,6 +52,8 @@ export default class GlyphRenderer extends Vue {
   color: black;
 }
 .glyph-u {
-  border: 1px solid blue;
+  border: 1px solid purple;
+  background-color: purple;
+  color: white;
 }
 </style>

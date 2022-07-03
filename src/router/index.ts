@@ -17,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "scripture",
     component: () => import("../views/ScriptureView.vue"),
   },
+  {
+    path: "/alphabet",
+    name: "alphabet",
+    component: () => import("../views/AlphabetView.vue"),
+  },
 ];
 
 const router = createRouter({

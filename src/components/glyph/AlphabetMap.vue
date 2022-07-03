@@ -1,6 +1,9 @@
 <template>
   <div class="alphabet-view">
-    <scripture-map-renderer :scripture="scripture"></scripture-map-renderer>
+    <scripture-map-renderer
+      :word-border="false"
+      :scripture="scripture"
+    ></scripture-map-renderer>
   </div>
 </template>
 <script lang="ts">
@@ -26,7 +29,7 @@ import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
     scripture: Scripture,
   },
 })
-export class AlphaBetMap extends Vue {
+export default class AlphaBetMap extends Vue {
   public triad!: TriadMap;
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),
@@ -44,7 +47,8 @@ export class AlphaBetMap extends Vue {
   //
   constructor(...args: any[]) {
     super(args);
-    this.scripture.read(this.GOD.IN.G.getAllAsString());
+    this.scripture.read(this.GOD.IN.G.getAllAsString().concat(" "));
+    console.log(this.scripture);
   }
 }
 </script>
