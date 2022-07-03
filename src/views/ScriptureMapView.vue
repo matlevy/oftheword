@@ -37,7 +37,7 @@ export default class ScriptureMapView extends Vue {
 }
 .word {
   display: flex;
-
+  border-right: 1px dashed white;
   .stack {
     padding: 10px 0;
     text-align: center;

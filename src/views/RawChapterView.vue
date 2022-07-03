@@ -5,6 +5,7 @@
       v-for="(verse, index) in chapter.verse"
       v-bind:key="index"
       :verse="verse"
+      :i="index + 1"
       class="verse"
     ></raw-scripture-view>
   </div>
@@ -31,6 +32,7 @@ export default class RawChapterView extends Vue {
 .chapter {
   margin-top: 2rem;
   margin-left: 1rem;
+  margin-right: 2rem;
 }
 .verse {
   width: 100%;

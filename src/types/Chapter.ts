@@ -25,7 +25,6 @@ export class Chapter {
   //
   public read(value: ChapterSeed) {
     value.scripture.forEach((text: string, index: number) => {
-      console.log(text);
       const scripture: Scripture = new Scripture({
         GOD: this.IN.GOD,
         map: true,

@@ -1,6 +1,17 @@
 <template>
   <div class="raw">
-    <div class="verse-label">{{ verse.IN.ref?.verse }}.</div>
+    <router-link
+      class="verse-label"
+      :to="{
+        name: 'scripture',
+        params: {
+          book: verse.IN.chapter?.SEED.book,
+          chapter: verse.IN.chapter?.SEED.chapter,
+          verse: i,
+        },
+      }"
+      ><div>{{ verse.IN.ref?.verse }}.</div></router-link
+    >
     <div class="verse-text">
       <a
         href="#index"
@@ -25,10 +36,12 @@ import { Word } from "@/types/Word";
   name: "raw-scripture-view",
   props: {
     verse: Scripture,
+    i: Number,
   },
 })
 export default class RawScriptureView extends Vue {
   public verse!: Scripture;
+  public i!: number;
   public onWordClick(word: Word) {
     this.$emit("word-select", word);
   }
@@ -39,6 +52,7 @@ a {
   text-decoration: none;
   color: white;
   font-weight: bold;
+  letter-spacing: 0.2rem;
 }
 .raw {
   text-align: left;
