@@ -68,6 +68,11 @@ export class Scripture {
         }
       } else {
         this.E = this.E.concat(char);
+        // a unique character, stored in unique character hash
+        this.U.push(code - 64);
+        if (this.O.indexOf(code - 64) == -1) {
+          this.O.push(code - 64);
+        }
       }
     }
     if (this.IN.map) {

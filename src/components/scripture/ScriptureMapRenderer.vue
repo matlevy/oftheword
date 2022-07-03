@@ -1,11 +1,25 @@
 <template>
   <div class="words" v-if="scripture">
-    <span class="word" v-for="(word, index) in scripture.I" v-bind:key="index">
-      <span class="stack" v-for="(output, index) in word.A" v-bind:key="index">
+    <span
+      class="word"
+      v-for="(word, wordIndex) in scripture.I"
+      v-bind:key="wordIndex"
+    >
+      <span
+        class="stack"
+        v-for="(output, wordLetterIndex) in word.A"
+        v-bind:key="wordLetterIndex"
+      >
         <span class="glyph" v-if="output.IN[0]">
           <glyph-renderer :glyph="output.IN[0].a"></glyph-renderer>
           <glyph-renderer :glyph="output.IN[0].b"></glyph-renderer>
           <glyph-renderer :glyph="output.IN[0].c"></glyph-renderer>
+          <number-renderer
+            :number="
+              scripture.O.indexOf(output.IN[0].a.character.charCodeAt(0) - 64) +
+              1
+            "
+          ></number-renderer>
         </span>
       </span>
     </span>
@@ -16,6 +30,7 @@ import { Scripture } from "@/types/Scripture";
 import { Options, Vue } from "vue-class-component";
 
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import NumberRenderer from "../glyph/NumberRenderer.vue";
 
 @Options({
   name: "scripture-map-renderer",
@@ -24,10 +39,18 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
   },
   components: {
     GlyphRenderer,
+    NumberRenderer,
   },
 })
 export default class ScriptureMapRenderer extends Vue {
   public scripture!: Scripture;
+  //
+  private tally = 0;
+
+  public getTally(): number {
+    this.tally += 1;
+    return this.tally;
+  }
 }
 </script>
 
