@@ -12,10 +12,15 @@ export interface ChapterSeed {
 }
 
 export class Chapter {
-  public scriptures: Array<Scripture> = [];
+  public verse: Array<Scripture> = [];
+  public SEED!: ChapterSeed;
+
   constructor(public IN: ChapterIn) {}
-  public theearth(value: ChapterSeed) {
+
+  public theearth(value: ChapterSeed): Chapter {
+    this.SEED = value;
     this.read(value);
+    return this;
   }
   //
   public read(value: ChapterSeed) {
@@ -31,7 +36,7 @@ export class Chapter {
         },
         chapter: this,
       }).read(text.concat(" "));
-      this.scriptures.push(scripture);
+      this.verse.push(scripture);
     });
     return this;
   }

@@ -79,9 +79,9 @@ export class Scripture {
   and() {
     const words: Array<Word> = [];
     if (this.IN.chapter) {
-      if (this.IN.chapter.scriptures[this.IN.ref!.verse - 2]) {
+      if (this.IN.chapter.verse[this.IN.ref!.verse - 2]) {
         const lastWordsOfPrevious =
-          this.IN.chapter.scriptures[this.IN.ref!.verse - 2].I;
+          this.IN.chapter.verse[this.IN.ref!.verse - 2].I;
         const lastWordOfPrevious: Word =
           lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
         if (lastWordOfPrevious.A.length == 1) {

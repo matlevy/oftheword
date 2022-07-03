@@ -49,7 +49,7 @@ export default class TestView extends Vue {
   //
   constructor(...args: any[]) {
     super(args);
-    this.scripture = Root.getInstance().gen.chapters[0].scriptures[0];
+    this.scripture = Root.getInstance().gen.chapters[0].verse[0];
     console.log(this.scripture);
   }
   //
