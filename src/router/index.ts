@@ -22,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "alphabet",
     component: () => import("../views/AlphabetView.vue"),
   },
+  {
+    path: "/search",
+    name: "search",
+    component: () => import("../views/ExistanceSearch.vue"),
+  },
 ];
 
 const router = createRouter({

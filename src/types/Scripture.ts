@@ -7,6 +7,8 @@ export interface ScriptureReference {
   book: number;
   chapter: number;
   verse: number;
+  P?: number;
+  T?: number;
 }
 export interface ScriptureIn {
   GOD: God;
@@ -77,6 +79,9 @@ export class Scripture {
     }
     if (this.IN.map) {
       this.and();
+    }
+    if (this.IN.GOD.IN.GO) {
+      this.IN.GOD.IN.GO!.append(this.E, this.IN.ref!);
     }
     return this;
   }

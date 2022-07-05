@@ -12,6 +12,7 @@ import {
 import Bibles from "./types/bibles/Bibles";
 import BibleBooksEnglish from "./types/bibles/BibleBooksEnglish";
 import { Book } from "./types/Book";
+import { FullReference } from "./types/FullReference";
 
 export class Root {
   private static _instance: Root;
@@ -40,6 +41,7 @@ export class Root {
     this.O = new God({
       OD: this.wordMap,
       O: this.triadMap,
+      GO: new FullReference(),
       G: GlyphMapLatin.getInstance(),
       X: GlyphMapSpecial.getInstance(),
     });

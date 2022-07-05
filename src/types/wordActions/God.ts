@@ -1,3 +1,4 @@
+import { Reference } from "../FullReference";
 import { GlyphMap } from "../GlyphMap";
 import { GlyphMapSpecial } from "../GlyphMapSpecial";
 import { TriadMap } from "../TriadMap";
@@ -9,6 +10,7 @@ export interface GodIn {
   O?: TriadMap;
   D?: any;
   G: GlyphMap;
+  GO?: Reference;
   X: GlyphMapSpecial;
 }
 //
