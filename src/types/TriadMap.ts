@@ -14,9 +14,9 @@ export class TriadMap {
   public calcCircle(pair: BiGlyph, single?: Glyph): Array<number> {
     if (pair && single) {
       const ofSeven =
-        (this.glyphMap.getBiGlyphIndex(pair.a, pair.b) * single.index) % 7;
+        (this.glyphMap.getBiGlyphIndex(pair.a!, pair.b!) * single.index) % 7;
       const index =
-        (this.glyphMap.getBiGlyphIndex(pair.a, pair.b) * single.index -
+        (this.glyphMap.getBiGlyphIndex(pair.a!, pair.b!) * single.index -
           ofSeven) /
         7;
       return [index, ofSeven];

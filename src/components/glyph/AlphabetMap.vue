@@ -1,20 +1,24 @@
 <template>
   <div class="alphabet-view">
     <scripture-map-renderer
+      :input="search"
       :map-direction="IN"
       :word-border="false"
       :scripture="scripture"
     ></scripture-map-renderer>
     <scripture-map-renderer
+      :input="search"
       :map-direction="TO"
       :word-border="false"
       :scripture="scripture"
     ></scripture-map-renderer>
     <scripture-map-renderer
+      :input="search"
       :map-direction="OF"
       :word-border="false"
       :scripture="scripture"
     ></scripture-map-renderer>
+    <input v-model="search" width="50" />
   </div>
 </template>
 <script lang="ts">
@@ -45,7 +49,7 @@ export default class AlphaBetMap extends Vue {
   public IN: TriadMappingDirection = TriadMappingDirection.BAC;
   public OF: TriadMappingDirection = TriadMappingDirection.CAB;
   public TO: TriadMappingDirection = TriadMappingDirection.ABC;
-
+  public search = "";
   public triad!: TriadMap;
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),

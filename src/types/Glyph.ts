@@ -40,7 +40,7 @@ export class Glyph {
   public getBiGlyphsIndex(): Array<number> {
     return this.maps
       .flat()
-      .map((v: TriGlyph) => this.glyphMap.getBiGlyphIndex(v.b, v.c));
+      .map((v: TriGlyph) => this.glyphMap.getBiGlyphIndex(v.b!, v.c!));
   }
   //
   public getBiGlyphs(): Array<BiGlyph> {
@@ -51,11 +51,11 @@ export class Glyph {
   //
   public getConnections(): Array<Glyph> {
     return this.getBiGlyphs().reduce((p: Array<Glyph>, c: BiGlyph) => {
-      if (p.indexOf(c.a) == -1) {
-        p.push(c.a);
+      if (p.indexOf(c.a!) == -1) {
+        p.push(c.a!);
       }
-      if (p.indexOf(c.b) == -1) {
-        p.push(c.b);
+      if (p.indexOf(c.b!) == -1) {
+        p.push(c.b!);
       }
       return p;
     }, []);

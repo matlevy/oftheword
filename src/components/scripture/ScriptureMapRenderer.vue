@@ -20,9 +20,10 @@
           :glyph="output"
           :number="
             scripture.O.indexOf(
-              output.MAP(mapDirection)[0].a.character.charCodeAt(0) - 64
+              output.MAP(mapDirection)[0].a!.character.charCodeAt(0) - 64
             ) + 1
           "
+          :match="input"
           :selectedGlyphs="selectedGlyphs"
           :scripture="scripture"
           :map-direction="mapDirection"
@@ -66,6 +67,7 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
     scripture: Scripture,
     wordBorder: Boolean,
     mapDirection: TriadMappingDirection,
+    input: String,
   },
   components: {
     TriadRenderer,
@@ -77,6 +79,7 @@ export default class ScriptureMapRenderer extends Vue {
   public scripture!: Scripture;
   public wordBorder!: boolean;
   public selectedGlyphs: Array<Glyph> = [];
+  public input!: string;
   //
   private tally = 0;
 

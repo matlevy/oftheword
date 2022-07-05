@@ -5,9 +5,9 @@ import { TriadMapPoint } from "./TriadMapPoint";
 import { God } from "./wordActions/God";
 
 export interface TriGlyph {
-  a: Glyph;
-  b: Glyph;
-  c: Glyph;
+  a?: Glyph;
+  b?: Glyph;
+  c?: Glyph;
 }
 export interface GlyphPoint {
   ref: ScriptureReference;
@@ -95,26 +95,26 @@ export class Triad implements TriGlyph {
   }
 
   get a(): Glyph {
-    return this.IN.a;
+    return this.IN.a!;
   }
 
   get b(): Glyph {
-    return this.IN.b;
+    return this.IN.b!;
   }
 
   get c(): Glyph {
-    return this.IN.c;
+    return this.IN.c!;
   }
 
   get AD(): Array<Glyph> {
     return [
-      this.IN.a,
-      this.IN.b,
-      this.IN.c,
-      this.IN.a,
-      this.IN.b,
-      this.IN.a,
-      this.IN.c,
+      this.IN.a!,
+      this.IN.b!,
+      this.IN.c!,
+      this.IN.a!,
+      this.IN.b!,
+      this.IN.a!,
+      this.IN.c!,
     ];
   }
 

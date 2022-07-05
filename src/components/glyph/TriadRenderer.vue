@@ -4,18 +4,28 @@
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].a"
+      :class="{
+        dim:
+          I &&
+          !(
+            IS.b == glyph.MAP(mapDirection)[0].b ||
+            IS.c == glyph.MAP(mapDirection)[0].c
+          ),
+      }"
     ></glyph-renderer>
     <glyph-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].b"
+      :class="{ dim: I && IS.b != glyph.MAP(mapDirection)[0].b }"
     ></glyph-renderer>
     <glyph-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].c"
+      :class="{ dim: I && IS.c != glyph.MAP(mapDirection)[0].c }"
     ></glyph-renderer>
-    <number-renderer :number="number"></number-renderer>
+    <number-renderer :class="{ dim: I }" :number="number"></number-renderer>
   </span>
 </template>
 <script lang="ts">
@@ -26,6 +36,7 @@ import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 
 import GlyphRenderer from "./GlyphRenderer.vue";
 import NumberRenderer from "./NumberRenderer.vue";
+import { Triad, TriGlyph } from "@/types/Triad";
 
 @Options({
   name: "triad-renderer",
@@ -35,6 +46,7 @@ import NumberRenderer from "./NumberRenderer.vue";
     mapDirection: TriadMappingDirection,
     number: Number,
     glyph: Glyph,
+    match: String,
   },
   components: {
     GlyphRenderer,
@@ -47,15 +59,37 @@ export default class TriadRenderer extends Vue {
   public mapDirection!: TriadMappingDirection;
   public number!: number;
   public glyph!: Glyph;
+  public match!: string;
   //
   constructor(...args: any[]) {
     super(args);
   }
   //
+  public get IS(): TriGlyph {
+    const triad: Triad = this.glyph.MAP(this.mapDirection)[0] as Triad;
+    return {
+      a: this.match.indexOf(triad.a.character) != -1 ? triad.a : undefined,
+      b: this.match.indexOf(triad.b.character) != -1 ? triad.b : undefined,
+      c: this.match.indexOf(triad.c.character) != -1 ? triad.c : undefined,
+    };
+  }
+  //
+  public get HAS(): boolean {
+    return (
+      this.IS.a != undefined ||
+      this.IS.b! == undefined ||
+      this.IS.c != undefined
+    );
+  }
+  //
+  public get I(): boolean {
+    return this.match?.length > 0;
+  }
+  //
   public onGlyphPick(glyph: Glyph) {
     this.$emit("pick", glyph);
   }
-
+  //
   public onGlyphUnPick(glyph: Glyph) {
     this.$emit("unpick", glyph);
   }
@@ -78,6 +112,9 @@ export default class TriadRenderer extends Vue {
     display: flex;
     flex-flow: column;
     text-align: center;
+    &.dim {
+      opacity: 0.2;
+    }
   }
 }
 </style>
