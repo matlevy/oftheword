@@ -26,14 +26,13 @@ import { Options, Vue } from "vue-class-component";
 import { Scripture } from "@/types/Scripture";
 import { WordMap } from "@/types/WordMap";
 import { Word } from "@/types/Word";
-import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { God } from "@/types/wordActions/God";
 import { TriadMap } from "@/types/TriadMap";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
-import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
 import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 import { Root } from "@/root";
+import { ReferencePoint } from "@/types/FullReference";
 
 @Options({
   name: "alphabet-map",
@@ -72,6 +71,29 @@ export default class AlphaBetMap extends Vue {
     super(args);
     this.scripture.read(this.GOD.IN.G.getAllAsString().concat(" "));
     console.log(this.scripture);
+  }
+  //
+  public mounted() {
+    this.$watch("search", (v: string) => {
+      console.log(this.aSearch(v));
+    });
+  }
+  //
+  public aSearch(value: string) {
+    const P: ReferencePoint = {
+      found: [],
+      scripture: {
+        book: this.scripture.IN.ref?.book || -1,
+        chapter: this.scripture.IN.ref?.chapter || -1,
+        verse: this.scripture.IN.ref?.verse || -1,
+      },
+    };
+    return this.scripture.IN.GOD.IN.GO?.search(
+      value,
+      "",
+      P,
+      this.scripture.IT.O
+    );
   }
 }
 </script>

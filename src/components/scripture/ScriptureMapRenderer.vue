@@ -88,26 +88,6 @@ export default class ScriptureMapRenderer extends Vue {
     this.tally += 1;
     return this.tally;
   }
-  //
-  public mounted() {
-    this.$watch("input", (v: string) => {
-      console.log(v);
-      console.log(this.aSearch(v));
-    });
-  }
-  //
-  public aSearch(value: string) {
-    const P: ReferencePoint = {
-      found: [],
-      scripture: {
-        book: this.scripture.IN.ref?.book || -1,
-        chapter: this.scripture.IN.ref?.chapter || -1,
-        verse: this.scripture.IN.ref?.verse || -1,
-      },
-    };
-    console.log(this.scripture.IN.GOD.IN);
-    return this.scripture.IN.GOD.IN.GO?.search(value, "", P, this.scripture.E);
-  }
 
   public onGlyphPick(glyph: Glyph) {
     if (this.selectedGlyphs.length < 3) {

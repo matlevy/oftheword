@@ -34,7 +34,6 @@ export class FullReference implements Reference {
     p?: ReferencePoint,
     seed?: string
   ): ReferencePoint {
-    console.log("sdff");
     const s = string.toUpperCase();
     if (s.length == 0) {
       return {};

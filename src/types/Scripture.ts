@@ -25,6 +25,13 @@ export interface ScriptureTORU {
   R: Glyph;
   U: Glyph;
 }
+
+export interface ScriptureTORUs {
+  T: string;
+  O: string;
+  R: string;
+  U: string;
+}
 export class Scripture {
   public TO: TriadMappingDirection = TriadMappingDirection.BAC;
   public UT: TriadMappingDirection = TriadMappingDirection.CAB;
@@ -49,6 +56,23 @@ export class Scripture {
         U: v.MAP(this.UT)[0].b!,
       };
     });
+  }
+  public get IT(): ScriptureTORUs {
+    return this.T.reduce(
+      (p: ScriptureTORUs, v: ScriptureTORU) => {
+        p.T = p.O.concat(v.T.character);
+        p.O = p.O.concat(v.O.character);
+        p.R = p.R.concat(v.R.character);
+        p.U = p.U.concat(v.U.character);
+        return p;
+      },
+      {
+        T: "",
+        O: "",
+        R: "",
+        U: "",
+      }
+    );
   }
   //
   god() {
