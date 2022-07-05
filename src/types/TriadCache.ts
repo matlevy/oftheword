@@ -1,7 +1,7 @@
-import { CacheStore } from "./interfaces/CacheStore";
+import { Store } from "./interfaces/Store";
 import { Triad, TriadIn, TriGlyph } from "./Triad";
 
-export class TriadCache implements CacheStore<TriadIn, TriGlyph> {
+export class TriadCache implements Store<TriadIn, TriadIn, TriadIn> {
   public O: Map<string, any> = new Map<string, any>();
 
   public get<R>(value: TriadIn): R {

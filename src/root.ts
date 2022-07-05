@@ -12,21 +12,19 @@ import {
 import Bibles from "./types/bibles/Bibles";
 import BibleBooksEnglish from "./types/bibles/BibleBooksEnglish";
 import { Book } from "./types/Book";
-import { FullReference } from "./types/FullReference";
+import { SourceMap } from "./types/SourceMap";
+import { CognateStore } from "./types/CognateStore";
 
 export class Root {
   private static _instance: Root;
 
-  public wordMap: WordMap = new WordMap({
+  public RD: WordMap = new WordMap({
     map: new Map<string, Word>(),
   });
 
   public triadMap: TriadMap;
   public O: God;
-  public bible: BibleExplorer = new BibleExplorer(Bibles.KING_JAMES);
-
-  private books: Map<string, BibleBook> = new Map<string, BibleBook>();
-
+  public BIBLE: BibleExplorer = new BibleExplorer(Bibles.KING_JAMES);
   public gen!: Book;
 
   public static getInstance(): Root {
@@ -39,16 +37,16 @@ export class Root {
   constructor() {
     this.triadMap = new TriadMap(GlyphMapLatin.getInstance());
     this.O = new God({
-      OD: this.wordMap,
-      O: this.triadMap,
-      GO: new FullReference(),
       G: GlyphMapLatin.getInstance(),
+      O: this.triadMap,
+      OD: this.RD,
+      GO: new SourceMap(),
       X: GlyphMapSpecial.getInstance(),
     });
   }
 
   public init() {
-    const book: BibleBook = this.bible.getBook(
+    const book: BibleBook = this.BIBLE.getBook(
       BibleBooksEnglish.ENGLISH.GENESIS
     );
 

@@ -2,11 +2,11 @@ import { ScriptureReference } from "./Scripture";
 
 export interface ReferencePoint {
   scripture?: ScriptureReference;
-  found?: Array<ReferenceResult>;
+  found?: Array<Reference>;
   next?: ReferencePoint;
 }
 
-export interface ReferenceResult {
+export interface Reference {
   index: number;
   length: number;
   match: string;
@@ -15,7 +15,7 @@ export interface ReferenceResult {
   end: number;
 }
 
-export interface Reference {
+export interface Map {
   search(
     string: string,
     right?: string,
@@ -25,7 +25,7 @@ export interface Reference {
   append(string: string, scripture: ScriptureReference): ReferencePoint;
 }
 
-export class FullReference implements Reference {
+export class SourceMap implements Map {
   public O = "";
 
   public search(
@@ -44,8 +44,8 @@ export class FullReference implements Reference {
     const S: string = seed ? seed : this.O;
     const pos = S.indexOf(s);
     if (pos != -1) {
-      const existing: ReferenceResult | undefined = pt.found!.find(
-        (v: ReferenceResult) => v.index == pos || v.end == pos + s.length
+      const existing: Reference | undefined = pt.found!.find(
+        (v: Reference) => v.index == pos || v.end == pos + s.length
       );
       if (existing && existing.match.length < s.length) {
         existing.length = s.length;
@@ -69,7 +69,7 @@ export class FullReference implements Reference {
       this.search(s.slice(1), s.charAt(0), pt, seed);
     }
     pt.found = pt.found?.sort(
-      (a: ReferenceResult, b: ReferenceResult) => a.index - b.index
+      (a: Reference, b: Reference) => a.index - b.index
     );
     return pt;
   }

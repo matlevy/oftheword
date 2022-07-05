@@ -60,7 +60,6 @@ import { Options, Vue } from "vue-class-component";
 
 import TriadRenderer from "../glyph/TriadRenderer.vue";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
-import { ReferencePoint } from "@/types/FullReference";
 
 @Options({
   name: "scripture-map-renderer",

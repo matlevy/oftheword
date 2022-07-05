@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { Root } from "@/root";
-import { ReferencePoint } from "@/types/FullReference";
+import { ReferencePoint } from "@/types/SourceMap";
 
 @Options({
   name: "word-finder",

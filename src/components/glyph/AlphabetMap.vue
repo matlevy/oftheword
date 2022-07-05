@@ -32,7 +32,7 @@ import { TriadMap } from "@/types/TriadMap";
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 import { Root } from "@/root";
-import { ReferencePoint } from "@/types/FullReference";
+import { ReferencePoint } from "@/types/SourceMap";
 
 @Options({
   name: "alphabet-map",

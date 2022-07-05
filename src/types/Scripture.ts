@@ -125,10 +125,10 @@ export class Scripture {
       }
     }
     if (this.IN.map) {
-      this.and();
       if (this.IN.GOD.IN.GO) {
         this.IN.GOD.IN.GO!.append(this.E, this.IN.ref!);
       }
+      this.and();
     }
     return this;
   }
