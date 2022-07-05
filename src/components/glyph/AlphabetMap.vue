@@ -1,6 +1,17 @@
 <template>
   <div class="alphabet-view">
     <scripture-map-renderer
+      :map-direction="IN"
+      :word-border="false"
+      :scripture="scripture"
+    ></scripture-map-renderer>
+    <scripture-map-renderer
+      :map-direction="TO"
+      :word-border="false"
+      :scripture="scripture"
+    ></scripture-map-renderer>
+    <scripture-map-renderer
+      :map-direction="OF"
       :word-border="false"
       :scripture="scripture"
     ></scripture-map-renderer>
@@ -17,6 +28,7 @@ import { TriadMap } from "@/types/TriadMap";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
+import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 
 @Options({
   name: "alphabet-map",
@@ -30,6 +42,10 @@ import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
   },
 })
 export default class AlphaBetMap extends Vue {
+  public IN: TriadMappingDirection = TriadMappingDirection.BAC;
+  public OF: TriadMappingDirection = TriadMappingDirection.CAB;
+  public TO: TriadMappingDirection = TriadMappingDirection.ABC;
+
   public triad!: TriadMap;
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),

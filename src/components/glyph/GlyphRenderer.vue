@@ -12,13 +12,14 @@ import { Options, Vue } from "vue-class-component";
   name: "glyph-renderer",
   components: {},
   props: {
-    glyph: Glyph,
     selected: Boolean,
+    input: String,
+    glyph: Glyph,
   },
 })
 export default class GlyphRenderer extends Vue {
-  public glyph!: Glyph;
   public selected = false;
+  public glyph!: Glyph;
 
   constructor(...args: any[]) {
     super(args);

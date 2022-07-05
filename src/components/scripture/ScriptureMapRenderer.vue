@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h3 class="title">
+      <h3 class="title" v-if="scripture.IN.ref?.chapter">
         Chapter: {{ scripture.IN.ref?.chapter }}:{{ scripture.IN.ref?.verse }}
       </h3>
     </div>
@@ -12,36 +12,22 @@
         v-for="(word, wordIndex) in scripture.I"
         v-bind:key="wordIndex"
       >
-        <span
-          class="stack"
+        <triad-renderer
           v-for="(output, wordLetterIndex) in word.A"
           v-bind:key="wordLetterIndex"
+          @pick="onGlyphPick"
+          @unpick="onGlyphUnPick"
+          :glyph="output"
+          :number="
+            scripture.O.indexOf(
+              output.MAP(mapDirection)[0].a.character.charCodeAt(0) - 64
+            ) + 1
+          "
+          :selectedGlyphs="selectedGlyphs"
+          :scripture="scripture"
+          :map-direction="mapDirection"
         >
-          <span class="glyph" v-if="output.IN[0]">
-            <glyph-renderer
-              @pick="onGlyphPick"
-              @unpick="onGlyphUnPick"
-              :glyph="output.IN[0].a"
-            ></glyph-renderer>
-            <glyph-renderer
-              @pick="onGlyphPick"
-              @unpick="onGlyphUnPick"
-              :glyph="output.IN[0].b"
-            ></glyph-renderer>
-            <glyph-renderer
-              @pick="onGlyphPick"
-              @unpick="onGlyphUnPick"
-              :glyph="output.IN[0].c"
-            ></glyph-renderer>
-            <number-renderer
-              :number="
-                scripture.O.indexOf(
-                  output.IN[0].a.character.charCodeAt(0) - 64
-                ) + 1
-              "
-            ></number-renderer>
-          </span>
-        </span>
+        </triad-renderer>
       </span>
     </div>
     <div class="words">
@@ -68,23 +54,26 @@
 import { Glyph } from "@/types/Glyph";
 import { Scripture, ScriptureReference } from "@/types/Scripture";
 import { Triad } from "@/types/Triad";
+import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 import { Options, Vue } from "vue-class-component";
 
+import TriadRenderer from "../glyph/TriadRenderer.vue";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
-import NumberRenderer from "../glyph/NumberRenderer.vue";
 
 @Options({
   name: "scripture-map-renderer",
   props: {
     scripture: Scripture,
     wordBorder: Boolean,
+    mapDirection: TriadMappingDirection,
   },
   components: {
+    TriadRenderer,
     GlyphRenderer,
-    NumberRenderer,
   },
 })
 export default class ScriptureMapRenderer extends Vue {
+  public mapDirection!: TriadMappingDirection;
   public scripture!: Scripture;
   public wordBorder!: boolean;
   public selectedGlyphs: Array<Glyph> = [];

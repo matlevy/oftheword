@@ -1,15 +1,16 @@
 <template>
   <span class="word" v-if="word !== null">
     <span class="stack" v-for="(output, index) in word.A" v-bind:key="index">
-      <span class="glyph" v-if="output.IN[0]">
-        <glyph-renderer :glyph="output.IN[0].a"></glyph-renderer>
-        <glyph-renderer :glyph="output.IN[0].b"></glyph-renderer>
-        <glyph-renderer :glyph="output.IN[0].c"></glyph-renderer>
+      <span class="glyph" v-if="output.MAP(mapDirection)[0]">
+        <glyph-renderer :glyph="output.MAP(mapDirection)[0].a"></glyph-renderer>
+        <glyph-renderer :glyph="output.MAP(mapDirection)[0].b"></glyph-renderer>
+        <glyph-renderer :glyph="output.MAP(mapDirection)[0].c"></glyph-renderer>
       </span>
     </span>
   </span>
 </template>
 <script lang="ts">
+import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
@@ -18,6 +19,7 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
   name: "word-map-renderer",
   props: {
     word: Word,
+    mapDirection: TriadMappingDirection,
   },
   components: {
     GlyphRenderer,
@@ -25,6 +27,7 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
 })
 export default class WordMapRenderer extends Vue {
   public word!: Word;
+  public mapDirection: TriadMappingDirection = TriadMappingDirection.BAC;
 }
 </script>
 
