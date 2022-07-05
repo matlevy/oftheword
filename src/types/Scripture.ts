@@ -1,6 +1,7 @@
 import { Chapter } from "./Chapter";
 import { Glyph } from "./Glyph";
 import { Triad } from "./Triad";
+import { TriadMappingDirection } from "./TriadMappingDirection";
 import { Word } from "./Word";
 import { God } from "./wordActions/God";
 export interface ScriptureReference {
@@ -17,8 +18,18 @@ export interface ScriptureIn {
   prev?: string;
   chapter?: Chapter;
 }
+
+export interface ScriptureTORU {
+  T: Glyph;
+  O: Glyph;
+  R: Glyph;
+  U: Glyph;
+}
 export class Scripture {
-  public A: Array<number> = [];
+  public TO: TriadMappingDirection = TriadMappingDirection.BAC;
+  public UT: TriadMappingDirection = TriadMappingDirection.CAB;
+  public RO: TriadMappingDirection = TriadMappingDirection.ACB;
+  public A: Array<Glyph> = [];
   public E = "";
   public I: Array<Word> = [];
   public O: Array<number> = [];
@@ -28,6 +39,17 @@ export class Scripture {
   private text = "";
   //
   constructor(public IN: ScriptureIn) {}
+  //
+  public get T(): Array<ScriptureTORU> {
+    return this.A.map((v: Glyph): ScriptureTORU => {
+      return {
+        O: v.MAP(this.TO)[0].c!,
+        R: v.MAP(this.RO)[0].b!,
+        T: v.MAP(this.TO)[0].b!,
+        U: v.MAP(this.UT)[0].b!,
+      };
+    });
+  }
   //
   god() {
     console.log("god");
@@ -70,6 +92,7 @@ export class Scripture {
         }
       } else {
         this.E = this.E.concat(char);
+        this.A = this.A.concat(this.IN.GOD.IN.G.getFromIndex(code - 64));
         // a unique character, stored in unique character hash
         this.U.push(code - 64);
         if (this.O.indexOf(code - 64) == -1) {
@@ -79,9 +102,9 @@ export class Scripture {
     }
     if (this.IN.map) {
       this.and();
-    }
-    if (this.IN.GOD.IN.GO) {
-      this.IN.GOD.IN.GO!.append(this.E, this.IN.ref!);
+      if (this.IN.GOD.IN.GO) {
+        this.IN.GOD.IN.GO!.append(this.E, this.IN.ref!);
+      }
     }
     return this;
   }

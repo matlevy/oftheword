@@ -16,7 +16,12 @@ export interface ReferenceResult {
 }
 
 export interface Reference {
-  search(string: string): ReferencePoint;
+  search(
+    string: string,
+    right?: string,
+    p?: ReferencePoint,
+    seed?: string
+  ): ReferencePoint;
   append(string: string, scripture: ScriptureReference): ReferencePoint;
 }
 
@@ -26,8 +31,10 @@ export class FullReference implements Reference {
   public search(
     string: string,
     right?: string,
-    p?: ReferencePoint
+    p?: ReferencePoint,
+    seed?: string
   ): ReferencePoint {
+    console.log("sdff");
     const s = string.toUpperCase();
     if (s.length == 0) {
       return {};
@@ -35,7 +42,8 @@ export class FullReference implements Reference {
     const pt: ReferencePoint = p || {
       found: [],
     };
-    const pos = this.O.indexOf(s);
+    const S: string = seed ? seed : this.O;
+    const pos = S.indexOf(s);
     if (pos != -1) {
       const existing: ReferenceResult | undefined = pt.found!.find(
         (v: ReferenceResult) => v.index == pos || v.end == pos + s.length
@@ -44,25 +52,22 @@ export class FullReference implements Reference {
         existing.length = s.length;
         existing.match = s;
         existing.end = pos + s.length;
-        existing.wide = this.O.slice(pos - 1, pos + s.length + 1);
-        existing.pair = this.O.slice(pos - 1, pos + s.length + 1).replace(
-          s,
-          ""
-        );
+        existing.wide = S.slice(pos - 1, pos + s.length + 1);
+        existing.pair = S.slice(pos - 1, pos + s.length + 1).replace(s, "");
       } else if (!existing) {
         pt.found!.push({
           length: s.length,
           index: pos,
           end: pos + s.length,
           match: s,
-          wide: this.O.slice(pos - 1, pos + s.length + 1),
-          pair: this.O.slice(pos - 1, pos + s.length + 1).replace(s, ""),
+          wide: S.slice(pos - 1, pos + s.length + 1),
+          pair: S.slice(pos - 1, pos + s.length + 1).replace(s, ""),
         });
       }
     }
     if (s.length > 2) {
-      this.search(s.slice(0, s.length - 1), s.charAt(s.length - 1), pt);
-      this.search(s.slice(1), s.charAt(0), pt);
+      this.search(s.slice(0, s.length - 1), s.charAt(s.length - 1), pt, seed);
+      this.search(s.slice(1), s.charAt(0), pt, seed);
     }
     pt.found = pt.found?.sort(
       (a: ReferenceResult, b: ReferenceResult) => a.index - b.index

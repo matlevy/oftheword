@@ -60,6 +60,7 @@ import { Options, Vue } from "vue-class-component";
 
 import TriadRenderer from "../glyph/TriadRenderer.vue";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import { ReferencePoint } from "@/types/FullReference";
 
 @Options({
   name: "scripture-map-renderer",
@@ -86,6 +87,26 @@ export default class ScriptureMapRenderer extends Vue {
   public getTally(): number {
     this.tally += 1;
     return this.tally;
+  }
+  //
+  public mounted() {
+    this.$watch("input", (v: string) => {
+      console.log(v);
+      console.log(this.aSearch(v));
+    });
+  }
+  //
+  public aSearch(value: string) {
+    const P: ReferencePoint = {
+      found: [],
+      scripture: {
+        book: this.scripture.IN.ref?.book || -1,
+        chapter: this.scripture.IN.ref?.chapter || -1,
+        verse: this.scripture.IN.ref?.verse || -1,
+      },
+    };
+    console.log(this.scripture.IN.GOD.IN);
+    return this.scripture.IN.GOD.IN.GO?.search(value, "", P, this.scripture.E);
   }
 
   public onGlyphPick(glyph: Glyph) {
