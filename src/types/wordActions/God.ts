@@ -33,4 +33,8 @@ export class God {
   get O(): TriadMap {
     return this.IN.O as TriadMap;
   }
+  //
+  get GO(): WATERS {
+    return this.IN.GO!;
+  }
 }

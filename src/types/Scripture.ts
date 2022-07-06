@@ -126,7 +126,7 @@ export class Scripture {
     }
     if (this.IN.map) {
       if (this.IN.GOD.IN.GO) {
-        this.IN.GOD.IN.GO!.append(this.E);
+        this.IN.GOD.IN.GO!.ACE(this.E);
       }
       this.and();
     }

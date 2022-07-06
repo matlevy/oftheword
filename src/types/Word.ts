@@ -2,6 +2,7 @@ import { Glyph } from "./Glyph";
 import { Scripture } from "./Scripture";
 import { Triad, TriadIn } from "./Triad";
 import { God } from "./wordActions/God";
+import { SPIRIT } from "./wordActions/Spirit";
 export interface WordIn {
   scripture: Scripture;
   start: number;
@@ -75,5 +76,9 @@ export class Word {
     return this.IN.GOD.IN.OD.IN.map.get(
       this.IN.scripture.E.slice(this.IN.start, this.IN.end)
     );
+  }
+  //
+  get IT(): SPIRIT {
+    return this.IN.GOD.GO.E.get(this.E) as SPIRIT;
   }
 }

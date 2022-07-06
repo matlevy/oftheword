@@ -3,4 +3,5 @@ export interface SPIRIT {
     I?: Array<string>,
     P: number,
     T: Object,
+    IT?: Array<number>,
 }

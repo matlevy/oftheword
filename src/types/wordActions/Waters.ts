@@ -2,7 +2,8 @@ import { SPIRIT } from "./Spirit";
 
 export interface WATERS {
   FACE(spirit: SPIRIT): SPIRIT;
-  append(string: string): Waters;
+  ACE(string: string): Waters;
+  E: Map<string, SPIRIT>;
 }
 
 export class Waters implements WATERS {
@@ -13,6 +14,12 @@ export class Waters implements WATERS {
     spirit.S = spirit.S.toLocaleUpperCase();
     spirit.P = this.AE.indexOf(spirit.S, 0);
     spirit.I = spirit.I == undefined ? [] : spirit.I;
+    if (spirit.P) {
+      spirit.IT = [
+        this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) - 1) - 64,
+        this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) + spirit.S.length) - 64,
+      ];
+    }
     if (this.E.get(spirit.S)) {
       return this.E.get(spirit.S)!;
     } else if (spirit.P > -1) {
@@ -69,6 +76,10 @@ export class Waters implements WATERS {
         P: this.AE.indexOf(IN, 0),
         T: {},
         I: [],
+        IT: [
+          this.AE.charCodeAt(this.AE.indexOf(IN, 0) - 1) - 64,
+          this.AE.charCodeAt(this.AE.indexOf(IN, 0) + IN.length) - 64,
+        ],
       };
       spirit.I?.push(IN);
       if (Object(spirit.T)[IN].S.length >= 1) this.FACE(Object(spirit.T)[IN]);
@@ -78,7 +89,7 @@ export class Waters implements WATERS {
     return this.E.get(IN) as SPIRIT;
   }
   //
-  public append(string: string): Waters {
+  public ACE(string: string): Waters {
     this.AE = this.AE.concat(string);
     return this;
   }
