@@ -12,8 +12,7 @@ import {
 import Bibles from "./types/bibles/Bibles";
 import BibleBooksEnglish from "./types/bibles/BibleBooksEnglish";
 import { Book } from "./types/Book";
-import { SourceMap } from "./types/SourceMap";
-import { CognateStore } from "./types/CognateStore";
+import { Waters } from "./types/wordActions/Waters";
 
 export class Root {
   private static _instance: Root;
@@ -40,7 +39,7 @@ export class Root {
       G: GlyphMapLatin.getInstance(),
       O: this.triadMap,
       OD: this.RD,
-      GO: new SourceMap(),
+      GO: new Waters(),
       X: GlyphMapSpecial.getInstance(),
     });
   }

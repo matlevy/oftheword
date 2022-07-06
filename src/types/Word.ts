@@ -1,7 +1,5 @@
-import { Cognate } from "./Cognate";
 import { Glyph } from "./Glyph";
 import { Scripture } from "./Scripture";
-import { Reference, ReferencePoint } from "./SourceMap";
 import { Triad, TriadIn } from "./Triad";
 import { God } from "./wordActions/God";
 export interface WordIn {

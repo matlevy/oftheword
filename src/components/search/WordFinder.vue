@@ -7,22 +7,25 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { Root } from "@/root";
-import { ReferencePoint } from "@/types/SourceMap";
+import { SPIRIT } from "@/types/wordActions/Spirit";
 
 @Options({
   name: "word-finder",
 })
 export default class WordFinder extends Vue {
-  public searchTerm = "cerebelum";
+  public searchTerm = "there";
   //
   constructor(...args: any[]) {
     super(args);
   }
   public search() {
-    const output: ReferencePoint = Root.getInstance().O.IN.GO!.search(
-      this.searchTerm
-    );
-    console.log(output);
+    const term: SPIRIT = {
+      S: this.searchTerm,
+      P: -1,
+      T: {},
+    };
+    Root.getInstance().O.IN.GO!.moveUponTheFace(term);
+    console.log(term);
   }
 }
 </script>

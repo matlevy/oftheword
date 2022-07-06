@@ -32,7 +32,6 @@ import { TriadMap } from "@/types/TriadMap";
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 import { Root } from "@/root";
-import { ReferencePoint } from "@/types/SourceMap";
 
 @Options({
   name: "alphabet-map",
@@ -80,20 +79,11 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public aSearch(value: string) {
-    const P: ReferencePoint = {
-      found: [],
-      scripture: {
-        book: this.scripture.IN.ref?.book || -1,
-        chapter: this.scripture.IN.ref?.chapter || -1,
-        verse: this.scripture.IN.ref?.verse || -1,
-      },
-    };
-    return this.scripture.IN.GOD.IN.GO?.search(
-      value,
-      "",
-      P,
-      this.scripture.IT.O
-    );
+    return this.scripture.IN.GOD.IN.GO?.moveUponTheFace({
+      S: value,
+      P: -1,
+      T: {},
+    });
   }
 }
 </script>
