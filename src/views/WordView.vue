@@ -2,28 +2,44 @@
   <div class="word-view">
     <h3>{{ word?.E }}</h3>
     <div>
+      <raw-scripture-renderer
+        :verse="word?.IN.scripture"
+        :i="word?.IN.scripture.IN.ref?.verse"
+      ></raw-scripture-renderer>
+    </div>
+    <div class="word-details">
       <word-map-renderer
         :word="word"
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
+      <cognate-map :spirit="IT"></cognate-map>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
 import { Root } from "@/root";
+
+import CognateMap from "@/components/word/CognateMap.vue";
+import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
+import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 
 @Options({
   name: "word-view",
   components: {
     WordMapRenderer,
+    CognateMap,
+    RawScriptureRenderer,
   },
 })
 export default class WordView extends Vue {
   get word() {
     const word: string = String(this.$route.params.word).toLocaleUpperCase();
     return Root.getInstance().O.OD.IN.map.get(word);
+  }
+  get IT() {
+    console.log(this.word?.IT);
+    return this.word?.IT;
   }
 }
 </script>
@@ -36,6 +52,9 @@ export default class WordView extends Vue {
   display: flex;
   text-align: left;
   flex-flow: column;
+}
+.word-details {
+  margin-left: 2.5rem;
 }
 h3,
 h4 {

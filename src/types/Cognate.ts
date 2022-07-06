@@ -1,12 +1,9 @@
-import { ScriptureReference } from "./Scripture";
-import { WATERS } from "./wordActions/Waters";
 import { God } from "./wordActions/God";
+import { SPIRIT } from "./wordActions/Spirit";
 
 export interface CognateIn {
-  remap: boolean;
   GOD: God;
-  T?: ScriptureReference;
-  P?: WATERS;
+  SPIRIT: SPIRIT;
 }
 
 export class Cognate {

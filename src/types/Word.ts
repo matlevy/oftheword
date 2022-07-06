@@ -79,6 +79,13 @@ export class Word {
   }
   //
   get IT(): SPIRIT {
-    return this.IN.GOD.GO.E.get(this.E) as SPIRIT;
+    return this.IN.GOD.GO.FACE({
+      S: this.E,
+      P: -1,
+      T: {},
+      I: [],
+      IT: [],
+      SCRIPTURE: this.IN.scripture,
+    }) as SPIRIT;
   }
 }
