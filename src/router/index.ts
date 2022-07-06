@@ -27,6 +27,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "search",
     component: () => import("../views/ExistanceSearch.vue"),
   },
+  {
+    path: "/word/:word",
+    name: "word",
+    component: () => import("../views/WordView.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -13,16 +13,20 @@
       ><div>{{ verse.IN.ref?.verse }}.</div></router-link
     >
     <div class="verse-text">
-      <a
-        href="#index"
+      <router-link
         v-for="(word, index) in verse.I"
         v-bind:key="index"
         :title="(index + 1).toString()"
         class="glyph"
-        @click="onWordClick(word)"
+        :to="{
+          name: 'word',
+          params: {
+            word: word.WR?.R,
+          },
+        }"
+        >{{ word.WR?.R
+        }}{{ verse.X[index] ? verse.X[index].character : "" }}</router-link
       >
-        {{ word.WR?.R }}{{ verse.X[index] ? verse.X[index].character : "" }}
-      </a>
     </div>
   </div>
 </template>
@@ -42,7 +46,12 @@ export default class RawScriptureRenderer extends Vue {
   public verse!: Scripture;
   public i!: number;
   public onWordClick(word: Word) {
-    this.$emit("word-select", word);
+    this.$router.push({
+      name: "word",
+      params: {
+        word: word.E.toLocaleUpperCase(),
+      },
+    });
   }
 }
 </script>
