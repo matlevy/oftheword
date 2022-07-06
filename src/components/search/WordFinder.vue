@@ -19,13 +19,12 @@ export default class WordFinder extends Vue {
     super(args);
   }
   public search() {
-    const term: SPIRIT = {
+    console.clear();
+    const term: SPIRIT = Root.getInstance().O.IN.GO!.moveUponTheFace({
       S: this.searchTerm,
       P: -1,
       T: {},
-    };
-    console.clear();
-    Root.getInstance().O.IN.GO!.moveUponTheFace(term);
+    });
     console.log(term);
   }
 }
