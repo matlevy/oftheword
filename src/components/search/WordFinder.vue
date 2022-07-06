@@ -13,7 +13,7 @@ import { SPIRIT } from "@/types/wordActions/Spirit";
   name: "word-finder",
 })
 export default class WordFinder extends Vue {
-  public searchTerm = "there";
+  public searchTerm = "cerebelum";
   //
   constructor(...args: any[]) {
     super(args);
@@ -24,6 +24,7 @@ export default class WordFinder extends Vue {
       P: -1,
       T: {},
     };
+    console.clear();
     Root.getInstance().O.IN.GO!.moveUponTheFace(term);
     console.log(term);
   }
