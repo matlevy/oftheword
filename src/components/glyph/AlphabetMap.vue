@@ -79,7 +79,7 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public aSearch(value: string) {
-    return this.scripture.IN.GOD.IN.GO?.moveUponTheFace({
+    return this.scripture.IN.GOD.IN.GO?.FACE({
       S: value,
       P: -1,
       T: {},

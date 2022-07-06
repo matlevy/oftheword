@@ -1,7 +1,7 @@
 import { SPIRIT } from "./Spirit";
 
 export interface WATERS {
-  moveUponTheFace(spirit: SPIRIT): SPIRIT;
+  FACE(spirit: SPIRIT): SPIRIT;
   append(string: string): Waters;
 }
 
@@ -9,7 +9,7 @@ export class Waters implements WATERS {
   public AE = "";
   public E: Map<string, SPIRIT> = new Map<string, SPIRIT>();
   //
-  public moveUponTheFace(spirit: SPIRIT): SPIRIT {
+  public FACE(spirit: SPIRIT): SPIRIT {
     spirit.S = spirit.S.toLocaleUpperCase();
     spirit.P = this.AE.indexOf(spirit.S, 0);
     spirit.I = spirit.I == undefined ? [] : spirit.I;
@@ -71,8 +71,7 @@ export class Waters implements WATERS {
         I: [],
       };
       spirit.I?.push(IN);
-      if (Object(spirit.T)[IN].S.length >= 1)
-        this.moveUponTheFace(Object(spirit.T)[IN]);
+      if (Object(spirit.T)[IN].S.length >= 1) this.FACE(Object(spirit.T)[IN]);
       this.E.set(spirit.S, spirit);
       this.E.set(IN, Object(spirit.T)[IN]);
     }

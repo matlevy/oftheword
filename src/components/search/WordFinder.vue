@@ -20,7 +20,7 @@ export default class WordFinder extends Vue {
   }
   public search() {
     console.clear();
-    const term: SPIRIT = Root.getInstance().O.IN.GO!.moveUponTheFace({
+    const term: SPIRIT = Root.getInstance().O.IN.GO!.FACE({
       S: this.searchTerm,
       P: -1,
       T: {},
