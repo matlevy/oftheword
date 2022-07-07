@@ -1,74 +1,90 @@
 <template>
   <span class="words" v-if="word !== null">
-    <span class="word">
-      <h4>TO</h4>
-      <div class="stack">
-        <triad-renderer
-          v-for="(output, wordLetterIndex) in word.A"
-          v-bind:key="wordLetterIndex"
-          @pick="onGlyphPick"
-          @unpick="onGlyphUnPick"
-          :glyph="output"
-          :number="
+    <div class="notes">
+      <p>
+        Genesis 1:2 begins to describe how thoughts take shape; and the
+        connectivity of the letters <b>[ WITHOUT FORM ]</b> connect thought
+        prococess to <b>[ THE EARTH ]</b>, and <b>[ VOID ]</b>: the birth of an
+        idea, to determine the following mapping of letters: based on first
+        occurance;
+      </p>
+      <p>
+        The following grids show mapping of letters within a word: acting as a
+        "pin", demonstrating a word acts as a point of connectivity of concious
+        thought;
+      </p>
+    </div>
+    <div class="output">
+      <span class="word">
+        <h4>T O</h4>
+        <div class="stack">
+          <triad-renderer
+            v-for="(output, wordLetterIndex) in word.A"
+            v-bind:key="wordLetterIndex"
+            @pick="onGlyphPick"
+            @unpick="onGlyphUnPick"
+            :glyph="output"
+            :number="
               scripture.O.indexOf(
                 output.MAP(TO)[0].a!.character.charCodeAt(0) - 64
               ) + 1
             "
-          :match="input"
-          :filter="filter"
-          :selectedGlyphs="selectedGlyphs"
-          :scripture="scripture"
-          :map-direction="TO"
-        >
-        </triad-renderer>
-      </div>
-    </span>
-    <span class="word">
-      <h4>FROM</h4>
-      <div class="stack">
-        <triad-renderer
-          v-for="(output, wordLetterIndex) in word.A"
-          v-bind:key="wordLetterIndex"
-          @pick="onGlyphPick"
-          @unpick="onGlyphUnPick"
-          :glyph="output"
-          :number="
+            :match="input"
+            :filter="filter"
+            :selectedGlyphs="selectedGlyphs"
+            :scripture="scripture"
+            :map-direction="TO"
+          >
+          </triad-renderer>
+        </div>
+      </span>
+      <span class="word">
+        <h4>R O</h4>
+        <div class="stack">
+          <triad-renderer
+            v-for="(output, wordLetterIndex) in word.A"
+            v-bind:key="wordLetterIndex"
+            @pick="onGlyphPick"
+            @unpick="onGlyphUnPick"
+            :glyph="output"
+            :number="
               scripture.O.indexOf(
                 output.MAP(RO)[0].a!.character.charCodeAt(0) - 64
               ) + 1
             "
-          :match="input"
-          :filter="filter"
-          :selectedGlyphs="selectedGlyphs"
-          :scripture="scripture"
-          :map-direction="RO"
-        >
-        </triad-renderer>
-      </div>
-    </span>
-    <span class="word">
-      <h4>PUT</h4>
-      <div class="stack">
-        <triad-renderer
-          v-for="(output, wordLetterIndex) in word.A"
-          v-bind:key="wordLetterIndex"
-          @pick="onGlyphPick"
-          @unpick="onGlyphUnPick"
-          :glyph="output"
-          :number="
+            :match="input"
+            :filter="filter"
+            :selectedGlyphs="selectedGlyphs"
+            :scripture="scripture"
+            :map-direction="RO"
+          >
+          </triad-renderer>
+        </div>
+      </span>
+      <span class="word">
+        <h4>U T</h4>
+        <div class="stack">
+          <triad-renderer
+            v-for="(output, wordLetterIndex) in word.A"
+            v-bind:key="wordLetterIndex"
+            @pick="onGlyphPick"
+            @unpick="onGlyphUnPick"
+            :glyph="output"
+            :number="
               scripture.O.indexOf(
                 output.MAP(UT)[0].a!.character.charCodeAt(0) - 64
               ) + 1
             "
-          :match="input"
-          :filter="filter"
-          :selectedGlyphs="selectedGlyphs"
-          :scripture="scripture"
-          :map-direction="UT"
-        >
-        </triad-renderer>
-      </div>
-    </span>
+            :match="input"
+            :filter="filter"
+            :selectedGlyphs="selectedGlyphs"
+            :scripture="scripture"
+            :map-direction="UT"
+          >
+          </triad-renderer>
+        </div>
+      </span>
+    </div>
   </span>
 </template>
 <script lang="ts">
@@ -140,6 +156,17 @@ export default class WordMapRenderer extends Vue {
 
 <style scoped lang="scss">
 .words {
+  display: flex;
+  flex-flow: column;
+}
+
+.notes {
+  color: white;
+  margin-bottom: 1rem;
+  margin-left: 0.3rem;
+}
+
+.output {
   display: flex;
   flex-flow: row;
 }

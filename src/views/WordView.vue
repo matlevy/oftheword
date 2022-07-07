@@ -9,13 +9,18 @@
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
+      <output-view ref="output" :triad="triads"></output-view>
       <word-map-renderer
         :filter="letters"
         :word="word"
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
+      <div class="notes">
+        A Word can be disected into first occuraces, within complete text,
+        back-referencing earlier occurances, to create a tree of cognates, and
+        thier outer connecting letters;
+      </div>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
-      <output-view ref="output" :triad="triads"></output-view>
     </div>
   </div>
 </template>
@@ -78,6 +83,12 @@ export default class WordView extends Vue {
 }
 </script>
 <style scoped lang="scss">
+.notes {
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 0.3rem;
+}
 .word-view {
   margin-top: 2rem;
   margin-left: 1rem;
