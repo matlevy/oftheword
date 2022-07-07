@@ -17,7 +17,10 @@ export default class CognateElement extends Vue {
   public branches!: any;
 
   public onPick() {
-    this.$emit("pick", Object(this.branches)[this.label]);
+    this.$emit(
+      "pick",
+      this.branches ? Object(this.branches)[this.label] : null
+    );
   }
 }
 </script>

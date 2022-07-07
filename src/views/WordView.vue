@@ -40,6 +40,11 @@ export default class WordView extends Vue {
   constructor(...args: any[]) {
     super(args);
   }
+  public mounted() {
+    this.$watch("word", (o: SPIRIT, n: SPIRIT) => {
+      this.letters = "";
+    });
+  }
   get word() {
     const word: string = String(this.$route.params.word).toLocaleUpperCase();
     return Root.getInstance().O.OD.IN.map.get(word);
@@ -49,6 +54,11 @@ export default class WordView extends Vue {
     return this.word?.IT;
   }
   public cognatePick(spirit: SPIRIT) {
+    console.log(spirit);
+    if (spirit == null) {
+      this.letters = "";
+      return;
+    }
     this.letters = spirit.S;
   }
 }

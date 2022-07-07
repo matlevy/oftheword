@@ -17,6 +17,11 @@
         :label="cognate"
         :i="index + 1"
       ></cognate-element>
+      <cognate-element
+        v-if="primary"
+        @pick="cognatePick"
+        label="🗑"
+      ></cognate-element>
     </div>
   </div>
 </template>
@@ -44,8 +49,10 @@ export default class CognateMap extends Vue {
     this.reset();
   }
 
-  public render() {
-    this.reset();
+  public mounted() {
+    this.$watch("spirit", (o: SPIRIT, n: SPIRIT) => {
+      this.reset();
+    });
   }
 
   private reset() {
@@ -58,6 +65,7 @@ export default class CognateMap extends Vue {
   }
 
   public cognatePick(spirit: SPIRIT) {
+    if (spirit == null) this.reset();
     this.primary = spirit;
     this.$emit("cognate-pick", spirit);
   }
