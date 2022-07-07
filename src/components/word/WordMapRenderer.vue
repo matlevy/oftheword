@@ -1,7 +1,7 @@
 <template>
   <span class="words" v-if="word !== null">
     <span class="word">
-      <h4>A</h4>
+      <h4>TO</h4>
       <div class="stack">
         <triad-renderer
           v-for="(output, wordLetterIndex) in word.A"
@@ -24,7 +24,7 @@
       </div>
     </span>
     <span class="word">
-      <h4>B</h4>
+      <h4>FROM</h4>
       <div class="stack">
         <triad-renderer
           v-for="(output, wordLetterIndex) in word.A"
@@ -47,7 +47,7 @@
       </div>
     </span>
     <span class="word">
-      <h4>C</h4>
+      <h4>PUT</h4>
       <div class="stack">
         <triad-renderer
           v-for="(output, wordLetterIndex) in word.A"

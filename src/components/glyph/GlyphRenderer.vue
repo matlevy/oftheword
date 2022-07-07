@@ -1,6 +1,6 @@
 <template>
   <span class="glyph" @click="pick" :class="{ [glyphClass]: true }">{{
-    glyph.character
+    glyph?.character
   }}</span>
 </template>
 
@@ -26,7 +26,9 @@ export default class GlyphRenderer extends Vue {
   }
 
   public get glyphClass() {
-    return this.glyph.glyphMap.getPresenterClass(this.glyph);
+    if (this.glyph?.glyphMap)
+      return this.glyph.glyphMap?.getPresenterClass(this.glyph);
+    return "";
   }
 
   public pick() {

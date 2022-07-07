@@ -22,6 +22,13 @@
         @pick="cognatePick"
         label="🗑"
       ></cognate-element>
+      <glyph-renderer
+        @pick="onGlyphPick"
+        @unpick="onGlyphUnPick"
+        v-for="(glyph, index) in containingGlyphs"
+        v-bind:key="index"
+        :glyph="glyph"
+      ></glyph-renderer>
     </div>
   </div>
 </template>
@@ -30,11 +37,15 @@ import { Vue, Options } from "vue-class-component";
 import { SPIRIT } from "@/types/wordActions/Spirit";
 
 import CognateElement from "./CognateElement.vue";
+import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+
+import { Glyph } from "@/types/Glyph";
 
 @Options({
   name: "cognate-map",
   components: {
     CognateElement,
+    GlyphRenderer,
   },
   props: {
     spirit: Object,
@@ -64,11 +75,31 @@ export default class CognateMap extends Vue {
     });
   }
 
+  public get containingGlyphs(): Array<Glyph> {
+    if (!this.primary || !this.primary.IT) return [];
+    return this.primary.IT!.map((v: number) => {
+      return this.spirit.SCRIPTURE!.IN.GOD.G.getFromIndex(v) as Glyph;
+    });
+  }
+
   public cognatePick(spirit: SPIRIT) {
     if (spirit == null) this.reset();
     this.primary = spirit;
     this.$emit("cognate-pick", spirit);
   }
+
+  public onGlyphPick() {
+    return;
+  }
+
+  public onGlyphUnPick() {
+    return;
+  }
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.glyph {
+  display: inline-block;
+  font-weight: bold;
+}
+</style>
