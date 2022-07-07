@@ -15,6 +15,7 @@
               ) + 1
             "
           :match="input"
+          :filter="filter"
           :selectedGlyphs="selectedGlyphs"
           :scripture="scripture"
           :map-direction="TO"
@@ -37,6 +38,7 @@
               ) + 1
             "
           :match="input"
+          :filter="filter"
           :selectedGlyphs="selectedGlyphs"
           :scripture="scripture"
           :map-direction="RO"
@@ -59,6 +61,7 @@
               ) + 1
             "
           :match="input"
+          :filter="filter"
           :selectedGlyphs="selectedGlyphs"
           :scripture="scripture"
           :map-direction="UT"
@@ -85,6 +88,7 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
     word: Word,
     scripture: Scripture,
     input: String,
+    filter: String,
     selectedGlyphs: Array,
   },
   components: {
@@ -97,6 +101,7 @@ export default class WordMapRenderer extends Vue {
   public selectedGlyphs: Array<Glyph> = [];
   public scripture!: Scripture;
   public input!: string;
+  public filter!: string;
 
   public TO: TriadMappingDirection = TriadMappingDirection.BAC;
   public UT: TriadMappingDirection = TriadMappingDirection.CAB;

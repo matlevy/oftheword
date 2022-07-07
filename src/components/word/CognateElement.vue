@@ -1,5 +1,5 @@
 <template>
-  <span class="cognate-element">{{ label }}</span>
+  <span @click="onPick" class="cognate-element">{{ label }}</span>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
@@ -14,6 +14,11 @@ import { Vue, Options } from "vue-class-component";
 })
 export default class CognateElement extends Vue {
   public label!: string;
+  public branches!: any;
+
+  public onPick() {
+    this.$emit("pick", Object(this.branches)[this.label]);
+  }
 }
 </script>
 <style scoped lang="scss">

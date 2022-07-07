@@ -9,16 +9,18 @@
     </div>
     <div class="word-details">
       <word-map-renderer
+        :filter="letters"
         :word="word"
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
-      <cognate-map :spirit="IT"></cognate-map>
+      <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { Root } from "@/root";
+import { SPIRIT } from "@/types/wordActions/Spirit";
 
 import CognateMap from "@/components/word/CognateMap.vue";
 import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
@@ -33,6 +35,11 @@ import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vu
   },
 })
 export default class WordView extends Vue {
+  public letters = "";
+
+  constructor(...args: any[]) {
+    super(args);
+  }
   get word() {
     const word: string = String(this.$route.params.word).toLocaleUpperCase();
     return Root.getInstance().O.OD.IN.map.get(word);
@@ -40,6 +47,9 @@ export default class WordView extends Vue {
   get IT() {
     console.log(this.word?.IT);
     return this.word?.IT;
+  }
+  public cognatePick(spirit: SPIRIT) {
+    this.letters = spirit.S;
   }
 }
 </script>

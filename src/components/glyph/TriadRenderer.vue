@@ -5,25 +5,20 @@
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].a"
       :class="{
-        dim:
-          I &&
-          !(
-            IS.b == glyph.MAP(mapDirection)[0].b ||
-            IS.c == glyph.MAP(mapDirection)[0].c
-          ),
+        dim: dimA,
       }"
     ></glyph-renderer>
     <glyph-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].b"
-      :class="{ dim: I && IS.b != glyph.MAP(mapDirection)[0].b }"
+      :class="{ dim: dimB }"
     ></glyph-renderer>
     <glyph-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].c"
-      :class="{ dim: I && IS.c != glyph.MAP(mapDirection)[0].c }"
+      :class="{ dim: dimC }"
     ></glyph-renderer>
     <number-renderer :class="{ dim: I }" :number="number"></number-renderer>
   </span>
@@ -47,6 +42,7 @@ import { Triad, TriGlyph } from "@/types/Triad";
     number: Number,
     glyph: Glyph,
     match: String,
+    filter: String,
   },
   components: {
     GlyphRenderer,
@@ -60,6 +56,7 @@ export default class TriadRenderer extends Vue {
   public number!: number;
   public glyph!: Glyph;
   public match!: string;
+  public filter!: string;
   //
   constructor(...args: any[]) {
     super(args);
@@ -67,10 +64,11 @@ export default class TriadRenderer extends Vue {
   //
   public get IS(): TriGlyph {
     const triad: Triad = this.glyph.MAP(this.mapDirection)[0] as Triad;
+    const src = this.filter.length > 0 ? this.filter : this.match;
     return {
-      a: this.match.indexOf(triad.a.character) != -1 ? triad.a : undefined,
-      b: this.match.indexOf(triad.b.character) != -1 ? triad.b : undefined,
-      c: this.match.indexOf(triad.c.character) != -1 ? triad.c : undefined,
+      a: src.indexOf(triad.a.character) != -1 ? triad.a : undefined,
+      b: src.indexOf(triad.b.character) != -1 ? triad.b : undefined,
+      c: src.indexOf(triad.c.character) != -1 ? triad.c : undefined,
     };
   }
   //
@@ -80,6 +78,31 @@ export default class TriadRenderer extends Vue {
       this.IS.b! == undefined ||
       this.IS.c != undefined
     );
+  }
+  //
+  public get dimA() {
+    if (this.filter?.length > 0) {
+      return this.IS.a != this.glyph.MAP(this.mapDirection)[0].a;
+    }
+    return (
+      this.I &&
+      !(
+        this.IS.b == this.glyph.MAP(this.mapDirection)[0].b ||
+        this.IS.c == this.glyph.MAP(this.mapDirection)[0].c
+      )
+    );
+  }
+  public get dimB() {
+    if (this.filter?.length > 0) {
+      return this.IS.a != this.glyph.MAP(this.mapDirection)[0].a;
+    }
+    return this.I && this.IS.b != this.glyph.MAP(this.mapDirection)[0].b;
+  }
+  public get dimC() {
+    if (this.filter?.length > 0) {
+      return this.IS.a != this.glyph.MAP(this.mapDirection)[0].a;
+    }
+    return this.I && this.IS.c != this.glyph.MAP(this.mapDirection)[0].c;
   }
   //
   public get I(): boolean {
