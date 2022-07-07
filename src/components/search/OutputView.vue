@@ -1,17 +1,13 @@
 <template>
   <div>
-    <div>
+    <div v-if="showInput">
       <input type="text" v-model="think" width="100" />
     </div>
-    {{ triad.getGlyphFromIndex(0) }}
     <scripture-map-renderer
       v-if="scripture"
+      :mapDirection="mapDirection"
       :scripture="scripture"
     ></scripture-map-renderer>
-    <scripture-word-column-renderer
-      v-if="scripture && gridView"
-      :scripture="scripture"
-    ></scripture-word-column-renderer>
   </div>
 </template>
 <script lang="ts">
@@ -26,25 +22,23 @@ import { TriadMap } from "@/types/TriadMap";
 import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
-import WordMapRenderer from "../word/WordMapRenderer.vue";
-import ScriptureWordColumnRenderer from "../scripture/ScriptureWordColumnRenderer.vue";
+import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 
 //
 @Options({
   name: "output-view",
   components: {
-    WordMapRenderer,
     ScriptureMapRenderer,
-    ScriptureWordColumnRenderer,
   },
   props: {
     triad: TriadMap,
-    gridView: Boolean,
+    showInput: Boolean,
   },
 })
 export default class OutputView extends Vue {
+  public mapDirection: TriadMappingDirection = TriadMappingDirection.BAC;
   public triad!: TriadMap;
-  public gridView = false;
+  public showInput = false;
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),
   });

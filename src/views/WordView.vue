@@ -5,6 +5,7 @@
       <raw-scripture-renderer
         :verse="word?.IN.scripture"
         :i="word?.IN.scripture.IN.ref?.verse"
+        @highlight="onScriptureHighlight"
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
@@ -14,6 +15,7 @@
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
+      <output-view ref="output" :triad="triads"></output-view>
     </div>
   </div>
 </template>
@@ -25,6 +27,7 @@ import { SPIRIT } from "@/types/wordActions/Spirit";
 import CognateMap from "@/components/word/CognateMap.vue";
 import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
+import OutputView from "@/components/search/OutputView.vue";
 
 @Options({
   name: "word-view",
@@ -32,6 +35,7 @@ import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vu
     WordMapRenderer,
     CognateMap,
     RawScriptureRenderer,
+    OutputView,
   },
 })
 export default class WordView extends Vue {
@@ -60,6 +64,16 @@ export default class WordView extends Vue {
       return;
     }
     this.letters = spirit.S;
+  }
+  //
+  public onScriptureHighlight(e: string) {
+    const output: OutputView = this.$refs.output as OutputView;
+    output.think = e;
+  }
+  //
+  get triads() {
+    console.log(this.word?.IN.GOD.O);
+    return this.word?.IN.GOD.O;
   }
 }
 </script>

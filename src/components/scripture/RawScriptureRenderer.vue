@@ -12,7 +12,7 @@
       }"
       ><div>{{ verse.IN.ref?.verse }}.</div></router-link
     >
-    <div class="verse-text">
+    <div class="verse-text" ref="scripture">
       <router-link
         v-for="(word, index) in verse.I"
         v-bind:key="index"
@@ -26,7 +26,7 @@
         }"
         >{{ word.WR?.R
         }}{{ verse.X[index] ? verse.X[index].character : "" }}</router-link
-      >
+      >&nbsp;
     </div>
   </div>
 </template>
@@ -53,6 +53,33 @@ export default class RawScriptureRenderer extends Vue {
       },
     });
   }
+  //
+  private debounce(fn: () => void, delay: number) {
+    let timer: any = null;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(this);
+      }, delay);
+    };
+  }
+  //
+  public mounted() {
+    document.addEventListener(
+      "selectionchange",
+      this.debounce(() => {
+        const selection = document
+          .getSelection()
+          ?.toString()
+          .normalize("NFD")
+          .replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, "")
+          ?.replace(/\n/gi, " ");
+        if (selection !== "") {
+          this.$emit("highlight", selection + " ");
+        }
+      }, 100)
+    );
+  }
 }
 </script>
 <style scoped>
@@ -69,10 +96,21 @@ a {
   margin-bottom: 0.8rem;
   display: flex;
 }
+.glyph {
+  margin-right: 7px;
+  padding: 0;
+}
 .verse-text {
   max-width: 1000px;
   display: flex;
   flex-wrap: wrap;
+}
+::selection {
+  background-color: yellow;
+  color: black;
+}
+a:hover {
+  color: red;
 }
 .verse-text,
 .verse-label {
