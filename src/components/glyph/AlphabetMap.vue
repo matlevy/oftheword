@@ -18,7 +18,7 @@
       :word-border="false"
       :scripture="scripture"
     ></scripture-map-renderer>
-    <input v-model="search" width="50" />
+    <!-- <input v-model="search" width="50" /> -->
   </div>
 </template>
 <script lang="ts">
