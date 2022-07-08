@@ -1,13 +1,26 @@
 <template>
   <div class="words" v-if="scripture">
-    <span class="word" v-for="(word, index) in scripture.I" v-bind:key="index">
+    <span class="word" v-for="(word, c) in scripture.I" v-bind:key="c">
       <span class="stack" v-for="n in 30" v-bind:key="n">
         <glyph-renderer
-          :glyph="output"
+          :glyph="glyph"
           class="glyph"
-          v-for="(output, index) in word.A"
-          v-bind:key="index"
-          v-show="canRender(n, index, word.A.length)"
+          :class="{
+            'last-selected': isaSelected(
+              n * word.E.length + i - word.E.length,
+              c
+            ),
+            permissable: isPermissable(glyph),
+          }"
+          v-for="(glyph, i) in word.A"
+          :data-n="n * word.E.length + i - word.E.length"
+          :data-c="c"
+          :colours="false"
+          v-bind:key="i"
+          v-show="canRender(n, i, word.A.length)"
+          @click="
+            onGlyphClick(glyph, n * word.E.length + i - word.E.length, c, i)
+          "
         ></glyph-renderer>
       </span>
     </span>
@@ -18,6 +31,8 @@ import { Scripture } from "@/types/Scripture";
 import { Options, Vue } from "vue-class-component";
 
 import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
+import { Glyph } from "@/types/Glyph";
+import { Word } from "@/types/Word";
 
 @Options({
   name: "scripture-word-column-renderer",
@@ -30,8 +45,60 @@ import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
 })
 export default class ScriptureWordColumnRenderer extends Vue {
   public scripture!: Scripture;
+  public selectedChain: Array<Glyph> = [];
+  public aSelected: Array<number> = [-1, -1, -1];
+  public bSelected: Array<number> = [-1, -1, -1];
+  public cSelected: Array<number> = [-1, -1, -1];
+  //
   public canRender(n: number, i: number, len: number): boolean {
     return n * len - i < 30;
+  }
+  //
+  public onGlyphClick(
+    glyph: Glyph,
+    row: number,
+    column: number,
+    index: number
+  ) {
+    this.cSelected = this.bSelected;
+    this.bSelected = this.aSelected;
+    this.aSelected = [row, column, index];
+  }
+  //
+  public isaSelected(row: number, col: number) {
+    return this.aSelected[0] == row && this.aSelected[1] == col;
+  }
+  //
+  public get aSelectedWord(): Word | undefined {
+    return this.scripture.I[this.aSelected[1]];
+  }
+  //
+  public get permissableGlyphs(): Glyph[] {
+    const word: Word = this.scripture.I[this.aSelected[1]];
+    if (!word) return [];
+    const glyphA: Glyph = word.A[this.aSelected[2]];
+    const glyphB: Glyph = word.A[this.bSelected[2]];
+    const glyphC: Glyph = word.A[this.bSelected[2]];
+    if (!this.scripture.I) return [];
+    return this.scripture.I.concat(...this.scripture.I)
+      .concat(...this.scripture.I)
+      .flatMap((w: Word) => {
+        if (!w.A) return [];
+        return w.A.flatMap((v: Glyph, i: number, a: Glyph[]) => {
+          return v == glyphA ? [a[i - 2], a[i - 1], a[i + 1], a[i + 2]] : [];
+        }).reduce((p: Glyph[], c: Glyph) => {
+          if (p.indexOf(c) == -1 && c != undefined) p.push(c);
+          return p;
+        }, []);
+      })
+      .reduce((p: Glyph[], c: Glyph) => {
+        if (p.indexOf(c) == -1 && c != undefined) p.push(c);
+        return p;
+      }, []);
+  }
+  //
+  public isPermissable(glyph: Glyph): boolean {
+    return this.permissableGlyphs.indexOf(glyph) != -1;
   }
 }
 </script>
@@ -40,6 +107,7 @@ export default class ScriptureWordColumnRenderer extends Vue {
 .words {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .word {
   display: flex;
@@ -48,9 +116,9 @@ export default class ScriptureWordColumnRenderer extends Vue {
     text-align: center;
     color: white;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 1rem;
     display: flex;
-    width: 25px;
+    width: 2.2rem;
     flex-flow: column;
     padding: 0 auto;
     align-items: center;
@@ -59,7 +127,16 @@ export default class ScriptureWordColumnRenderer extends Vue {
       display: flex;
       flex-flow: row;
       text-align: center;
-      padding: auto auto;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      &.last-selected {
+        color: red;
+      }
+
+      &.permissable {
+        color: yellow;
+      }
     }
   }
 }

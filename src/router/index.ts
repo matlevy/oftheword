@@ -23,6 +23,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/RawBookView.vue"),
   },
   {
+    path: "/wc/:book/:chapter/:verse",
+    name: "bowordcolumnok",
+    component: () => import("../views/ScriptureWordColumnView.vue"),
+  },
+  {
     path: "/alphabet",
     name: "alphabet",
     component: () => import("../views/AlphabetView.vue"),

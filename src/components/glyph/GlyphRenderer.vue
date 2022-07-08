@@ -15,18 +15,20 @@ import { Options, Vue } from "vue-class-component";
     selected: Boolean,
     input: String,
     glyph: Glyph,
+    colours: Boolean,
   },
 })
 export default class GlyphRenderer extends Vue {
   public selected = false;
   public glyph!: Glyph;
+  public colours!: boolean;
 
   constructor(...args: any[]) {
     super(args);
   }
 
   public get glyphClass() {
-    if (this.glyph?.glyphMap)
+    if (this.glyph?.glyphMap && this.colours)
       return this.glyph.glyphMap?.getPresenterClass(this.glyph);
     return "";
   }
