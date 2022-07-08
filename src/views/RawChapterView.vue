@@ -1,8 +1,8 @@
 <template>
   <div class="chapter">
-    <h1>Chapter {{ chapter.SEED.chapter }}:</h1>
+    <h1>Chapter {{ theChapter.SEED.chapter }}</h1>
     <raw-scripture-renderer
-      v-for="(verse, index) in chapter.verse"
+      v-for="(verse, index) in theChapter.verse"
       v-bind:key="index"
       :verse="verse"
       :i="index + 1"
@@ -15,6 +15,7 @@ import { Vue, Options } from "vue-class-component";
 import { Chapter } from "@/types/Chapter";
 
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
+import { Root } from "@/root";
 
 @Options({
   name: "raw-chapter-view",
@@ -27,6 +28,13 @@ import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vu
 })
 export default class RawChapterView extends Vue {
   public chapter!: Chapter;
+
+  public get theChapter(): Chapter {
+    if (this.chapter) return this.chapter;
+    return Root.getInstance().gen.chapters[
+      Number(this.$route.params.chapter) - 1
+    ];
+  }
 }
 </script>
 <style>

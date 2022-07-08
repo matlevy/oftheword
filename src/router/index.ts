@@ -8,6 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     component: TestView,
   },
   {
+    path: "/book/:book/:chapter",
+    name: "chapter",
+    component: () => import("../views/RawChapterView.vue"),
+  },
+  {
     path: "/book/:book",
     name: "book",
     component: () => import("../views/RawBookView.vue"),
