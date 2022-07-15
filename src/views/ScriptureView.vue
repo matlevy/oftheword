@@ -69,6 +69,7 @@ export default class ScriptureView extends Vue {
   margin-right: 2rem;
   text-align: left;
 }
+
 .intro {
   margin-top: 2rem;
   margin-left: 2.5rem;
@@ -84,5 +85,9 @@ export default class ScriptureView extends Vue {
 .grid-view {
   margin-left: 2rem;
   margin-top: 1rem;
+}
+
+.scripture-map {
+  margin-left: 2.5rem;
 }
 </style>

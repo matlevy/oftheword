@@ -19,8 +19,8 @@
         back-referencing earlier occurances, to create a tree of cognates, and
         thier outer connecting letters;
       </div>
-      <output-view ref="output" :triad="triads"></output-view>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
+      <output-view class="output" ref="output" :triad="triads"></output-view>
     </div>
   </div>
 </template>
@@ -107,5 +107,9 @@ h4 {
   font-size: 2rem;
   color: white;
   margin-top: 0;
+}
+.output {
+  margin-top: 2rem;
+  margin-left: 0.2rem;
 }
 </style>

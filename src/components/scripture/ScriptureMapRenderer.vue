@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout">
     <div>
       <h3 class="title" v-if="scripture.IN.ref?.chapter">
         Chapter: {{ scripture.IN.ref?.chapter }}:{{ scripture.IN.ref?.verse }}
@@ -82,7 +82,7 @@ export default class ScriptureMapRenderer extends Vue {
   public input!: string;
   //
   private tally = 0;
-
+  //
   public getTally(): number {
     this.tally += 1;
     return this.tally;
@@ -121,15 +121,18 @@ export default class ScriptureMapRenderer extends Vue {
 
 <style scoped lang="scss">
 .title {
-  padding-left: 0.6rem;
+  padding-left: 0rem;
 }
 .words {
   display: flex;
   flex-wrap: wrap;
+  margin-left: -0.5rem;
 }
 .word {
   display: flex;
   padding-right: 0.3rem;
+  margin-left: 0.3rem;
+  margin-top: 1rem;
   &.word-border {
     border-right: 1px dashed rgba(255, 255, 255, 0.5);
   }
@@ -150,5 +153,19 @@ export default class ScriptureMapRenderer extends Vue {
       text-align: center;
     }
   }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+h4 {
+  text-align: left;
+  font-size: 1rem;
+  color: white;
+  margin: 0;
+  padding-left: 5px;
+  float: left;
 }
 </style>

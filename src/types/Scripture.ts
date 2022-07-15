@@ -43,7 +43,7 @@ export class Scripture {
   public U: Array<number> = [];
   public X: Array<Glyph> = [];
   //
-  private text = "";
+  public text = "";
   //
   constructor(public IN: ScriptureIn) {}
   //

@@ -1,12 +1,26 @@
 <template>
   <div>
     <div v-if="showInput">
-      <input type="text" v-model="think" width="100" />
+      <input class="input" type="text" v-model="think" :size="widthOfInput" />
     </div>
+    <div class="notes">
+      Select from the three different mapping types of the words, based on the
+      <router-link
+        :to="{
+          name: 'alphabet',
+        }"
+        >Alphabet Map</router-link
+      >. of first occurances of each letter.
+    </div>
+    <mapping-direction-control
+      v-if="scripture.E.length > 0"
+      @setDirection="onSetDirection"
+    ></mapping-direction-control>
     <scripture-map-renderer
       v-if="scripture"
       :mapDirection="mapDirection"
       :scripture="scripture"
+      :wordBorder="true"
     ></scripture-map-renderer>
   </div>
 </template>
@@ -18,27 +32,29 @@ import { Word } from "@/types/Word";
 import { GlyphMapLatin } from "@/types/GlyphMapLatin";
 import { God } from "@/types/wordActions/God";
 import { TriadMap } from "@/types/TriadMap";
-
+import { TriadMappingDirection } from "@/types/TriadMappingDirection";
 import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
-
+import MappingDirectionControl from "../scripture/MappingDirectionControl.vue";
 //
 @Options({
   name: "output-view",
   components: {
     ScriptureMapRenderer,
+    MappingDirectionControl,
   },
   props: {
     triad: TriadMap,
     showInput: Boolean,
+    inputWidth: Number,
   },
 })
 export default class OutputView extends Vue {
   public mapDirection: TriadMappingDirection = TriadMappingDirection.BAC;
   public triad!: TriadMap;
-  public showInput = false;
+  public showInput!: boolean;
+  public inputWidth!: number;
   public wordMap: WordMap = new WordMap({
     map: new Map<string, Word>(),
   });
@@ -65,10 +81,37 @@ export default class OutputView extends Vue {
   }
   set think(value: string) {
     if (this.scripture) {
-      console.log(this.GOD.IN.O);
       this.scripture.read(value);
       this.s = value.toLocaleUpperCase();
     }
   }
+  //
+  get widthOfInput(): number {
+    return this.inputWidth ? this.inputWidth : 200;
+  }
+  //
+  public onSetDirection(direction: TriadMappingDirection) {
+    this.mapDirection = direction;
+  }
 }
 </script>
+<style lang="scss" scoped>
+.input {
+  background-color: black;
+  border: 1px solid white;
+  padding: 0.5rem;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.notes {
+  margin-bottom: 2rem;
+  color: white;
+}
+
+a {
+  color: white;
+}
+</style>
