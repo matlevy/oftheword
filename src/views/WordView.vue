@@ -9,7 +9,6 @@
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
-      <output-view ref="output" :triad="triads"></output-view>
       <word-map-renderer
         :filter="letters"
         :word="word"
@@ -20,6 +19,7 @@
         back-referencing earlier occurances, to create a tree of cognates, and
         thier outer connecting letters;
       </div>
+      <output-view ref="output" :triad="triads"></output-view>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
     </div>
   </div>

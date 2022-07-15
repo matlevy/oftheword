@@ -4,6 +4,7 @@
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].a"
+      :colours="true"
       :class="{
         dim: dimA,
       }"
@@ -12,12 +13,14 @@
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].b"
+      :colours="true"
       :class="{ dim: dimB }"
     ></glyph-renderer>
     <glyph-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
       :glyph="glyph.MAP(mapDirection)[0].c"
+      :colours="true"
       :class="{ dim: dimC }"
     ></glyph-renderer>
     <number-renderer :class="{ dim: I }" :number="number"></number-renderer>

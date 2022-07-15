@@ -27,6 +27,7 @@
         @unpick="onGlyphUnPick"
         v-for="(glyph, index) in containingGlyphs"
         v-bind:key="index"
+        :colours="true"
         :glyph="glyph"
       ></glyph-renderer>
     </div>
