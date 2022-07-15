@@ -20,7 +20,6 @@
         thier outer connecting letters;
       </div>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
-      <output-view class="output" ref="output" :triad="triads"></output-view>
     </div>
   </div>
 </template>
@@ -40,7 +39,6 @@ import OutputView from "@/components/search/OutputView.vue";
     WordMapRenderer,
     CognateMap,
     RawScriptureRenderer,
-    OutputView,
   },
 })
 export default class WordView extends Vue {

@@ -1,11 +1,11 @@
-import TestView from "@/views/TestView.vue";
+import CustomView from "@/views/CustomView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
-    component: TestView,
+    component: CustomView,
   },
   {
     path: "/custom",

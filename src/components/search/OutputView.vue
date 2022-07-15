@@ -26,14 +26,9 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { Scripture } from "@/types/Scripture";
-import { WordMap } from "@/types/WordMap";
-import { Word } from "@/types/Word";
-import { GlyphMapLatin } from "@/types/GlyphMapLatin";
-import { God } from "@/types/wordActions/God";
 import { TriadMap } from "@/types/TriadMap";
 import { TriadMappingDirection } from "@/types/TriadMappingDirection";
-import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
+import { Scripture } from "@/types/Scripture";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import MappingDirectionControl from "../scripture/MappingDirectionControl.vue";
@@ -48,6 +43,8 @@ import MappingDirectionControl from "../scripture/MappingDirectionControl.vue";
     triad: TriadMap,
     showInput: Boolean,
     inputWidth: Number,
+    mapDirection: TriadMappingDirection,
+    scripture: Scripture,
   },
 })
 export default class OutputView extends Vue {
@@ -55,26 +52,9 @@ export default class OutputView extends Vue {
   public triad!: TriadMap;
   public showInput!: boolean;
   public inputWidth!: number;
-  public wordMap: WordMap = new WordMap({
-    map: new Map<string, Word>(),
-  });
-  private GOD: God = new God({
-    OD: this.wordMap,
-    O: this.triad,
-    G: GlyphMapLatin.getInstance(),
-    X: GlyphMapSpecial.getInstance(),
-  });
-  public scripture: Scripture = new Scripture({
-    GOD: this.GOD,
-    map: false,
-  });
+  public scripture!: Scripture;
   //
   private s = "";
-  //
-  constructor(...args: any[]) {
-    super(args);
-    this.scripture;
-  }
   //
   get think() {
     return this.s;

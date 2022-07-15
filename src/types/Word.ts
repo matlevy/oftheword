@@ -3,6 +3,7 @@ import { Scripture } from "./Scripture";
 import { Triad, TriadIn } from "./Triad";
 import { God } from "./wordActions/God";
 import { SPIRIT } from "./wordActions/Spirit";
+import { BiglyphContainer } from "./BiGlyph";
 export interface WordIn {
   scripture: Scripture;
   start: number;
@@ -52,6 +53,7 @@ export class Word {
               b: this.A[p + 1],
               c: this.A[p + 2],
               i: {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 ref: this.IN.scripture.IN.ref!,
                 index,
               },
@@ -87,5 +89,26 @@ export class Word {
       IT: [],
       SCRIPTURE: this.IN.scripture,
     }) as SPIRIT;
+  }
+  //
+  get BG(): BiglyphContainer[] {
+    return this.A.reduce(
+      (p: BiglyphContainer[], c: Glyph, i: number, all: Glyph[]) => {
+        if (i > 0 && i < all.length - 2) {
+          p.push({
+            BG: {
+              a: all[i],
+              b: all[i + 1],
+            },
+            IN: {
+              a: all[i - 1],
+              b: all[i + 2],
+            },
+          });
+        }
+        return p;
+      },
+      []
+    );
   }
 }

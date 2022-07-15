@@ -1,9 +1,18 @@
+import { BiglyphContainer } from "../BiGlyph";
+import { Glyph } from "../Glyph";
+import { GlyphMap } from "../GlyphMap";
 import { SPIRIT } from "./Spirit";
 
 export interface WATERS {
   FACE(spirit: SPIRIT): SPIRIT;
   ACE(string: string): Waters;
   E: Map<string, SPIRIT>;
+  RS(
+    map: GlyphMap,
+    pair: BiglyphContainer,
+    curr: number,
+    max: number
+  ): BiglyphContainer;
 }
 
 export class Waters implements WATERS {
@@ -21,6 +30,7 @@ export class Waters implements WATERS {
       ];
     }
     if (this.E.get(spirit.S)) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return this.E.get(spirit.S)!;
     } else if (spirit.P > -1) {
       const a: SPIRIT = this.ATE(spirit, this.T(spirit));
@@ -62,6 +72,34 @@ export class Waters implements WATERS {
       I = I.slice(0, R);
     }
     return I;
+  }
+  //
+  public RS(
+    map: GlyphMap,
+    pair: BiglyphContainer,
+    curr = 0,
+    max = 5
+  ): BiglyphContainer {
+    const pos: number = this.AE.indexOf(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      pair.IN.a!.character.concat(pair.IN.b!.character)
+    );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const a: Glyph = map.getGlyph(this.AE.charAt(pos - 1));
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const b: Glyph = map.getGlyph(this.AE.charAt(pos + 2));
+    const n: BiglyphContainer = {
+      BG: pair.IN,
+      IN: {
+        a: a,
+        b: b,
+      },
+    };
+    if (curr != max) {
+      this.RS(map, n, curr + 1, max);
+    }
+    if (n.IN.a?.character != "*") pair.PR = n;
+    return pair;
   }
   //
   public ATE(spirit: SPIRIT, IN: string): SPIRIT {
