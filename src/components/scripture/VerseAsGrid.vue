@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div class="scripture-grid">
-      <glyph-renderer
-        class="glyph"
-        v-for="(glyph, index) in combinedText"
-        v-bind:key="index"
-        :colours="false"
-        :glyph="glyph"
-      ></glyph-renderer>
-    </div>
+  <div class="scripture-grid">
+    <glyph-renderer
+      class="glyph"
+      v-for="(glyph, index) in output"
+      v-bind:key="index"
+      :colours="false"
+      :glyph="glyph"
+    ></glyph-renderer>
   </div>
 </template>
 <script lang="ts">
@@ -23,23 +21,25 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
   components: {
     GlyphRenderer,
   },
-  props: {},
+  props: {
+    chapter: Number,
+    verse: Number,
+  },
 })
-export default class KeyGenesisVersesAsGrid extends Vue {
-  public get combinedText(): Glyph[] {
-    const AA: string = Root.getInstance().BIBLE.getVerse(
-      BibleBooksEnglish.ENGLISH.GENESIS,
-      1,
-      1
-    );
+export default class VerseAsGrid extends Vue {
+  public chapter!: number;
+  public verse!: number;
+
+  public get output(): Glyph[] {
+    console.log(this.chapter);
     const AB: string = Root.getInstance().BIBLE.getVerse(
       BibleBooksEnglish.ENGLISH.GENESIS,
-      1,
-      2
+      this.chapter,
+      this.verse
     );
     return [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...AA.concat(AB).toLocaleUpperCase().match(/[A-Z]/gi)!.join("")!,
+      ...AB.toLocaleUpperCase().match(/[A-Z]/gi)!.join("")!,
     ].map((v: string) => {
       return Root.getInstance().O.G.getGlyph(v);
     });

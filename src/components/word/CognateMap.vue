@@ -36,22 +36,31 @@
         :glyph="glyph"
       ></glyph-renderer>
     </div>
+    <div v-if="selected.length > 0">
+      <VerseAsGrid
+        v-bind:key="index"
+        v-for="(verse, index) in selected"
+        :chapter="verse.SCRIPTURE?.IN.ref?.chapter"
+        :verse="verse.SCRIPTURE?.IN.ref?.verse"
+      ></VerseAsGrid>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { SPIRIT } from "@/types/wordActions/Spirit";
+import { Glyph } from "@/types/Glyph";
 
 import CognateElement from "./CognateElement.vue";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
-
-import { Glyph } from "@/types/Glyph";
+import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
 
 @Options({
   name: "cognate-map",
   components: {
     CognateElement,
     GlyphRenderer,
+    VerseAsGrid,
   },
   props: {
     spirit: Object,
@@ -60,19 +69,21 @@ import { Glyph } from "@/types/Glyph";
 export default class CognateMap extends Vue {
   public spirit!: SPIRIT;
   public primary!: SPIRIT;
+  public selected: SPIRIT[] = [];
 
-  constructor(...args: any[]) {
+  constructor(...args: unknown[]) {
     super(args);
     this.reset();
   }
 
   public mounted() {
-    this.$watch("spirit", (o: SPIRIT, n: SPIRIT) => {
+    this.$watch("spirit", () => {
       this.reset();
     });
   }
 
   private reset() {
+    this.selected = [];
     return (this.primary = {
       S: "",
       I: [],
@@ -83,15 +94,19 @@ export default class CognateMap extends Vue {
 
   public get containingGlyphs(): Array<Glyph> {
     if (!this.primary || !this.primary.IT) return [];
-    return this.primary.IT!.map((v: number) => {
-      return this.spirit.SCRIPTURE!.IN.GOD.G.getFromIndex(v) as Glyph;
+    return this.primary.IT?.map((v: number) => {
+      return this.spirit.SCRIPTURE?.IN.GOD.G.getFromIndex(v) as Glyph;
     });
   }
 
   public cognatePick(spirit: SPIRIT) {
-    if (spirit == null) this.reset();
-    this.primary = spirit;
-    this.$emit("cognate-pick", spirit);
+    if (spirit == null) {
+      this.reset();
+    } else {
+      this.primary = spirit;
+      if (this.selected.indexOf(spirit) == -1) this.selected.push(spirit);
+      this.$emit("cognate-pick", spirit);
+    }
   }
 
   public onGlyphPick() {

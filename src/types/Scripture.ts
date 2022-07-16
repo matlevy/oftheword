@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Chapter } from "./Chapter";
 import { Glyph } from "./Glyph";
 import { Triad } from "./Triad";
@@ -42,6 +43,7 @@ export class Scripture {
   public O: Array<number> = [];
   public U: Array<number> = [];
   public X: Array<Glyph> = [];
+  public P = -1;
   //
   public text = "";
   //
@@ -126,7 +128,7 @@ export class Scripture {
     }
     if (this.IN.map) {
       if (this.IN.GOD.IN.GO) {
-        this.IN.GOD.IN.GO!.ACE(this.E);
+        this.IN.GOD.IN.GO!.ACE(this.E, this);
       }
       this.and();
     }

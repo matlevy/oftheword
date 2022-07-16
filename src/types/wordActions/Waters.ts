@@ -2,10 +2,10 @@ import { BiglyphContainer } from "../BiGlyph";
 import { Glyph } from "../Glyph";
 import { GlyphMap } from "../GlyphMap";
 import { SPIRIT } from "./Spirit";
-
+import { Scripture } from "@/types/Scripture";
 export interface WATERS {
   FACE(spirit: SPIRIT): SPIRIT;
-  ACE(string: string): Waters;
+  ACE(string: string, CE: Scripture): Waters;
   E: Map<string, SPIRIT>;
   RS(
     map: GlyphMap,
@@ -18,6 +18,7 @@ export interface WATERS {
 export class Waters implements WATERS {
   public AE = "";
   public E: Map<string, SPIRIT> = new Map<string, SPIRIT>();
+  public R: Scripture[] = [];
   //
   public FACE(spirit: SPIRIT): SPIRIT {
     spirit.S = spirit.S.toLocaleUpperCase();
@@ -109,15 +110,23 @@ export class Waters implements WATERS {
       return spirit;
     }
     if (IN != "") {
+      const P = this.AE.indexOf(IN, 0);
+      const UR = this.R.find((v: Scripture, i: number) => {
+        if (!v) return false;
+        const start = i;
+        const end = i + v.E.length;
+        return P >= start && P < end;
+      });
       Object(spirit.T)[IN] = this.E.get(IN) || {
         S: IN,
-        P: this.AE.indexOf(IN, 0),
+        P,
         T: {},
         I: [],
         IT: [
-          this.AE.charCodeAt(this.AE.indexOf(IN, 0) - 1) - 64,
-          this.AE.charCodeAt(this.AE.indexOf(IN, 0) + IN.length) - 64,
+          this.AE.charCodeAt(P - 1) - 64,
+          this.AE.charCodeAt(P + IN.length) - 64,
         ],
+        SCRIPTURE: UR,
       };
       spirit.I?.push(IN);
       if (Object(spirit.T)[IN].S.length >= 1) this.FACE(Object(spirit.T)[IN]);
@@ -127,7 +136,9 @@ export class Waters implements WATERS {
     return this.E.get(IN) as SPIRIT;
   }
   //
-  public ACE(string: string): Waters {
+  public ACE(string: string, CE: Scripture): Waters {
+    CE.P = this.AE.length;
+    this.R[this.AE.length] = CE;
     this.AE = this.AE.concat(string);
     return this;
   }

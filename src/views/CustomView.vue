@@ -19,7 +19,7 @@
       @cognatePick="cognatePick"
       :spirit="word.IT"
     ></cognate-map>
-    <KeyGenesisVersesAsGrid></KeyGenesisVersesAsGrid>
+    <!--<KeyGenesisVersesAsGrid></KeyGenesisVersesAsGrid>-->
   </div>
 </template>
 <script lang="ts">
@@ -33,12 +33,13 @@ import { WordMap } from "@/types/WordMap";
 import { Word } from "@/types/Word";
 import { Root } from "@/root";
 import { BiGlyph } from "@/types/BiGlyph";
+import { SPIRIT } from "@/types/wordActions/Spirit";
 
 import OutputView from "@/components/search/OutputView.vue";
 import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
 import KeyGenesisVersesAsGrid from "@/components/scripture/KeyGenesisVersesAsGrid.vue";
 import CognateMap from "@/components/word/CognateMap.vue";
-import { SPIRIT } from "@/types/wordActions/Spirit";
+import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
 
 @Options({
   name: "custom-view",
@@ -47,6 +48,7 @@ import { SPIRIT } from "@/types/wordActions/Spirit";
     BiGlyphMap,
     KeyGenesisVersesAsGrid,
     CognateMap,
+    VerseAsGrid,
   },
 })
 export default class CustomView extends Vue {
@@ -63,6 +65,7 @@ export default class CustomView extends Vue {
     X: GlyphMapSpecial.getInstance(),
     GO: Root.getInstance().O.GO,
   });
+  //
   public scripture: Scripture = new Scripture({
     GOD: this.GOD,
     map: false,
