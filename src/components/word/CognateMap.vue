@@ -1,5 +1,10 @@
 <template>
   <div class="cognate-map">
+    <div class="notes">
+      The contructive cognates of the given word can be mapped based on first
+      occurace within the scriptures; and by selecting from the given results we
+      can identify surrounding glyphs.
+    </div>
     <div class="root">
       <cognate-element
         v-for="(cognate, index) in spirit.I"
@@ -102,5 +107,16 @@ export default class CognateMap extends Vue {
 .glyph {
   display: inline-block;
   font-weight: bold;
+}
+.cognate-element {
+  color: black;
+}
+
+.notes {
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 0.3rem;
+  max-width: 1000px;
 }
 </style>

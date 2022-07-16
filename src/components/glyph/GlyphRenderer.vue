@@ -13,7 +13,6 @@ import { Options, Vue } from "vue-class-component";
   components: {},
   props: {
     selected: Boolean,
-    input: String,
     glyph: Glyph,
     colours: Boolean,
   },
@@ -22,10 +21,6 @@ export default class GlyphRenderer extends Vue {
   public selected = false;
   public glyph!: Glyph;
   public colours!: boolean;
-
-  constructor(...args: any[]) {
-    super(args);
-  }
 
   public get glyphClass() {
     if (this.glyph?.glyphMap && this.colours)
@@ -50,6 +45,8 @@ export default class GlyphRenderer extends Vue {
   margin: 0.2rem;
   text-align: center;
   cursor: pointer;
+  align-content: center;
+  align-items: center;
 }
 .glyph-a {
   border: 1px solid red;

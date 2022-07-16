@@ -15,8 +15,13 @@
         class="arrow"
         icon="fa-solid fa-arrow-right-to-bracket"
       />
-      <glyph-renderer :glyph="pair.a" :colours="true"></glyph-renderer>
-      <glyph-renderer :glyph="pair.b" :colours="true"></glyph-renderer>
+      <span
+        class="biglyph-sub selectable"
+        @click="onSelectPair(pair, tree[index - 1])"
+      >
+        <glyph-renderer :glyph="pair.a" :colours="true"></glyph-renderer>
+        <glyph-renderer :glyph="pair.b" :colours="true"></glyph-renderer>
+      </span>
     </div>
   </div>
 </template>
@@ -78,6 +83,10 @@ export default class BiGlyphMapRow extends Vue {
       return v.IN;
     });
   }
+  //
+  public onSelectPair(BG: BiGlyph, IN: BiGlyph) {
+    this.$emit("select", { BG, IN });
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -108,5 +117,9 @@ export default class BiGlyphMapRow extends Vue {
 .arrow {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+}
+
+.selectable {
+  cursor: pointer;
 }
 </style>

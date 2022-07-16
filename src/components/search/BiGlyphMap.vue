@@ -6,7 +6,11 @@
       letters surrounding, and the flow of such as a map?
     </div>
     <div v-for="(bgm, index) in word.BG" v-bind:key="index">
-      <BiGlyphMapRow :word="word" :glyphMap="bgm"></BiGlyphMapRow>
+      <BiGlyphMapRow
+        @select="onPairSelected(word, $event)"
+        :word="word"
+        :glyphMap="bgm"
+      ></BiGlyphMapRow>
     </div>
   </div>
 </template>
@@ -16,6 +20,7 @@ import { Vue, Options } from "vue-class-component";
 
 import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
 import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
+import { BiglyphContainer } from "@/types/BiGlyph";
 
 @Options({
   name: "biglyph-map",
@@ -29,6 +34,9 @@ import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
 })
 export default class BiGlyphMap extends Vue {
   public word!: Word;
+  public onPairSelected(WR: Word, BG: BiglyphContainer) {
+    this.$emit("select", { WR, BG });
+  }
 }
 </script>
 <style lang="scss" scoped>
