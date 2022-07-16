@@ -1,7 +1,12 @@
 <template>
   <div class="biglyph-map">
+    <div class="notes">
+      Asking the question: given two letters, and the surrounding two letters of
+      such, and the known first instance of such; what are the parenting two
+      letters surrounding, and the flow of such as a map?
+    </div>
     <div v-for="(bgm, index) in word.BG" v-bind:key="index">
-      <BiGlyphMapRow :glyphMap="bgm"></BiGlyphMapRow>
+      <BiGlyphMapRow :word="word" :glyphMap="bgm"></BiGlyphMapRow>
     </div>
   </div>
 </template>
@@ -34,5 +39,12 @@ export default class BiGlyphMap extends Vue {
 .arrow {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+}
+.notes {
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 0.3rem;
+  max-width: 1000px;
 }
 </style>

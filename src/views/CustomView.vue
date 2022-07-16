@@ -7,7 +7,11 @@
       :inputWidth="70"
       :showInput="true"
     ></output-view>
-    <bi-glyph-map class="biglyph-map" :word="word"></bi-glyph-map>
+    <bi-glyph-map
+      v-if="word.E.length > 3"
+      class="biglyph-map"
+      :word="word"
+    ></bi-glyph-map>
   </div>
 </template>
 <script lang="ts">

@@ -20,6 +20,7 @@
         thier outer connecting letters;
       </div>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
+      <bi-glyph-map class="biglyph-map" :word="word"></bi-glyph-map>
     </div>
   </div>
 </template>
@@ -32,6 +33,7 @@ import CognateMap from "@/components/word/CognateMap.vue";
 import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 import OutputView from "@/components/search/OutputView.vue";
+import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
 
 @Options({
   name: "word-view",
@@ -39,6 +41,7 @@ import OutputView from "@/components/search/OutputView.vue";
     WordMapRenderer,
     CognateMap,
     RawScriptureRenderer,
+    BiGlyphMap,
   },
 })
 export default class WordView extends Vue {
@@ -95,6 +98,9 @@ export default class WordView extends Vue {
   display: flex;
   text-align: left;
   flex-flow: column;
+}
+.biglyph-map {
+  margin-top: 2rem;
 }
 .word-details {
   margin-left: 2.5rem;

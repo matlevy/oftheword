@@ -24,10 +24,11 @@
 import { Vue, Options } from "vue-class-component";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BiGlyph, BiglyphContainer } from "@/types/BiGlyph";
-
-import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
 import { Root } from "@/root";
 import { WATERS } from "@/types/wordActions/Waters";
+import { Word } from "@/types/Word";
+
+import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
 
 @Options({
   components: {
@@ -36,17 +37,31 @@ import { WATERS } from "@/types/wordActions/Waters";
   },
   props: {
     glyphMap: Object,
+    word: Word,
   },
 })
 export default class BiGlyphMapRow extends Vue {
   public glyphMap!: BiglyphContainer;
+  public word!: Word;
   //
   private waters: WATERS = Root.getInstance().O.GO;
   //
   public get tree(): BiGlyph[] {
     this.waters.RS(Root.getInstance().O.G, this.glyphMap, 0, 15);
     if (this.glyphMap.PR) {
-      return this.treeToArray(this.glyphMap, []);
+      return this.treeToArray(this.glyphMap, []).reduce(
+        (p: BiGlyph[], v: BiGlyph) => {
+          if (
+            p.find(
+              (value: BiGlyph, index: number) =>
+                value.a == v.a && value.b == v.b && index > 1
+            ) == undefined
+          )
+            p.push(v);
+          return p;
+        },
+        []
+      );
     }
     return [];
   }
@@ -87,6 +102,8 @@ export default class BiGlyphMapRow extends Vue {
   display: flex;
   padding: 10px 0;
   flex-flow: row;
+  padding-top: 0;
+  padding-bottom: 3px;
 }
 .arrow {
   margin-left: 0.5rem;
