@@ -39,9 +39,10 @@
     <div v-if="selected.length > 0">
       <VerseAsGrid
         v-bind:key="index"
-        v-for="(verse, index) in selected"
-        :chapter="verse.SCRIPTURE?.IN.ref?.chapter"
-        :verse="verse.SCRIPTURE?.IN.ref?.verse"
+        v-for="(spirit, index) in selected"
+        :spirit="spirit"
+        :chapter="spirit.SCRIPTURE?.IN.ref?.chapter"
+        :verse="spirit.SCRIPTURE?.IN.ref?.verse"
       ></VerseAsGrid>
     </div>
   </div>
