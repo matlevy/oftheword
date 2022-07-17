@@ -1,14 +1,14 @@
 <template>
   <div class="cognate-interconnectivity">
-    <div v-for="(branch, index) in streams" v-bind:key="index">
+    <div v-for="(branch, b) in streams" v-bind:key="b">
       <glyph-renderer
         class="glyph"
         :class="{
-          ['highlightPrimary']: highlightPrimary(branch, index),
-          ['highlightSecondary']: highlightSecondary(branch, index),
+          ['highlightPrimary']: highlightPrimary(b, i),
+          ['highlightSecondary']: highlightSecondary(b, i),
         }"
-        v-for="(glyph, index) in branch"
-        v-bind:key="index"
+        v-for="(glyph, i) in branch"
+        v-bind:key="i"
         :colours="false"
         :glyph="glyph"
       ></glyph-renderer>
@@ -52,7 +52,6 @@ export default class CognateInterconnectivity extends Vue {
           return Root.getInstance().O.G.getGlyph(v);
         });
       });
-
     return letters;
   }
   //
@@ -69,18 +68,21 @@ export default class CognateInterconnectivity extends Vue {
     return array;
   }
   //
-  public highlightPrimary(branch: Glyph[], index: number): boolean {
-    const text: string = branch.map((v: Glyph) => v.character).join("");
-    const start = text.indexOf(this.spirit.S);
-    const end = start + this.spirit.S.length;
-    return start > -1 && index >= start && index < end;
+  public highlightPrimary(B: number, G: number): boolean {
+    const T = this.streams[B].map((v: Glyph) => v.character).join("");
+    const S = this.streamsAsArray(this.spirit, [])[B].S;
+    const P = T.indexOf(S);
+    const E = T.indexOf(S) + S.length;
+    console.log(T, S, P, E, G);
+    return P > -1 && G >= P && G < E;
   }
   //
-  public highlightSecondary(branch: Glyph[], index: number): boolean {
-    const text: string = branch.map((v: Glyph) => v.character).join("");
-    const start = text.indexOf(this.spirit.S);
-    const end = start + this.spirit.S.length;
-    return start > -1 && (index == start - 1 || index == end);
+  public highlightSecondary(B: number, G: number): boolean {
+    const T = this.streams[B].map((v: Glyph) => v.character).join("");
+    const S = this.streamsAsArray(this.spirit, [])[B].S;
+    const P = T.indexOf(S);
+    const E = T.indexOf(S) + S.length;
+    return P > -1 && (G == P - 1 || G == E);
   }
 }
 </script>
@@ -105,5 +107,13 @@ export default class CognateInterconnectivity extends Vue {
   margin-bottom: 2rem;
   margin-left: 0.3rem;
   max-width: 1000px;
+}
+.highlightPrimary {
+  color: red;
+}
+.highlightSecondary {
+  color: yellow;
+  border-inline: 1px solid yellow;
+  box-sizing: border-box;
 }
 </style>
