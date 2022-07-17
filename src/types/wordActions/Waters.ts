@@ -115,7 +115,7 @@ export class Waters implements WATERS {
         if (!v) return false;
         const start = i;
         const end = i + v.E.length;
-        return P >= start && P < end;
+        return P >= start && P <= end;
       });
       Object(spirit.T)[IN] = this.E.get(IN) || {
         S: IN,

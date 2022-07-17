@@ -14,11 +14,6 @@
         :word="word"
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
-      <div class="notes">
-        A Word can be disected into first occuraces, within complete text,
-        back-referencing earlier occurances, to create a tree of cognates, and
-        thier outer connecting letters;
-      </div>
       <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
       <bi-glyph-map class="biglyph-map" :word="word"></bi-glyph-map>
     </div>
@@ -47,11 +42,11 @@ import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
 export default class WordView extends Vue {
   public letters = "";
 
-  constructor(...args: any[]) {
+  constructor(...args: unknown[]) {
     super(args);
   }
   public mounted() {
-    this.$watch("word", (o: SPIRIT, n: SPIRIT) => {
+    this.$watch("word", () => {
       this.letters = "";
     });
   }
@@ -64,12 +59,11 @@ export default class WordView extends Vue {
     return this.word?.IT;
   }
   public cognatePick(spirit: SPIRIT) {
-    console.log(spirit);
     if (spirit == null) {
       this.letters = "";
-      return;
+    } else {
+      this.letters = spirit.S;
     }
-    this.letters = spirit.S;
   }
   //
   public onScriptureHighlight(e: string) {
@@ -78,7 +72,6 @@ export default class WordView extends Vue {
   }
   //
   get triads() {
-    console.log(this.word?.IN.GOD.O);
     return this.word?.IN.GOD.O;
   }
 }
@@ -98,6 +91,7 @@ export default class WordView extends Vue {
   display: flex;
   text-align: left;
   flex-flow: column;
+  margin-bottom: 3rem;
 }
 .biglyph-map {
   margin-top: 2rem;

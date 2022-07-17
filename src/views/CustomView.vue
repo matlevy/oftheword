@@ -7,18 +7,18 @@
       :inputWidth="70"
       :showInput="true"
     ></output-view>
-    <bi-glyph-map
-      v-if="word.E.length > 3"
-      @select="onSelect"
-      class="biglyph-map"
-      :word="word"
-    ></bi-glyph-map>
     <cognate-map
       v-if="word.E.length > 1"
       class="cognate-map"
       @cognatePick="cognatePick"
       :spirit="word.IT"
     ></cognate-map>
+    <bi-glyph-map
+      v-if="word.E.length > 3"
+      @select="onSelect"
+      class="biglyph-map"
+      :word="word"
+    ></bi-glyph-map>
     <!--<KeyGenesisVersesAsGrid></KeyGenesisVersesAsGrid>-->
   </div>
 </template>
@@ -40,6 +40,7 @@ import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
 import KeyGenesisVersesAsGrid from "@/components/scripture/KeyGenesisVersesAsGrid.vue";
 import CognateMap from "@/components/word/CognateMap.vue";
 import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
+import CognateInterconnectivity from "@/components/word/CognateInterconnectivity.vue";
 
 @Options({
   name: "custom-view",
@@ -49,6 +50,7 @@ import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
     KeyGenesisVersesAsGrid,
     CognateMap,
     VerseAsGrid,
+    CognateInterconnectivity,
   },
 })
 export default class CustomView extends Vue {
@@ -110,8 +112,12 @@ export default class CustomView extends Vue {
   margin-left: 2rem;
   text-align: left;
   color: white;
+  margin-bottom: 2rem;
 }
 .cognate-map {
+  margin-top: 2rem;
+}
+.biglyph-map {
   margin-top: 2rem;
 }
 </style>

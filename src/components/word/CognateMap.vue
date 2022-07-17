@@ -1,6 +1,13 @@
 <template>
   <div class="cognate-map">
     <div class="notes">
+      A word can be mapped to the first occurances of it component parts. The
+      following are first instances of the component part of
+      <b>{{ spirit.S }}</b
+      >.
+    </div>
+    <CognateInterconnectivity :spirit="spirit"></CognateInterconnectivity>
+    <div class="notes">
       The contructive cognates of the given word can be mapped based on first
       occurace within the scriptures; and by selecting from the given results we
       can identify surrounding glyphs.
@@ -22,19 +29,12 @@
         :label="cognate"
         :i="index + 1"
       ></cognate-element>
-      <cognate-element
+      <font-awesome-icon
+        class="trash"
+        icon="fa-solid fa-trash-can"
         v-if="primary"
-        @pick="cognatePick"
-        label="🗑"
-      ></cognate-element>
-      <glyph-renderer
-        @pick="onGlyphPick"
-        @unpick="onGlyphUnPick"
-        v-for="(glyph, index) in containingGlyphs"
-        v-bind:key="index"
-        :colours="true"
-        :glyph="glyph"
-      ></glyph-renderer>
+        @click="reset"
+      />
     </div>
     <div v-if="selected.length > 0">
       <VerseAsGrid
@@ -50,11 +50,12 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { SPIRIT } from "@/types/wordActions/Spirit";
-import { Glyph } from "@/types/Glyph";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import CognateElement from "./CognateElement.vue";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
 import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
+import CognateInterconnectivity from "./CognateInterconnectivity.vue";
 
 @Options({
   name: "cognate-map",
@@ -62,6 +63,8 @@ import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
     CognateElement,
     GlyphRenderer,
     VerseAsGrid,
+    CognateInterconnectivity,
+    FontAwesomeIcon,
   },
   props: {
     spirit: Object,
@@ -83,7 +86,7 @@ export default class CognateMap extends Vue {
     });
   }
 
-  private reset() {
+  public reset() {
     this.selected = [];
     return (this.primary = {
       S: "",
@@ -93,29 +96,15 @@ export default class CognateMap extends Vue {
     });
   }
 
-  public get containingGlyphs(): Array<Glyph> {
-    if (!this.primary || !this.primary.IT) return [];
-    return this.primary.IT?.map((v: number) => {
-      return this.spirit.SCRIPTURE?.IN.GOD.G.getFromIndex(v) as Glyph;
-    });
-  }
-
   public cognatePick(spirit: SPIRIT) {
     if (spirit == null) {
       this.reset();
+      this.$emit("cognate-pick", null);
     } else {
       this.primary = spirit;
       if (this.selected.indexOf(spirit) == -1) this.selected.push(spirit);
       this.$emit("cognate-pick", spirit);
     }
-  }
-
-  public onGlyphPick() {
-    return;
-  }
-
-  public onGlyphUnPick() {
-    return;
   }
 }
 </script>
@@ -123,9 +112,16 @@ export default class CognateMap extends Vue {
 .glyph {
   display: inline-block;
   font-weight: bold;
+  box-sizing: border-box;
 }
 .cognate-element {
   color: black;
+}
+
+.trash {
+  color: white;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .notes {

@@ -38,16 +38,16 @@ export default class VerseAsGrid extends Vue {
   public spirit!: SPIRIT;
   //
   public get verseText(): string {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return Root.getInstance()
-      .BIBLE.getVerse(
+    if (this.chapter && this.verse) {
+      const text = Root.getInstance().BIBLE.getVerse(
         BibleBooksEnglish.ENGLISH.GENESIS,
         this.chapter,
         this.verse
-      )
-      .toLocaleUpperCase()
-      .match(/[A-Z]/gi)!
-      .join("");
+      );
+      const matches = text.toLocaleUpperCase().match(/[A-Z]/gi);
+      return matches ? matches.join("") : "";
+    }
+    return "";
   }
   //
   public get output(): Glyph[] {
@@ -77,7 +77,9 @@ export default class VerseAsGrid extends Vue {
   flex-direction: row;
   flex-wrap: wrap;
   border: 1px solid #444444;
-  padding: 5px;
+  box-sizing: border-box;
+  padding-top: 5px;
+  padding-bottom: 5px;
   .glyph {
     width: calc(1000px / 22);
     padding: 0;
@@ -88,6 +90,7 @@ export default class VerseAsGrid extends Vue {
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    color: white;
   }
   .highlightPrimary {
     color: red;

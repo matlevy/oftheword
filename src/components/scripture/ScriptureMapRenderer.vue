@@ -31,7 +31,7 @@
         </triad-renderer>
       </span>
     </div>
-    <div class="words">
+    <!-- <div class="words">
       <span class="word">
         <span
           class="stack"
@@ -48,7 +48,7 @@
           </span>
         </span>
       </span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts">

@@ -50,9 +50,8 @@ export default class BiGlyphMap extends Vue {
 }
 .notes {
   color: white;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-bottom: 2rem;
-  margin-left: 0.3rem;
   max-width: 1000px;
 }
 </style>
