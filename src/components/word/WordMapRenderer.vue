@@ -16,29 +16,6 @@
     </div>
     <div class="output">
       <span class="word">
-        <h4>T O</h4>
-        <div class="stack">
-          <triad-renderer
-            v-for="(output, wordLetterIndex) in word.A"
-            v-bind:key="wordLetterIndex"
-            @pick="onGlyphPick"
-            @unpick="onGlyphUnPick"
-            :glyph="output"
-            :number="
-              scripture.O.indexOf(
-                output.MAP(TO)[0].a!.character.charCodeAt(0) - 64
-              ) + 1
-            "
-            :match="input"
-            :filter="filter"
-            :selectedGlyphs="selectedGlyphs"
-            :scripture="scripture"
-            :map-direction="TO"
-          >
-          </triad-renderer>
-        </div>
-      </span>
-      <span class="word">
         <h4>R O</h4>
         <div class="stack">
           <triad-renderer
@@ -57,6 +34,29 @@
             :selectedGlyphs="selectedGlyphs"
             :scripture="scripture"
             :map-direction="RO"
+          >
+          </triad-renderer>
+        </div>
+      </span>
+      <span class="word">
+        <h4>T O</h4>
+        <div class="stack">
+          <triad-renderer
+            v-for="(output, wordLetterIndex) in word.A"
+            v-bind:key="wordLetterIndex"
+            @pick="onGlyphPick"
+            @unpick="onGlyphUnPick"
+            :glyph="output"
+            :number="
+              scripture.O.indexOf(
+                output.MAP(TO)[0].a!.character.charCodeAt(0) - 64
+              ) + 1
+            "
+            :match="input"
+            :filter="filter"
+            :selectedGlyphs="selectedGlyphs"
+            :scripture="scripture"
+            :map-direction="TO"
           >
           </triad-renderer>
         </div>
