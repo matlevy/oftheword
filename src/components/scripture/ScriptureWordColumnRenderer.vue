@@ -77,8 +77,6 @@ export default class ScriptureWordColumnRenderer extends Vue {
     const word: Word = this.scripture.I[this.aSelected[1]];
     if (!word) return [];
     const glyphA: Glyph = word.A[this.aSelected[2]];
-    const glyphB: Glyph = word.A[this.bSelected[2]];
-    const glyphC: Glyph = word.A[this.bSelected[2]];
     if (!this.scripture.I) return [];
     return this.scripture.I.concat(...this.scripture.I)
       .concat(...this.scripture.I)

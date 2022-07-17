@@ -14,6 +14,7 @@ import { Vue, Options } from "vue-class-component";
 })
 export default class CognateElement extends Vue {
   public label!: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public branches!: any;
 
   public onPick() {

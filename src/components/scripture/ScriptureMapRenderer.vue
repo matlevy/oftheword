@@ -20,7 +20,8 @@
           :glyph="output"
           :number="
             scripture.O.indexOf(
-              output.MAP(mapDirection)[0].a!.character.charCodeAt(0) - 64
+              output.MAP(mapDirection)[0].a.character.charCodeAt(0) -
+                scripture.IN.GOD.IN.G.start
             ) + 1
           "
           :match="input"

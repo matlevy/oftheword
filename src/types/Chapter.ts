@@ -1,4 +1,4 @@
-import { Scripture, ScriptureIn } from "./Scripture";
+import { Scripture } from "./Scripture";
 import { God } from "./wordActions/God";
 
 export interface ChapterIn {

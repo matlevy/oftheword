@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { BiGlyph } from "./BiGlyph";
 import { TriadMapPoint } from "./TriadMapPoint";
 import { Glyph } from "./Glyph";
 import { GlyphMap } from "./GlyphMap";
-import { MappedTriad, Triad, TriadIn, TriGlyph } from "./Triad";
+import { MappedTriad, Triad, TriadIn } from "./Triad";
 import { TriadCache } from "./TriadCache";
 
 export class TriadMap {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public A: Array<Array<any>> = [];
   public O: TriadCache = new TriadCache();
 

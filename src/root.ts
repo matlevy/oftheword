@@ -8,11 +8,14 @@ import {
   BibleExplorer,
   BibleBook,
   BibleChapter,
+  BibleSource,
 } from "./types/bibles/BibleExplorer";
 import Bibles from "./types/bibles/Bibles";
 import BibleBooksEnglish from "./types/bibles/BibleBooksEnglish";
 import { Book } from "./types/Book";
 import { Waters } from "./types/wordActions/Waters";
+import { GlyphMap } from "./types/GlyphMap";
+import { GlyphMapHebrew } from "./types/GlyphMapHebrew";
 
 export class Root {
   private static _instance: Root;
@@ -23,7 +26,7 @@ export class Root {
 
   public triadMap: TriadMap;
   public O: God;
-  public BIBLE: BibleExplorer = new BibleExplorer(Bibles.KING_JAMES);
+  public BIBLE: BibleExplorer = new BibleExplorer(this.source);
   public gen!: Book;
 
   public static getInstance(): Root {
@@ -34,14 +37,22 @@ export class Root {
   }
 
   constructor() {
-    this.triadMap = new TriadMap(GlyphMapLatin.getInstance());
+    this.triadMap = new TriadMap(this.glyphMap);
     this.O = new God({
-      G: GlyphMapLatin.getInstance(),
+      G: this.glyphMap,
       O: this.triadMap,
       OD: this.RD,
       GO: new Waters(),
       X: GlyphMapSpecial.getInstance(),
     });
+  }
+
+  public get glyphMap(): GlyphMap {
+    return GlyphMapLatin.getInstance();
+  }
+
+  public get source(): BibleSource {
+    return Bibles.KING_JAMES;
   }
 
   public init() {

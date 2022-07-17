@@ -30,6 +30,10 @@ export class GlyphMapSpecial implements GlyphMap {
     );
   }
 
+  public get start(): number {
+    return -1;
+  }
+
   /**
    * Searches for and returns a given Glyph
    * @param search the character to search for the corresponding glyph

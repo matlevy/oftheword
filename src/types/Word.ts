@@ -32,9 +32,9 @@ export class Word {
       const char: string = this.E.charAt(p);
       if (this.E.indexOf(char) == p) {
         // a unique character, stored in unique character hash
-        this.U.push(code - 64);
+        this.U.push(code - this.IN.GOD.G.start);
       }
-      this.O[p] = this.U.indexOf(code - 64);
+      this.O[p] = this.U.indexOf(code - this.IN.GOD.G.start);
       //
       const glyph: Glyph = this.IN.GOD.IN.G.getFromIndex(this.U[this.O[p]]);
       this.A.push(glyph);

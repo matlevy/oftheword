@@ -34,6 +34,10 @@ export class GlyphMapLatin implements GlyphMap {
     );
   }
 
+  public get start(): number {
+    return 64;
+  }
+
   /**
    * Searches for and returns a given Glyph
    * @param search the character to search for the corresponding glyph

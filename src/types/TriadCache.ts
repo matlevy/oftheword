@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Store } from "./interfaces/Store";
-import { Triad, TriadIn, TriGlyph } from "./Triad";
+import { Triad, TriadIn } from "./Triad";
 
 export class TriadCache implements Store<TriadIn, TriadIn, TriadIn> {
-  public O: Map<string, any> = new Map<string, any>();
+  public O: Map<string, unknown> = new Map<string, unknown>();
 
   public get<R>(value: TriadIn): R {
     const key: string = value

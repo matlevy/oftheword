@@ -2,6 +2,7 @@ import { CircleLink } from "./CircleLink";
 import { Glyph } from "./Glyph";
 
 export class TriadMapPoint {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public words: any = {};
   public connections: Array<CircleLink> = [];
   //

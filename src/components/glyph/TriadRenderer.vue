@@ -61,6 +61,7 @@ export default class TriadRenderer extends Vue {
   public match!: string;
   public filter!: string;
   //
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(...args: any[]) {
     super(args);
   }
@@ -78,6 +79,7 @@ export default class TriadRenderer extends Vue {
   public get HAS(): boolean {
     return (
       this.IS.a != undefined ||
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.IS.b! == undefined ||
       this.IS.c != undefined
     );

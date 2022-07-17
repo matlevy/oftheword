@@ -82,6 +82,7 @@ export class Scripture {
   }
   theearth(value: string) {
     this.read(value);
+    return this;
   }
   //
   read(value: string) {
@@ -118,11 +119,13 @@ export class Scripture {
         }
       } else {
         this.E = this.E.concat(char);
-        this.A = this.A.concat(this.IN.GOD.IN.G.getFromIndex(code - 64));
+        this.A = this.A.concat(
+          this.IN.GOD.IN.G.getFromIndex(code - this.IN.GOD.G.start)
+        );
         // a unique character, stored in unique character hash
-        this.U.push(code - 64);
-        if (this.O.indexOf(code - 64) == -1) {
-          this.O.push(code - 64);
+        this.U.push(code - this.IN.GOD.G.start);
+        if (this.O.indexOf(code - this.IN.GOD.G.start) == -1) {
+          this.O.push(code - this.IN.GOD.G.start);
         }
       }
     }

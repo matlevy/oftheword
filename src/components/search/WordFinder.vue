@@ -15,11 +15,13 @@ import { SPIRIT } from "@/types/wordActions/Spirit";
 export default class WordFinder extends Vue {
   public searchTerm = "cerebelum";
   //
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(...args: any[]) {
     super(args);
   }
   public search() {
     console.clear();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const term: SPIRIT = Root.getInstance().O.IN.GO!.FACE({
       S: this.searchTerm,
       P: -1,

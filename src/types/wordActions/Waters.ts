@@ -3,6 +3,7 @@ import { Glyph } from "../Glyph";
 import { GlyphMap } from "../GlyphMap";
 import { SPIRIT } from "./Spirit";
 import { Scripture } from "@/types/Scripture";
+import { Root } from "@/root";
 export interface WATERS {
   FACE(spirit: SPIRIT): SPIRIT;
   ACE(string: string, CE: Scripture): Waters;
@@ -26,8 +27,10 @@ export class Waters implements WATERS {
     spirit.I = spirit.I == undefined ? [] : spirit.I;
     if (spirit.P) {
       spirit.IT = [
-        this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) - 1) - 64,
-        this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) + spirit.S.length) - 64,
+        this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) - 1) -
+          Root.getInstance().O.G.start,
+        this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) + spirit.S.length) -
+          Root.getInstance().O.G.start,
       ];
     }
     if (this.E.get(spirit.S)) {
@@ -123,8 +126,8 @@ export class Waters implements WATERS {
         T: {},
         I: [],
         IT: [
-          this.AE.charCodeAt(P - 1) - 64,
-          this.AE.charCodeAt(P + IN.length) - 64,
+          this.AE.charCodeAt(P - 1) - Root.getInstance().O.G.start,
+          this.AE.charCodeAt(P + IN.length) - Root.getInstance().O.G.start,
         ],
         SCRIPTURE: UR,
       };

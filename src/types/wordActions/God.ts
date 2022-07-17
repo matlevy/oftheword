@@ -35,6 +35,7 @@ export class God {
   }
   //
   get GO(): WATERS {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.IN.GO!;
   }
 }

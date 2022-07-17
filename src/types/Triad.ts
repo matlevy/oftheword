@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Glyph } from "./Glyph";
 import { Scripture, ScriptureIn, ScriptureReference } from "./Scripture";
 import { TriadMappingDirection } from "./TriadMappingDirection";

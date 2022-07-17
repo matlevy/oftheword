@@ -26,7 +26,8 @@
             :glyph="output"
             :number="
               scripture.O.indexOf(
-                output.MAP(RO)[0].a!.character.charCodeAt(0) - 64
+                output.MAP(RO)[0].a.character.charCodeAt(0) -
+                  scripture.IN.GOD.IN.G.start
               ) + 1
             "
             :match="input"
@@ -49,7 +50,8 @@
             :glyph="output"
             :number="
               scripture.O.indexOf(
-                output.MAP(TO)[0].a!.character.charCodeAt(0) - 64
+                output.MAP(TO)[0].a.character.charCodeAt(0) -
+                  scripture.IN.GOD.IN.G.start
               ) + 1
             "
             :match="input"
@@ -72,7 +74,8 @@
             :glyph="output"
             :number="
               scripture.O.indexOf(
-                output.MAP(UT)[0].a!.character.charCodeAt(0) - 64
+                output.MAP(UT)[0].a.character.charCodeAt(0) -
+                  scripture.IN.GOD.IN.G.start
               ) + 1
             "
             :match="input"

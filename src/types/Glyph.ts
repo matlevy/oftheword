@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GlyphMap } from "./GlyphMap";
 import { Triad, TriGlyph } from "./Triad";
 import { TriadMappingDirection } from "./TriadMappingDirection";
