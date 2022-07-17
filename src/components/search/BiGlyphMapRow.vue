@@ -31,7 +31,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BiGlyph, BiglyphContainer } from "@/types/BiGlyph";
 import { Root } from "@/root";
 import { WATERS } from "@/types/wordActions/Waters";
-import { Word } from "@/types/Word";
 
 import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
 
@@ -42,12 +41,10 @@ import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
   },
   props: {
     glyphMap: Object,
-    word: Word,
   },
 })
 export default class BiGlyphMapRow extends Vue {
   public glyphMap!: BiglyphContainer;
-  public word!: Word;
   //
   private waters: WATERS = Root.getInstance().O.GO;
   //
@@ -115,8 +112,8 @@ export default class BiGlyphMapRow extends Vue {
   padding-bottom: 3px;
 }
 .arrow {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
 }
 
 .selectable {

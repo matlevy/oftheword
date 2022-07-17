@@ -1,16 +1,19 @@
 <template>
-  <div class="scripture-grid">
-    <glyph-renderer
-      class="glyph"
-      :class="{
-        ['highlightPrimary']: highlightPrimary(glyph, index),
-        ['highlightSecondary']: highlightSecondary(glyph, index),
-      }"
-      v-for="(glyph, index) in output"
-      v-bind:key="index"
-      :colours="false"
-      :glyph="glyph"
-    ></glyph-renderer>
+  <div class="">
+    <div class="scripture-grid">
+      <glyph-renderer
+        class="glyph"
+        :class="{
+          ['highlightPrimary']: highlightPrimary(glyph, index),
+          ['highlightSecondary']: highlightSecondary(glyph, index),
+        }"
+        v-for="(glyph, index) in output"
+        v-bind:key="index"
+        :colours="false"
+        :glyph="glyph"
+      ></glyph-renderer>
+    </div>
+    <bi-glyph-map-row class="river" :glyphMap="biGlyphStart"></bi-glyph-map-row>
   </div>
 </template>
 <script lang="ts">
@@ -18,13 +21,16 @@ import { Vue, Options } from "vue-class-component";
 import { Glyph } from "@/types/Glyph";
 import { Root } from "@/root";
 import { SPIRIT } from "@/types/wordActions/Spirit";
+import { BiglyphContainer } from "@/types/BiGlyph";
 
 import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
 import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
 
 @Options({
   components: {
     GlyphRenderer,
+    BiGlyphMapRow,
   },
   props: {
     chapter: Number,
@@ -54,6 +60,29 @@ export default class VerseAsGrid extends Vue {
     return [...this.verseText].map((v: string) => {
       return Root.getInstance().O.G.getGlyph(v);
     });
+  }
+  //
+  public get biGlyphStart(): BiglyphContainer {
+    return {
+      BG: {
+        a: this.getGlyph(this.spirit.S.charAt(0)),
+        b: this.getGlyph(this.spirit.S.charAt(this.spirit.S.length - 1)),
+      },
+      IN: {
+        a: this.getGlyph(
+          this.verseText.charAt(this.verseText.indexOf(this.spirit.S) - 1)
+        ),
+        b: this.getGlyph(
+          this.verseText.charAt(
+            this.verseText.indexOf(this.spirit.S) + this.spirit.S.length
+          )
+        ),
+      },
+    };
+  }
+  //
+  private getGlyph(char: string): Glyph {
+    return Root.getInstance().O.G.getGlyph(char);
   }
   //
   public highlightPrimary(glyph: Glyph, index: number): boolean {
@@ -102,5 +131,8 @@ export default class VerseAsGrid extends Vue {
     border-inline: 1px solid yellow;
     box-sizing: border-box;
   }
+}
+.river {
+  margin-top: 1rem;
 }
 </style>
