@@ -74,6 +74,7 @@ export default class VerseAsGrid extends Vue {
   margin-top: 2rem;
   display: flex;
   max-width: 1000px;
+  min-width: 1000px;
   flex-direction: row;
   flex-wrap: wrap;
   border: 1px solid #444444;
@@ -81,7 +82,7 @@ export default class VerseAsGrid extends Vue {
   padding-top: 5px;
   padding-bottom: 5px;
   .glyph {
-    width: calc(1000px / 22);
+    width: 45px;
     padding: 0;
     font-size: 18px;
     font-weight: bold;
@@ -91,6 +92,7 @@ export default class VerseAsGrid extends Vue {
     padding-top: 1rem;
     padding-bottom: 1rem;
     color: white;
+    box-sizing: border-box;
   }
   .highlightPrimary {
     color: red;

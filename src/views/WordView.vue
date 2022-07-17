@@ -55,7 +55,6 @@ export default class WordView extends Vue {
     return Root.getInstance().O.OD.IN.map.get(word);
   }
   get IT() {
-    console.log(this.word?.IT);
     return this.word?.IT;
   }
   public cognatePick(spirit: SPIRIT) {

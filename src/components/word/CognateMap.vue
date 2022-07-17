@@ -75,11 +75,6 @@ export default class CognateMap extends Vue {
   public primary!: SPIRIT;
   public selected: SPIRIT[] = [];
 
-  constructor(...args: unknown[]) {
-    super(args);
-    this.reset();
-  }
-
   public mounted() {
     this.$watch("spirit", () => {
       this.reset();
@@ -88,12 +83,13 @@ export default class CognateMap extends Vue {
 
   public reset() {
     this.selected = [];
-    return (this.primary = {
+    this.primary = {
       S: "",
       I: [],
       P: -1,
       T: {},
-    });
+    };
+    this.$emit("cognate-pick", null);
   }
 
   public cognatePick(spirit: SPIRIT) {
