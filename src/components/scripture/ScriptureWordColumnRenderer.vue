@@ -128,8 +128,9 @@ export default class ScriptureWordColumnRenderer extends Vue {
       flex-flow: row;
       text-align: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1rem;
       cursor: pointer;
+      font-weight: lighter;
       &.last-selected {
         color: red;
       }

@@ -24,9 +24,7 @@ export default class NumberRenderer extends Vue {
   display: flex;
   flex-flow: column;
   text-align: center;
-  background-color: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(255, 255, 255, 1);
-  color: black;
+  color: white;
   min-width: 1rem;
   margin: 0.2rem;
   text-align: center;

@@ -134,7 +134,7 @@ export default class ScriptureMapRenderer extends Vue {
   margin-left: 0.3rem;
   margin-top: 1rem;
   &.word-border {
-    border-right: 1px dashed rgba(255, 255, 255, 0.5);
+    border-right: 1px dotted rgba(255, 255, 255, 0.2);
   }
   .stack {
     padding: 10px 0;

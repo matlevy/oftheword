@@ -102,14 +102,14 @@ export default class BiGlyphMapRow extends Vue {
 .biglyph-pairs {
   padding: 10px 0;
   text-align: center;
-  color: white;
+  color: rgba(255, 255, 255, 0.2);
   font-weight: bold;
   font-size: 14px;
   display: flex;
   padding: 10px 0;
   flex-flow: row;
   padding-top: 0;
-  padding-bottom: 3px;
+  padding-bottom: 20px;
 }
 .arrow {
   margin-left: 0.1rem;

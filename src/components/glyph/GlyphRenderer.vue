@@ -49,26 +49,18 @@ export default class GlyphRenderer extends Vue {
   align-items: center;
 }
 .glyph-a {
-  border: 1px solid red;
-  background-color: red;
+  color: red;
 }
 .glyph-e {
-  border: 1px solid limegreen;
-  background-color: limegreen;
-  color: black;
+  color: limegreen;
 }
 .glyph-i {
-  border: 1px solid rgb(0, 100, 250);
-  background-color: rgb(0, 100, 250);
+  color: rgb(0, 100, 250);
 }
 .glyph-o {
-  border: 1px solid yellow;
-  background-color: yellow;
-  color: black;
+  color: yellow;
 }
 .glyph-u {
-  border: 1px solid purple;
-  background-color: purple;
-  color: white;
+  color: purple;
 }
 </style>
