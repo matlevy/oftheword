@@ -1,18 +1,18 @@
 <template>
   <div class="word-view">
-    <h3>{{ word?.E }}</h3>
+    <h3>{{ word.E }}</h3>
     <div>
       <raw-scripture-renderer
-        :verse="word?.IN.scripture"
-        :i="word?.IN.scripture.IN.ref?.verse"
-        @highlight="onScriptureHighlight"
+        :verse="primaryWord?.IN.scripture"
+        :i="primaryWord?.IN.scripture.IN.ref?.verse"
+        @selectWord="atWordSelected"
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
       <cognate-map
         class="cognate-map"
         @cognatePick="cognatePick"
-        :spirit="IT"
+        :spirit="word.IT"
       ></cognate-map>
       <word-map-renderer
         :filter="letters"
@@ -27,6 +27,7 @@
 import { Vue, Options } from "vue-class-component";
 import { Root } from "@/root";
 import { SPIRIT } from "@/types/wordActions/Spirit";
+import { Word } from "@/types/Word";
 
 import CognateMap from "@/components/word/CognateMap.vue";
 import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
@@ -42,25 +43,50 @@ import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
     RawScriptureRenderer,
     BiGlyphMap,
   },
+  props: {
+    search: String,
+    subsearch: String,
+  },
 })
 export default class WordView extends Vue {
   public letters = "";
+  public selectedWord!: Word;
+  public search?: string;
+  public subsearch?: string;
 
-  constructor(...args: unknown[]) {
-    super(args);
-  }
   public mounted() {
     this.$watch("word", () => {
       this.letters = "";
     });
   }
-  get word() {
-    const word: string = String(this.$route.params.word).toLocaleUpperCase();
-    return Root.getInstance().O.OD.IN.map.get(word);
+  //
+  public atWordSelected(word: Word) {
+    this.$router.replace({
+      name: "subword",
+      params: { search: this.search, subsearch: word.E },
+    });
   }
-  get IT() {
-    return this.word?.IT;
+  get word(): Word {
+    console.log(this.subsearch);
+    if (this.subsearch) {
+      const S = this.subsearch.toLocaleUpperCase();
+      return Root.getInstance().O.OD.IN.map.get(S) as Word;
+    } else if (this.search) {
+      const W = this.search.toLocaleUpperCase();
+      return Root.getInstance().O.OD.IN.map.get(W) as Word;
+    } else {
+      return this.selectedWord;
+    }
   }
+  get primaryWord(): Word {
+    if (this.search) {
+      const W = this.search.toLocaleUpperCase();
+      return Root.getInstance().O.OD.IN.map.get(W) as Word;
+    } else {
+      return this.selectedWord;
+    }
+  }
+  //
   public cognatePick(spirit: SPIRIT) {
     if (spirit == null) {
       this.letters = "";
@@ -71,7 +97,7 @@ export default class WordView extends Vue {
   //
   public onScriptureHighlight(e: string) {
     const output: OutputView = this.$refs.output as OutputView;
-    output.think = e;
+    if (e) output.think = e;
   }
   //
   get triads() {

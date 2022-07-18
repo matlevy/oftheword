@@ -194,6 +194,9 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-right: 1rem;
+    margin-top: 1rem;
     .glyph {
       display: flex;
       flex-flow: column;

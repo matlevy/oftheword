@@ -13,20 +13,15 @@
       ><div>{{ verse.IN.ref?.verse }}.</div></router-link
     >
     <div class="verse-text" ref="scripture">
-      <router-link
+      <span
         v-for="(word, index) in verse.I"
         v-bind:key="index"
         :title="(index + 1).toString()"
+        @click="selectWord(word)"
         class="glyph"
-        :to="{
-          name: 'word',
-          params: {
-            word: word.WR?.R,
-          },
-        }"
         >{{ word.WR?.R
-        }}{{ verse.X[index] ? verse.X[index].character : "" }}</router-link
-      >&nbsp;
+        }}{{ verse.X[index] ? verse.X[index].character : "" }}</span
+      >
     </div>
   </div>
 </template>
@@ -79,6 +74,10 @@ export default class RawScriptureRenderer extends Vue {
         }
       }, 100)
     );
+  }
+  //
+  public selectWord(word: Word) {
+    this.$emit("selectWord", word);
   }
 }
 </script>

@@ -59,7 +59,7 @@ export default class CognateInterconnectivity extends Vue {
     if (spirit.I && spirit.I.length > 0 && spirit.S.length >= 2) {
       spirit.I.forEach((v: string) => {
         const S: SPIRIT = spirit.T[v];
-        if (S.S.length >= 2) {
+        if (S.S.length >= 1) {
           array.push(S);
           this.streamsAsArray(S, array);
         }
@@ -73,7 +73,6 @@ export default class CognateInterconnectivity extends Vue {
     const S = this.streamsAsArray(this.spirit, [])[B].S;
     const P = T.indexOf(S);
     const E = T.indexOf(S) + S.length;
-    console.log(T, S, P, E, G);
     return P > -1 && G >= P && G < E;
   }
   //

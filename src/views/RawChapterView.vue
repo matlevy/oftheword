@@ -6,6 +6,7 @@
       v-bind:key="index"
       :verse="verse"
       :i="index + 1"
+      @selectWord="atWordSelected"
       class="verse"
     ></raw-scripture-renderer>
   </div>
@@ -13,9 +14,10 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { Chapter } from "@/types/Chapter";
+import { Root } from "@/root";
+import { Word } from "@/types/Word";
 
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
-import { Root } from "@/root";
 
 @Options({
   name: "raw-chapter-view",
@@ -34,6 +36,13 @@ export default class RawChapterView extends Vue {
     return Root.getInstance().gen.chapters[
       Number(this.$route.params.chapter) - 1
     ];
+  }
+
+  public atWordSelected(word: Word) {
+    this.$router.replace({
+      name: "word",
+      params: { search: word.E },
+    });
   }
 }
 </script>

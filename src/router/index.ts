@@ -43,8 +43,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/ExistanceSearch.vue"),
   },
   {
-    path: "/word/:word",
+    path: "/word/:search/:subsearch",
+    name: "subword",
+    props: true,
+    component: () => import("../views/WordView.vue"),
+  },
+  {
+    path: "/word/:search",
     name: "word",
+    props: true,
     component: () => import("../views/WordView.vue"),
   },
 ];
