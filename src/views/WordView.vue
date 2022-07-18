@@ -9,12 +9,16 @@
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
+      <cognate-map
+        class="cognate-map"
+        @cognatePick="cognatePick"
+        :spirit="IT"
+      ></cognate-map>
       <word-map-renderer
         :filter="letters"
         :word="word"
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
-      <cognate-map @cognatePick="cognatePick" :spirit="IT"></cognate-map>
       <bi-glyph-map class="biglyph-map" :word="word"></bi-glyph-map>
     </div>
   </div>
@@ -81,6 +85,10 @@ export default class WordView extends Vue {
   margin-top: 2rem;
   margin-bottom: 2rem;
   margin-left: 0.3rem;
+}
+.cognate-map {
+  margin-top: 0;
+  margin-bottom: 2rem;
 }
 .word-view {
   margin-top: 2rem;

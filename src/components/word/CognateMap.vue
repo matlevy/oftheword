@@ -1,16 +1,19 @@
 <template>
   <div class="cognate-map">
     <div class="notes">
-      A word can be mapped to the first occurances of it component parts. The
-      following are first instances of the component part of
-      <b>{{ spirit.S }}</b
-      >.
+      By looking to earlier writing, we can see that the word
+      <b>{{ spirit.S }}</b> is constructed of parts of other words, called
+      cognates: which all words are created from;
     </div>
     <CognateInterconnectivity :spirit="spirit"></CognateInterconnectivity>
     <div class="notes">
-      The contructive cognates of the given word can be mapped based on first
-      occurace within the scriptures; and by selecting from the given results we
-      can identify surrounding glyphs.
+      Cognates of <b>{{ spirit.S }}</b> can be mapped based on first occurace;
+      and by selecting from the given results we can identify surrounding
+      letters: these will help to understand how the word is mapped; and, by
+      reffering back to the earliest occurence of these cognates in a grid of
+      the scripture we gain deeper understanding of the connection of
+      <b>{{ spirit.S }}</b
+      >.
     </div>
     <div class="root">
       <cognate-element
