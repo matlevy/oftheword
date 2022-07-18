@@ -9,7 +9,7 @@
         }"
         v-for="(glyph, i) in branch"
         v-bind:key="i"
-        :colours="false"
+        :colours="true"
         :glyph="glyph"
       ></glyph-renderer>
     </div>
@@ -87,15 +87,12 @@ export default class CognateInterconnectivity extends Vue {
 </script>
 <style lang="scss" scoped>
 .cognate-interconnectivity {
-  display: flex;
-  margin-top: 2rem;
   flex-direction: column;
-}
-.glyph {
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: inline-block;
-  font-weight: bold;
-  color: white;
+  padding: 0.5rem;
 }
+
 .cognate-element {
   color: black;
 }
@@ -107,12 +104,18 @@ export default class CognateInterconnectivity extends Vue {
   margin-left: 0.3rem;
   max-width: 1000px;
 }
+.glyph {
+  display: inline-block;
+  font-weight: bold;
+  opacity: 0.3;
+  width: 1.5rem;
+}
 .highlightPrimary {
-  color: red;
+  opacity: 1;
 }
 .highlightSecondary {
-  color: yellow;
-  border-inline: 1px solid yellow;
+  opacity: 1;
   box-sizing: border-box;
+  border-inline: 1px solid white;
 }
 </style>

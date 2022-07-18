@@ -9,6 +9,16 @@
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
+      <div class="notes" v-if="canMoveToSecondary">
+        Note: To have a better understanding of the word
+        <b>{{ secondaryWord.E }}</b
+        >, and how it connects, it is better to view in the context of
+        <router-link
+          :to="{ name: 'word', params: { search: secondaryWord.E } }"
+        >
+          the first occurance of <b>{{ secondaryWord.E }}</b></router-link
+        >;
+      </div>
       <cognate-map
         class="cognate-map"
         @cognatePick="cognatePick"
@@ -78,13 +88,30 @@ export default class WordView extends Vue {
       return this.selectedWord;
     }
   }
-  get primaryWord(): Word {
+  public get primaryWord(): Word {
     if (this.search) {
       const W = this.search.toLocaleUpperCase();
       return Root.getInstance().O.OD.IN.map.get(W) as Word;
     } else {
       return this.selectedWord;
     }
+  }
+  //
+  public get secondaryWord(): Word {
+    if (this.subsearch) {
+      const W = this.subsearch.toLocaleUpperCase();
+      return Root.getInstance().O.OD.IN.map.get(W) as Word;
+    } else {
+      return this.selectedWord;
+    }
+  }
+  //
+  public get canMoveToSecondary(): boolean {
+    return (
+      this.secondaryWord &&
+      this.secondaryWord != this.primaryWord &&
+      this.primaryWord.IN.scripture !== this.secondaryWord.IN.scripture
+    );
   }
   //
   public cognatePick(spirit: SPIRIT) {
@@ -109,8 +136,11 @@ export default class WordView extends Vue {
 .notes {
   color: white;
   margin-top: 2rem;
-  margin-bottom: 2rem;
-  margin-left: 0.3rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  a {
+    color: white;
+  }
 }
 .cognate-map {
   margin-top: 0;
