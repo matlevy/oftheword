@@ -4,23 +4,6 @@
       :verse="scripture"
       :i="scripture.IN.ref?.verse"
     ></raw-scripture-renderer>
-    <div class="intro">
-      <p>
-        The following is a map of each letter within this scripture, using the
-        <router-link
-          :to="{
-            name: 'alphabet',
-          }"
-          >Alphabet Map</router-link
-        >.
-      </p>
-      <p>
-        Each color represents an aspect of spiritual representation, based on
-        the positioning of the letter within the alphabet, and its division;
-        making it easier to see what each word within a scripture represents,
-        and where it maps to for guidance.
-      </p>
-    </div>
     <scripture-map-renderer
       :word-border="true"
       class="scripture-map"

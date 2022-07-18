@@ -1,10 +1,5 @@
 <template>
   <div class="layout">
-    <div>
-      <h3 class="title" v-if="scripture.IN.ref?.chapter">
-        Chapter: {{ scripture.IN.ref?.chapter }}:{{ scripture.IN.ref?.verse }}
-      </h3>
-    </div>
     <div class="words" v-if="scripture">
       <span
         class="word"
