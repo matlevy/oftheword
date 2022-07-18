@@ -1,9 +1,12 @@
 import { Root } from "./root";
 import { Scripture } from "./types/Scripture";
-import { Triad } from "./types/Triad";
+import { Triplet } from "./types/Triplet";
 
 export default class Helpers {
-  public crossReferenceTriad(triad: Triad, crossReferences: Array<Scripture>) {
+  public crossReferenceTriplet(
+    triad: Triplet,
+    crossReferences: Array<Scripture>
+  ) {
     if (triad && triad.P) {
       const book: number = Math.floor(triad.P / 100000000);
       const chapter: number = Math.floor(

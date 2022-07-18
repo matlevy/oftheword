@@ -2,19 +2,19 @@
   <div class="word">
     <a
       href="#index"
-      v-for="(glyph, index) in word.A"
+      v-for="(letter, index) in word.A"
       v-bind:key="index"
       :title="(index + 1).toString()"
-      class="glyph"
+      class="letter"
     >
-      <glyph-renderer :glyph="glyph"></glyph-renderer>
+      <letter-renderer :letter="letter"></letter-renderer>
     </a>
   </div>
 </template>
 <script lang="ts">
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   name: "word-renderer",
@@ -22,7 +22,7 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
     word: Word,
   },
   components: {
-    GlyphRenderer,
+    LetterRenderer,
   },
 })
 export default class WordRenderer extends Vue {

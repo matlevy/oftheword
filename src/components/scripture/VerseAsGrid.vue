@@ -1,35 +1,38 @@
 <template>
   <div class="">
     <div class="scripture-grid">
-      <glyph-renderer
-        class="glyph"
+      <letter-renderer
+        class="letter"
         :class="{
-          ['highlightPrimary']: highlightPrimary(glyph, index),
-          ['highlightSecondary']: highlightSecondary(glyph, index),
+          ['highlightPrimary']: highlightPrimary(letter, index),
+          ['highlightSecondary']: highlightSecondary(letter, index),
         }"
-        v-for="(glyph, index) in output"
+        v-for="(letter, index) in output"
         v-bind:key="index"
         :colours="false"
-        :glyph="glyph"
-      ></glyph-renderer>
+        :letter="letter"
+      ></letter-renderer>
     </div>
-    <bi-glyph-map-row class="river" :glyphMap="biGlyphStart"></bi-glyph-map-row>
+    <bi-letter-map-row
+      class="river"
+      :letterMap="biGlyphStart"
+    ></bi-letter-map-row>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Root } from "@/root";
 import { SPIRIT } from "@/types/wordActions/Spirit";
-import { BiglyphContainer } from "@/types/BiGlyph";
+import { TwoLetterContainer } from "@/types/TwoLetters";
 
 import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
 
 @Options({
   components: {
-    GlyphRenderer,
+    LetterRenderer,
     BiGlyphMapRow,
   },
   props: {
@@ -56,23 +59,23 @@ export default class VerseAsGrid extends Vue {
     return "";
   }
   //
-  public get output(): Glyph[] {
+  public get output(): Letter[] {
     return [...this.verseText].map((v: string) => {
-      return Root.getInstance().O.G.getGlyph(v);
+      return Root.getInstance().IN.O.G.getLetter(v);
     });
   }
   //
-  public get biGlyphStart(): BiglyphContainer {
+  public get biGlyphStart(): TwoLetterContainer {
     return {
       BG: {
-        a: this.getGlyph(this.spirit.S.charAt(0)),
-        b: this.getGlyph(this.spirit.S.charAt(this.spirit.S.length - 1)),
+        a: this.getLetter(this.spirit.S.charAt(0)),
+        b: this.getLetter(this.spirit.S.charAt(this.spirit.S.length - 1)),
       },
       IN: {
-        a: this.getGlyph(
+        a: this.getLetter(
           this.verseText.charAt(this.verseText.indexOf(this.spirit.S) - 1)
         ),
-        b: this.getGlyph(
+        b: this.getLetter(
           this.verseText.charAt(
             this.verseText.indexOf(this.spirit.S) + this.spirit.S.length
           )
@@ -81,17 +84,17 @@ export default class VerseAsGrid extends Vue {
     };
   }
   //
-  private getGlyph(char: string): Glyph {
-    return Root.getInstance().O.G.getGlyph(char);
+  private getLetter(char: string): Letter {
+    return Root.getInstance().IN.O.G.getLetter(char);
   }
   //
-  public highlightPrimary(glyph: Glyph, index: number): boolean {
+  public highlightPrimary(letter: Letter, index: number): boolean {
     const start = this.verseText.indexOf(this.spirit.S);
     const end = start + this.spirit.S.length;
     return start > -1 && index >= start && index < end;
   }
   //
-  public highlightSecondary(glyph: Glyph, index: number): boolean {
+  public highlightSecondary(letter: Letter, index: number): boolean {
     const start = this.verseText.indexOf(this.spirit.S);
     const end = start + this.spirit.S.length;
     return start > -1 && (index == start - 1 || index == end);
@@ -110,7 +113,7 @@ export default class VerseAsGrid extends Vue {
   box-sizing: border-box;
   padding-top: 5px;
   padding-bottom: 5px;
-  .glyph {
+  .letter {
     width: 45px;
     padding: 0;
     font-size: 18px;

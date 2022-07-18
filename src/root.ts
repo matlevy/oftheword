@@ -1,9 +1,9 @@
-import { GlyphMapLatin } from "./types/GlyphMapLatin";
-import { GlyphMapSpecial } from "./types/GlyphMapSpecial";
+import { LetterMapInLatin } from "./types/LetterMapInLatin";
+import { SpecialLetterMap } from "./types/SpecialLetterMap";
 import { Word } from "./types/Word";
 import { God } from "./types/wordActions/God";
 import { WordMap } from "./types/WordMap";
-import { TriadMap } from "./types/TriadMap";
+import { TripletMap } from "@/types/TripletMap";
 import {
   BibleExplorer,
   BibleBook,
@@ -13,42 +13,45 @@ import {
 import Bibles from "./types/bibles/Bibles";
 import BibleBooksEnglish from "./types/bibles/BibleBooksEnglish";
 import { Book } from "./types/Book";
-import { Waters } from "./types/wordActions/Waters";
-import { GlyphMap } from "./types/GlyphMap";
-import { GlyphMapHebrew } from "./types/GlyphMapHebrew";
+import { WATERS, Waters } from "./types/wordActions/Waters";
+import { LetterMap } from "./types/LetterMap";
 
+export interface RootIn {
+  T: WATERS;
+  O: God;
+}
 export class Root {
   private static _instance: Root;
 
-  public RD: WordMap = new WordMap({
-    map: new Map<string, Word>(),
-  });
-
-  public triadMap: TriadMap;
-  public O: God;
   public BIBLE: BibleExplorer = new BibleExplorer(this.source);
   public gen!: Book;
 
   public static getInstance(): Root {
     if (!Root._instance) {
-      Root._instance = new Root();
+      const GO: WATERS = new Waters();
+      const G: LetterMap = new LetterMapInLatin(GO);
+      const O: TripletMap = new TripletMap(G);
+      const OD: WordMap = new WordMap({
+        map: new Map<string, Word>(),
+      });
+      Root._instance = new Root({
+        O: new God({
+          G,
+          O,
+          OD,
+          GO,
+          X: SpecialLetterMap.getInstance(),
+        }),
+        T: GO,
+      });
     }
     return Root._instance;
   }
 
-  constructor() {
-    this.triadMap = new TriadMap(this.glyphMap);
-    this.O = new God({
-      G: this.glyphMap,
-      O: this.triadMap,
-      OD: this.RD,
-      GO: new Waters(),
-      X: GlyphMapSpecial.getInstance(),
-    });
-  }
+  constructor(public IN: RootIn) {}
 
-  public get glyphMap(): GlyphMap {
-    return GlyphMapLatin.getInstance();
+  public get letterMap(): TripletMap {
+    return this.IN.O.O;
   }
 
   public get source(): BibleSource {
@@ -61,7 +64,7 @@ export class Root {
     );
 
     this.gen = new Book({
-      GOD: this.O,
+      GOD: this.IN.O,
     }).read({
       book: 1,
       chapters: book.chapters.map((v: BibleChapter, index: number) => {

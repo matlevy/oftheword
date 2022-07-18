@@ -1,16 +1,16 @@
-import { GlyphMap } from "../GlyphMap";
-import { GlyphMapSpecial } from "../GlyphMapSpecial";
+import { LetterMap } from "../LetterMap";
+import { SpecialLetterMap } from "../SpecialLetterMap";
 import { WATERS } from "./Waters";
-import { TriadMap } from "../TriadMap";
+import { TripletMap } from "../TripletMap";
 import { Word } from "../Word";
 import { WordMap } from "../WordMap";
 
 export interface GodIn {
-  G: GlyphMap;
-  O?: TriadMap;
+  G: LetterMap;
+  O?: TripletMap;
   OD: WordMap;
   GO?: WATERS;
-  X: GlyphMapSpecial;
+  X: SpecialLetterMap;
 }
 //
 export class God {
@@ -26,12 +26,12 @@ export class God {
     return this.IN.OD;
   }
   //
-  get G(): GlyphMap {
+  get G(): LetterMap {
     return this.IN.G;
   }
   //
-  get O(): TriadMap {
-    return this.IN.O as TriadMap;
+  get O(): TripletMap {
+    return this.IN.O as TripletMap;
   }
   //
   get GO(): WATERS {

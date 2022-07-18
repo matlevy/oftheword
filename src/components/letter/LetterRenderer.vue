@@ -1,46 +1,46 @@
 <template>
-  <span class="glyph" @click="pick" :class="{ [glyphClass]: true }">{{
-    glyph?.character
+  <span class="letter" @click="pick" :class="{ [letterClass]: true }">{{
+    letter.IN.E
   }}</span>
 </template>
 
 <script lang="ts">
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
-  name: "glyph-renderer",
+  name: "letter-renderer",
   components: {},
   props: {
     selected: Boolean,
-    glyph: Glyph,
+    letter: Letter,
     colours: Boolean,
   },
 })
-export default class GlyphRenderer extends Vue {
+export default class LetterRenderer extends Vue {
   public selected = false;
-  public glyph!: Glyph;
+  public letter!: Letter;
   public colours!: boolean;
 
-  public get glyphClass() {
-    if (this.glyph?.glyphMap && this.colours)
-      return this.glyph.glyphMap?.getPresenterClass(this.glyph);
+  public get letterClass() {
+    if (this.letter.IN.TT && this.colours)
+      return this.letter.IN.TT.getPresenterClass(this.letter);
     return "";
   }
 
   public pick() {
     if (this.selected) {
       this.selected = false;
-      this.$emit("unpick", this.glyph);
+      this.$emit("unpick", this.letter);
     } else {
       this.selected = true;
-      this.$emit("pick", this.glyph);
+      this.$emit("pick", this.letter);
     }
   }
 }
 </script>
 <style>
-.glyph {
+.letter {
   min-width: 1rem;
   margin: 0.2rem;
   text-align: center;
@@ -48,19 +48,19 @@ export default class GlyphRenderer extends Vue {
   align-content: center;
   align-items: center;
 }
-.glyph-a {
+.letter-a {
   color: red;
 }
-.glyph-e {
+.letter-e {
   color: limegreen;
 }
-.glyph-i {
+.letter-i {
   color: rgb(0, 100, 250);
 }
-.glyph-o {
+.letter-o {
   color: yellow;
 }
-.glyph-u {
+.letter-u {
   color: purple;
 }
 </style>

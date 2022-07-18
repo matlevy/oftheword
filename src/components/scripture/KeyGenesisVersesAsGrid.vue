@@ -1,32 +1,32 @@
 <template>
   <div>
     <div class="scripture-grid">
-      <glyph-renderer
-        class="glyph"
-        v-for="(glyph, index) in combinedText"
+      <letter-renderer
+        class="letter"
+        v-for="(letter, index) in combinedText"
         v-bind:key="index"
         :colours="false"
-        :glyph="glyph"
-      ></glyph-renderer>
+        :letter="letter"
+      ></letter-renderer>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Root } from "@/root";
 
 import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   components: {
-    GlyphRenderer,
+    LetterRenderer,
   },
   props: {},
 })
 export default class KeyGenesisVersesAsGrid extends Vue {
-  public get combinedText(): Glyph[] {
+  public get combinedText(): Letter[] {
     const AA: string = Root.getInstance().BIBLE.getVerse(
       BibleBooksEnglish.ENGLISH.GENESIS,
       1,
@@ -41,7 +41,7 @@ export default class KeyGenesisVersesAsGrid extends Vue {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...AA.concat(AB).toLocaleUpperCase().match(/[A-Z]/gi)!.join("")!,
     ].map((v: string) => {
-      return Root.getInstance().O.G.getGlyph(v);
+      return Root.getInstance().IN.O.G.getLetter(v);
     });
   }
 }
@@ -54,7 +54,7 @@ export default class KeyGenesisVersesAsGrid extends Vue {
   flex-direction: row;
   flex-wrap: wrap;
   border: 1px solid #444444;
-  .glyph {
+  .letter {
     width: calc(1000px / 22);
     padding: 0;
     font-size: 18px;

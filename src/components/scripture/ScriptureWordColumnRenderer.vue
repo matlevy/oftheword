@@ -2,26 +2,26 @@
   <div class="words" v-if="scripture">
     <span class="word" v-for="(word, c) in scripture.I" v-bind:key="c">
       <span class="stack" v-for="n in 30" v-bind:key="n">
-        <glyph-renderer
-          :glyph="glyph"
-          class="glyph"
+        <letter-renderer
+          :letter="letter"
+          class="letter"
           :class="{
             'last-selected': isaSelected(
               n * word.E.length + i - word.E.length,
               c
             ),
-            permissable: isPermissable(glyph),
+            permissable: isPermissable(letter),
           }"
-          v-for="(glyph, i) in word.A"
+          v-for="(letter, i) in word.A"
           :data-n="n * word.E.length + i - word.E.length"
           :data-c="c"
           :colours="false"
           v-bind:key="i"
           v-show="canRender(n, i, word.A.length)"
           @click="
-            onGlyphClick(glyph, n * word.E.length + i - word.E.length, c, i)
+            onLetterClick(letter, n * word.E.length + i - word.E.length, c, i)
           "
-        ></glyph-renderer>
+        ></letter-renderer>
       </span>
     </span>
   </div>
@@ -29,10 +29,10 @@
 <script lang="ts">
 import { Scripture } from "@/types/Scripture";
 import { Options, Vue } from "vue-class-component";
-
-import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Word } from "@/types/Word";
+
+import LetterRenderer from "@/components/letter/LetterRenderer.vue";
 
 @Options({
   name: "scripture-word-column-renderer",
@@ -40,12 +40,12 @@ import { Word } from "@/types/Word";
     scripture: Scripture,
   },
   components: {
-    GlyphRenderer,
+    LetterRenderer,
   },
 })
 export default class ScriptureWordColumnRenderer extends Vue {
   public scripture!: Scripture;
-  public selectedChain: Array<Glyph> = [];
+  public selectedChain: Array<Letter> = [];
   public aSelected: Array<number> = [-1, -1, -1];
   public bSelected: Array<number> = [-1, -1, -1];
   public cSelected: Array<number> = [-1, -1, -1];
@@ -54,8 +54,8 @@ export default class ScriptureWordColumnRenderer extends Vue {
     return n * len - i < 30;
   }
   //
-  public onGlyphClick(
-    glyph: Glyph,
+  public onLetterClick(
+    letter: Letter,
     row: number,
     column: number,
     index: number
@@ -73,30 +73,30 @@ export default class ScriptureWordColumnRenderer extends Vue {
     return this.scripture.I[this.aSelected[1]];
   }
   //
-  public get permissableGlyphs(): Glyph[] {
+  public get permissableLetters(): Letter[] {
     const word: Word = this.scripture.I[this.aSelected[1]];
     if (!word) return [];
-    const glyphA: Glyph = word.A[this.aSelected[2]];
+    const letterA: Letter = word.A[this.aSelected[2]];
     if (!this.scripture.I) return [];
     return this.scripture.I.concat(...this.scripture.I)
       .concat(...this.scripture.I)
       .flatMap((w: Word) => {
         if (!w.A) return [];
-        return w.A.flatMap((v: Glyph, i: number, a: Glyph[]) => {
-          return v == glyphA ? [a[i - 2], a[i - 1], a[i + 1], a[i + 2]] : [];
-        }).reduce((p: Glyph[], c: Glyph) => {
+        return w.A.flatMap((v: Letter, i: number, a: Letter[]) => {
+          return v == letterA ? [a[i - 2], a[i - 1], a[i + 1], a[i + 2]] : [];
+        }).reduce((p: Letter[], c: Letter) => {
           if (p.indexOf(c) == -1 && c != undefined) p.push(c);
           return p;
         }, []);
       })
-      .reduce((p: Glyph[], c: Glyph) => {
+      .reduce((p: Letter[], c: Letter) => {
         if (p.indexOf(c) == -1 && c != undefined) p.push(c);
         return p;
       }, []);
   }
   //
-  public isPermissable(glyph: Glyph): boolean {
-    return this.permissableGlyphs.indexOf(glyph) != -1;
+  public isPermissable(letter: Letter): boolean {
+    return this.permissableLetters.indexOf(letter) != -1;
   }
 }
 </script>
@@ -121,7 +121,7 @@ export default class ScriptureWordColumnRenderer extends Vue {
     padding: 0 auto;
     align-items: center;
     justify-content: center;
-    .glyph {
+    .letter {
       display: flex;
       flex-flow: row;
       text-align: center;

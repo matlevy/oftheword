@@ -1,9 +1,9 @@
-import { Glyph } from "./Glyph";
+import { Letter } from "./Letter";
 import { Scripture } from "./Scripture";
-import { Triad, TriadIn } from "./Triad";
+import { Triplet, TripletIn } from "./Triplet";
 import { God } from "./wordActions/God";
 import { SPIRIT } from "./wordActions/Spirit";
-import { BiglyphContainer } from "./BiGlyph";
+import { TwoLetterContainer } from "./TwoLetters";
 export interface WordIn {
   scripture: Scripture;
   start: number;
@@ -12,7 +12,7 @@ export interface WordIn {
   map: boolean;
 }
 export class Word {
-  public A: Array<Glyph> = [];
+  public A: Array<Letter> = [];
   public E = "";
   public O: Array<number> = [];
   public U: Array<number> = [];
@@ -36,8 +36,8 @@ export class Word {
       }
       this.O[p] = this.U.indexOf(code - this.IN.GOD.G.start);
       //
-      const glyph: Glyph = this.IN.GOD.IN.G.getFromIndex(this.U[this.O[p]]);
-      this.A.push(glyph);
+      const letter: Letter = this.IN.GOD.IN.G.getFromIndex(this.U[this.O[p]]);
+      this.A.push(letter);
     }
     return this;
   }
@@ -48,7 +48,7 @@ export class Word {
         for (let p = 0; p < this.E.length; p++) {
           if (this.A[p + 2]) {
             const index = this.IN.scripture.E.indexOf(this.R);
-            const input: TriadIn = {
+            const input: TripletIn = {
               a: this.A[p],
               b: this.A[p + 1],
               c: this.A[p + 2],
@@ -61,7 +61,7 @@ export class Word {
               remap: true,
               scripture: this.IN.scripture,
             };
-            this.IN.GOD.O.O.store<Triad>(input).map(
+            this.IN.GOD.O.O.store<Triplet>(input).map(
               this.IN.scripture.IN,
               index
             );
@@ -91,9 +91,9 @@ export class Word {
     }) as SPIRIT;
   }
   //
-  get BG(): BiglyphContainer[] {
+  get BG(): TwoLetterContainer[] {
     return this.A.reduce(
-      (p: BiglyphContainer[], c: Glyph, i: number, all: Glyph[]) => {
+      (p: TwoLetterContainer[], c: Letter, i: number, all: Letter[]) => {
         if (i > 0 && i < all.length - 2) {
           p.push({
             BG: {

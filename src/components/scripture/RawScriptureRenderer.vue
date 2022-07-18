@@ -18,7 +18,7 @@
         v-bind:key="index"
         :title="(index + 1).toString()"
         @click="selectWord(word)"
-        class="glyph"
+        class="letter"
         >{{ word.WR?.R
         }}{{ verse.X[index] ? verse.X[index].character : "" }}</span
       >
@@ -50,7 +50,7 @@ export default class RawScriptureRenderer extends Vue {
   }
   //
   private debounce(fn: () => void, delay: number) {
-    let timer: any = null;
+    let timer = -1;
     return () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
@@ -95,7 +95,7 @@ a {
   margin-bottom: 0.8rem;
   display: flex;
 }
-.glyph {
+.letter {
   margin-right: 7px;
   padding: 0;
 }

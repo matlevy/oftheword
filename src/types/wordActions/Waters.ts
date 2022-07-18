@@ -1,6 +1,6 @@
-import { BiglyphContainer } from "../BiGlyph";
-import { Glyph } from "../Glyph";
-import { GlyphMap } from "../GlyphMap";
+import { TwoLetterContainer } from "../TwoLetters";
+import { Letter } from "../Letter";
+import { LetterMap } from "../LetterMap";
 import { SPIRIT } from "./Spirit";
 import { Scripture } from "@/types/Scripture";
 import { Root } from "@/root";
@@ -9,13 +9,12 @@ export interface WATERS {
   ACE(string: string, CE: Scripture): Waters;
   E: Map<string, SPIRIT>;
   RS(
-    map: GlyphMap,
-    pair: BiglyphContainer,
+    map: LetterMap,
+    pair: TwoLetterContainer,
     curr: number,
     max: number
-  ): BiglyphContainer;
+  ): TwoLetterContainer;
 }
-
 export class Waters implements WATERS {
   public AE = "";
   public E: Map<string, SPIRIT> = new Map<string, SPIRIT>();
@@ -28,9 +27,9 @@ export class Waters implements WATERS {
     if (spirit.P) {
       spirit.IT = [
         this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) - 1) -
-          Root.getInstance().O.G.start,
+          Root.getInstance().IN.O.G.start,
         this.AE.charCodeAt(this.AE.indexOf(spirit.S, 0) + spirit.S.length) -
-          Root.getInstance().O.G.start,
+          Root.getInstance().IN.O.G.start,
       ];
     }
     if (this.E.get(spirit.S)) {
@@ -79,20 +78,20 @@ export class Waters implements WATERS {
   }
   //
   public RS(
-    map: GlyphMap,
-    pair: BiglyphContainer,
+    map: LetterMap,
+    pair: TwoLetterContainer,
     curr = 0,
     max = 5
-  ): BiglyphContainer {
+  ): TwoLetterContainer {
     const pos: number = this.AE.indexOf(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      pair.IN.a!.character.concat(pair.IN.b!.character)
+      pair.IN.a!.IN.E.concat(pair.IN.b!.IN.E)
     );
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const a: Glyph = map.getGlyph(this.AE.charAt(pos - 1));
+    const a: Letter = map.getLetter(this.AE.charAt(pos - 1));
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const b: Glyph = map.getGlyph(this.AE.charAt(pos + 2));
-    const n: BiglyphContainer = {
+    const b: Letter = map.getLetter(this.AE.charAt(pos + 2));
+    const n: TwoLetterContainer = {
       BG: pair.IN,
       IN: {
         a: a,
@@ -102,7 +101,7 @@ export class Waters implements WATERS {
     if (curr != max) {
       this.RS(map, n, curr + 1, max);
     }
-    if (n.IN.a?.character != "*") pair.PR = n;
+    if (n.IN.a?.IN.E != "*") pair.PR = n;
     return pair;
   }
   //
@@ -126,8 +125,8 @@ export class Waters implements WATERS {
         T: {},
         I: [],
         IT: [
-          this.AE.charCodeAt(P - 1) - Root.getInstance().O.G.start,
-          this.AE.charCodeAt(P + IN.length) - Root.getInstance().O.G.start,
+          this.AE.charCodeAt(P - 1) - Root.getInstance().IN.O.G.start,
+          this.AE.charCodeAt(P + IN.length) - Root.getInstance().IN.O.G.start,
         ],
         SCRIPTURE: UR,
       };
@@ -144,5 +143,12 @@ export class Waters implements WATERS {
     this.R[this.AE.length] = CE;
     this.AE = this.AE.concat(string);
     return this;
+  }
+  //
+  public FA(C: string, E = 26): Array<Letter> {
+    return new Array(E)
+      .map((v: number, i: number) => this.AE.indexOf(C, 2) - 2 + i)
+      .map((v: number) => this.AE.charAt(v))
+      .map((v: string) => Root.getInstance().IN.O.G.getLetter(v));
   }
 }

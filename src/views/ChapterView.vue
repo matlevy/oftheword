@@ -6,7 +6,7 @@ import { Vue, Options } from "vue-class-component"
 import RawScriptureView from "./RawScriptureView.vue"
 
 @Options({
-  name: "glyph-view",
+  name: "letter-view",
   components: {
     RawScriptureView,
   }

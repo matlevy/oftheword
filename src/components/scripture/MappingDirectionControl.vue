@@ -6,20 +6,20 @@
   </div>
 </template>
 <script lang="ts">
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import { Vue, Options } from "vue-class-component";
 
 @Options({
   name: "mapping-direction-conntrol",
 })
 export default class MappingDirectionControl extends Vue {
-  public direction: TriadMappingDirection = TriadMappingDirection.BAC;
+  public direction: TripletMappingDirection = TripletMappingDirection.BAC;
 
-  public TO: TriadMappingDirection = TriadMappingDirection.BAC;
-  public UT: TriadMappingDirection = TriadMappingDirection.CAB;
-  public RO: TriadMappingDirection = TriadMappingDirection.ACB;
+  public TO: TripletMappingDirection = TripletMappingDirection.BAC;
+  public UT: TripletMappingDirection = TripletMappingDirection.CAB;
+  public RO: TripletMappingDirection = TripletMappingDirection.ACB;
 
-  public setMappingDirection(direction: TriadMappingDirection) {
+  public setMappingDirection(direction: TripletMappingDirection) {
     this.direction = direction;
     this.$emit("setDirection", this.direction);
   }

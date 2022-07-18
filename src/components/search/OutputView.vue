@@ -26,8 +26,8 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { TriadMap } from "@/types/TriadMap";
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
+import { TripletMap } from "@/types/TripletMap";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import { Scripture } from "@/types/Scripture";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
@@ -40,16 +40,16 @@ import MappingDirectionControl from "../scripture/MappingDirectionControl.vue";
     MappingDirectionControl,
   },
   props: {
-    triad: TriadMap,
+    triad: TripletMap,
     showInput: Boolean,
     inputWidth: Number,
-    mapDirection: TriadMappingDirection,
+    mapDirection: TripletMappingDirection,
     scripture: Scripture,
   },
 })
 export default class OutputView extends Vue {
-  public mapDirection: TriadMappingDirection = TriadMappingDirection.BAC;
-  public triad!: TriadMap;
+  public mapDirection: TripletMappingDirection = TripletMappingDirection.BAC;
+  public triad!: TripletMap;
   public showInput!: boolean;
   public inputWidth!: number;
   public scripture!: Scripture;
@@ -70,7 +70,7 @@ export default class OutputView extends Vue {
     return this.inputWidth ? this.inputWidth : 200;
   }
   //
-  public onSetDirection(direction: TriadMappingDirection) {
+  public onSetDirection(direction: TripletMappingDirection) {
     this.mapDirection = direction;
   }
 }

@@ -56,7 +56,7 @@ import { SPIRIT } from "@/types/wordActions/Spirit";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import CognateElement from "./CognateElement.vue";
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
 import CognateInterconnectivity from "./CognateInterconnectivity.vue";
 
@@ -64,7 +64,7 @@ import CognateInterconnectivity from "./CognateInterconnectivity.vue";
   name: "cognate-map",
   components: {
     CognateElement,
-    GlyphRenderer,
+    LetterRenderer,
     VerseAsGrid,
     CognateInterconnectivity,
     FontAwesomeIcon,
@@ -108,7 +108,7 @@ export default class CognateMap extends Vue {
 }
 </script>
 <style scoped lang="scss">
-.glyph {
+.letter {
   display: inline-block;
   font-weight: bold;
   box-sizing: border-box;

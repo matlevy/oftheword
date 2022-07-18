@@ -18,88 +18,70 @@
       <span class="word">
         <h4>R O</h4>
         <div class="stack">
-          <triad-renderer
+          <triplet-renderer
             v-for="(output, wordLetterIndex) in word.A"
             v-bind:key="wordLetterIndex"
             @pick="onGlyphPick"
             @unpick="onGlyphUnPick"
-            :glyph="output"
-            :number="
-              scripture.O.indexOf(
-                output.MAP(RO)[0].a.character.charCodeAt(0) -
-                  scripture.IN.GOD.IN.G.start
-              ) + 1
-            "
+            :letter="output"
             :match="input"
             :filter="filter"
-            :selectedGlyphs="selectedGlyphs"
+            :selectedLetters="selectedLetters"
             :scripture="scripture"
             :map-direction="RO"
           >
-          </triad-renderer>
+          </triplet-renderer>
         </div>
       </span>
       <span class="word">
         <h4>T O</h4>
         <div class="stack">
-          <triad-renderer
+          <triplet-renderer
             v-for="(output, wordLetterIndex) in word.A"
             v-bind:key="wordLetterIndex"
             @pick="onGlyphPick"
             @unpick="onGlyphUnPick"
-            :glyph="output"
-            :number="
-              scripture.O.indexOf(
-                output.MAP(TO)[0].a.character.charCodeAt(0) -
-                  scripture.IN.GOD.IN.G.start
-              ) + 1
-            "
+            :letter="output"
             :match="input"
             :filter="filter"
-            :selectedGlyphs="selectedGlyphs"
+            :selectedLetters="selectedLetters"
             :scripture="scripture"
             :map-direction="TO"
           >
-          </triad-renderer>
+          </triplet-renderer>
         </div>
       </span>
       <span class="word">
         <h4>U T</h4>
         <div class="stack">
-          <triad-renderer
+          <triplet-renderer
             v-for="(output, wordLetterIndex) in word.A"
             v-bind:key="wordLetterIndex"
             @pick="onGlyphPick"
             @unpick="onGlyphUnPick"
-            :glyph="output"
-            :number="
-              scripture.O.indexOf(
-                output.MAP(UT)[0].a.character.charCodeAt(0) -
-                  scripture.IN.GOD.IN.G.start
-              ) + 1
-            "
+            :letter="output"
             :match="input"
             :filter="filter"
-            :selectedGlyphs="selectedGlyphs"
+            :selectedLetters="selectedLetters"
             :scripture="scripture"
             :map-direction="UT"
           >
-          </triad-renderer>
+          </triplet-renderer>
         </div>
       </span>
     </div>
   </span>
 </template>
 <script lang="ts">
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Scripture, ScriptureReference } from "@/types/Scripture";
-import { Triad } from "@/types/Triad";
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
+import { Triplet } from "@/types/Triplet";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
 
-import TriadRenderer from "../glyph/TriadRenderer.vue";
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import TripletRenderer from "../letter/TripletRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   name: "word-map-renderer",
@@ -108,33 +90,33 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
     scripture: Scripture,
     input: String,
     filter: String,
-    selectedGlyphs: Array,
+    selectedLetters: Array,
   },
   components: {
-    TriadRenderer,
-    GlyphRenderer,
+    TripletRenderer,
+    LetterRenderer,
   },
 })
 export default class WordMapRenderer extends Vue {
   public word!: Word;
-  public selectedGlyphs: Array<Glyph> = [];
+  public selectedLetters: Array<Letter> = [];
   public scripture!: Scripture;
   public input!: string;
   public filter!: string;
 
-  public TO: TriadMappingDirection = TriadMappingDirection.BAC;
-  public UT: TriadMappingDirection = TriadMappingDirection.CAB;
-  public RO: TriadMappingDirection = TriadMappingDirection.ACB;
+  public TO: TripletMappingDirection = TripletMappingDirection.BAC;
+  public UT: TripletMappingDirection = TripletMappingDirection.CAB;
+  public RO: TripletMappingDirection = TripletMappingDirection.ACB;
 
-  public onGlyphPick(glyph: Glyph) {
-    if (this.selectedGlyphs.length < 3) {
-      this.selectedGlyphs.push(glyph);
+  public onGlyphPick(letter: Letter) {
+    if (this.selectedLetters.length < 3) {
+      this.selectedLetters.push(letter);
     }
-    if (this.selectedGlyphs.length >= 3) {
-      const search: Triad = this.scripture.IN.GOD.O.O.get({
-        a: this.selectedGlyphs[0],
-        b: this.selectedGlyphs[1],
-        c: this.selectedGlyphs[2],
+    if (this.selectedLetters.length >= 3) {
+      const search: Triplet = this.scripture.IN.GOD.O.O.get({
+        a: this.selectedLetters[0],
+        b: this.selectedLetters[1],
+        c: this.selectedLetters[2],
         i: {
           index: 0,
           ref: this.scripture.IN.ref as ScriptureReference,
@@ -149,9 +131,9 @@ export default class WordMapRenderer extends Vue {
     }
   }
 
-  public onGlyphUnPick(glyph: Glyph) {
-    if (this.selectedGlyphs.indexOf(glyph) != -1) {
-      this.selectedGlyphs.splice(this.selectedGlyphs.indexOf(glyph), 1);
+  public onGlyphUnPick(letter: Letter) {
+    if (this.selectedLetters.indexOf(letter) != -1) {
+      this.selectedLetters.splice(this.selectedLetters.indexOf(letter), 1);
     }
   }
 }
@@ -197,7 +179,7 @@ h4 {
     border: 1px solid rgba(255, 255, 255, 0.2);
     margin-right: 1rem;
     margin-top: 1rem;
-    .glyph {
+    .letter {
       display: flex;
       flex-flow: column;
       text-align: center;

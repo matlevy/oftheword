@@ -25,10 +25,10 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import AlphabetMap from "@/components/glyph/AlphabetMap.vue";
+import AlphabetMap from "@/components/letter/AlphabetMap.vue";
 
 @Options({
-  name: "glyph-view",
+  name: "letter-view",
   components: {
     AlphabetMap,
   },

@@ -1,31 +1,31 @@
 <template>
   <div class="cognate-interconnectivity">
     <div v-for="(branch, b) in streams" v-bind:key="b">
-      <glyph-renderer
-        class="glyph"
+      <letter-renderer
+        class="letter"
         :class="{
           ['highlightPrimary']: highlightPrimary(b, i),
           ['highlightSecondary']: highlightSecondary(b, i),
         }"
-        v-for="(glyph, i) in branch"
+        v-for="(letter, i) in branch"
         v-bind:key="i"
         :colours="true"
-        :glyph="glyph"
-      ></glyph-renderer>
+        :letter="letter"
+      ></letter-renderer>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Root } from "@/root";
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { SPIRIT } from "@/types/wordActions/Spirit";
 import { Vue, Options } from "vue-class-component";
 
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   components: {
-    GlyphRenderer,
+    LetterRenderer,
   },
   props: {
     spirit: Object,
@@ -33,8 +33,8 @@ import GlyphRenderer from "../glyph/GlyphRenderer.vue";
 })
 export default class CognateInterconnectivity extends Vue {
   public spirit!: SPIRIT;
-  public get streams(): Array<Glyph[]> {
-    const letters: Array<Glyph[]> = this.streamsAsArray(this.spirit, [])
+  public get streams(): Array<Letter[]> {
+    const letters: Array<Letter[]> = this.streamsAsArray(this.spirit, [])
       .reduce((p: Array<string>, spirit: SPIRIT) => {
         if (spirit.I && spirit.SCRIPTURE && spirit.SCRIPTURE.E) {
           const S: string = spirit.SCRIPTURE.E.concat(spirit.SCRIPTURE.E);
@@ -49,7 +49,7 @@ export default class CognateInterconnectivity extends Vue {
       }, [])
       .map((v: string) => {
         return [...v].map((v: string) => {
-          return Root.getInstance().O.G.getGlyph(v);
+          return Root.getInstance().IN.O.G.getLetter(v);
         });
       });
     return letters;
@@ -69,7 +69,7 @@ export default class CognateInterconnectivity extends Vue {
   }
   //
   public highlightPrimary(B: number, G: number): boolean {
-    const T = this.streams[B].map((v: Glyph) => v.character).join("");
+    const T = this.streams[B].map((v: Letter) => v.IN.E).join("");
     const S = this.streamsAsArray(this.spirit, [])[B].S;
     const P = T.indexOf(S);
     const E = T.indexOf(S) + S.length;
@@ -77,7 +77,7 @@ export default class CognateInterconnectivity extends Vue {
   }
   //
   public highlightSecondary(B: number, G: number): boolean {
-    const T = this.streams[B].map((v: Glyph) => v.character).join("");
+    const T = this.streams[B].map((v: Letter) => v.IN.E).join("");
     const S = this.streamsAsArray(this.spirit, [])[B].S;
     const P = T.indexOf(S);
     const E = T.indexOf(S) + S.length;
@@ -104,7 +104,7 @@ export default class CognateInterconnectivity extends Vue {
   margin-left: 0.3rem;
   max-width: 1000px;
 }
-.glyph {
+.letter {
   display: inline-block;
   font-weight: bold;
   opacity: 0.3;

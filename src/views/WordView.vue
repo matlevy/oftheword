@@ -29,7 +29,7 @@
         :word="word"
         :scripture="word?.IN.scripture"
       ></word-map-renderer>
-      <bi-glyph-map class="biglyph-map" :word="word"></bi-glyph-map>
+      <two-letter-map class="biletter-map" :word="word"></two-letter-map>
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ import CognateMap from "@/components/word/CognateMap.vue";
 import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 import OutputView from "@/components/search/OutputView.vue";
-import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
+import TwoLetterMap from "@/components/search/TwoLetterMap.vue";
 
 @Options({
   name: "word-view",
@@ -51,7 +51,7 @@ import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
     WordMapRenderer,
     CognateMap,
     RawScriptureRenderer,
-    BiGlyphMap,
+    TwoLetterMap,
   },
   props: {
     search: String,
@@ -80,10 +80,10 @@ export default class WordView extends Vue {
     console.log(this.subsearch);
     if (this.subsearch) {
       const S = this.subsearch.toLocaleUpperCase();
-      return Root.getInstance().O.OD.IN.map.get(S) as Word;
+      return Root.getInstance().IN.O.OD.IN.map.get(S) as Word;
     } else if (this.search) {
       const W = this.search.toLocaleUpperCase();
-      return Root.getInstance().O.OD.IN.map.get(W) as Word;
+      return Root.getInstance().IN.O.OD.IN.map.get(W) as Word;
     } else {
       return this.selectedWord;
     }
@@ -91,7 +91,7 @@ export default class WordView extends Vue {
   public get primaryWord(): Word {
     if (this.search) {
       const W = this.search.toLocaleUpperCase();
-      return Root.getInstance().O.OD.IN.map.get(W) as Word;
+      return Root.getInstance().IN.O.OD.IN.map.get(W) as Word;
     } else {
       return this.selectedWord;
     }
@@ -100,7 +100,7 @@ export default class WordView extends Vue {
   public get secondaryWord(): Word {
     if (this.subsearch) {
       const W = this.subsearch.toLocaleUpperCase();
-      return Root.getInstance().O.OD.IN.map.get(W) as Word;
+      return Root.getInstance().IN.O.OD.IN.map.get(W) as Word;
     } else {
       return this.selectedWord;
     }
@@ -156,7 +156,7 @@ export default class WordView extends Vue {
   flex-flow: column;
   margin-bottom: 3rem;
 }
-.biglyph-map {
+.biletter-map {
   margin-top: 2rem;
 }
 .word-details {

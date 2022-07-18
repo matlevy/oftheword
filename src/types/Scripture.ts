@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Chapter } from "./Chapter";
-import { Glyph } from "./Glyph";
-import { Triad } from "./Triad";
-import { TriadMappingDirection } from "./TriadMappingDirection";
+import { Letter } from "./Letter";
+import { Triplet } from "./Triplet";
+import { TripletMappingDirection } from "./TripletMappingDirection";
 import { Word } from "./Word";
 import { God } from "./wordActions/God";
 export interface ScriptureReference {
@@ -21,10 +21,10 @@ export interface ScriptureIn {
 }
 
 export interface ScriptureTORU {
-  T: Glyph;
-  O: Glyph;
-  R: Glyph;
-  U: Glyph;
+  T: Letter;
+  O: Letter;
+  R: Letter;
+  U: Letter;
 }
 
 export interface ScriptureTORUs {
@@ -34,15 +34,15 @@ export interface ScriptureTORUs {
   U: string;
 }
 export class Scripture {
-  public TO: TriadMappingDirection = TriadMappingDirection.BAC;
-  public UT: TriadMappingDirection = TriadMappingDirection.CAB;
-  public RO: TriadMappingDirection = TriadMappingDirection.ACB;
-  public A: Array<Glyph> = [];
+  public TO: TripletMappingDirection = TripletMappingDirection.BAC;
+  public UT: TripletMappingDirection = TripletMappingDirection.CAB;
+  public RO: TripletMappingDirection = TripletMappingDirection.ACB;
+  public A: Array<Letter> = [];
   public E = "";
   public I: Array<Word> = [];
   public O: Array<number> = [];
   public U: Array<number> = [];
-  public X: Array<Glyph> = [];
+  public X: Array<Letter> = [];
   public P = -1;
   //
   public text = "";
@@ -50,7 +50,7 @@ export class Scripture {
   constructor(public IN: ScriptureIn) {}
   //
   public get T(): Array<ScriptureTORU> {
-    return this.A.map((v: Glyph): ScriptureTORU => {
+    return this.A.map((v: Letter): ScriptureTORU => {
       return {
         O: v.MAP(this.TO)[0].c!,
         R: v.MAP(this.RO)[0].b!,
@@ -62,10 +62,10 @@ export class Scripture {
   public get IT(): ScriptureTORUs {
     return this.T.reduce(
       (p: ScriptureTORUs, v: ScriptureTORU) => {
-        p.T = p.O.concat(v.T.character);
-        p.O = p.O.concat(v.O.character);
-        p.R = p.R.concat(v.R.character);
-        p.U = p.U.concat(v.U.character);
+        p.T = p.O.concat(v.T.IN.E);
+        p.O = p.O.concat(v.O.IN.E);
+        p.R = p.R.concat(v.R.IN.E);
+        p.U = p.U.concat(v.U.IN.E);
         return p;
       },
       {
@@ -113,9 +113,9 @@ export class Scripture {
         );
         lastWordStart = lE;
       } else if (code < 65 || code > 90) {
-        // a character, therefore acts as a glyph decorator
-        if (this.IN.GOD.IN.X.getGlyph(char).character != "*") {
-          this.X[this.I.length] = this.IN.GOD.IN.X.getGlyph(char);
+        // a character, therefore acts as a letter decorator
+        if (this.IN.GOD.IN.X.getLetter(char).IN.E != "*") {
+          this.X[this.I.length] = this.IN.GOD.IN.X.getLetter(char);
         }
       } else {
         this.E = this.E.concat(char);
@@ -157,7 +157,7 @@ export class Scripture {
     for (let i = 0; i < words.length - 1; i++) {
       const wordA: Word = words[i];
       const wordB: Word = words[i + 1];
-      const maps: Array<Glyph> = [
+      const maps: Array<Letter> = [
         wordA.A[wordA.A.length - 2],
         wordA.A[wordA.A.length - 1],
         wordB.A[0],
@@ -173,9 +173,8 @@ export class Scripture {
       }
       for (let p = 0; p < maps.length; p++) {
         if (maps[p + 2]) {
-          const str =
-            maps[p].character + maps[p + 1].character + maps[p + 2].character;
-          this.IN.GOD.O.O.store<Triad>({
+          const str = maps[p].IN.E + maps[p + 1].IN.E + maps[p + 2].IN.E;
+          this.IN.GOD.O.O.store<Triplet>({
             a: maps[p],
             b: maps[p + 1],
             c: maps[p + 2],

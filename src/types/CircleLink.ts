@@ -1,7 +1,7 @@
-import { TriadMapPoint } from "./TriadMapPoint";
+import { TripletMapPoint } from "@/types/TripletMapPoint";
 
 export class CircleLink {
-  constructor(public point: TriadMapPoint, public count = 1) {}
+  constructor(public point: TripletMapPoint, public count = 1) {}
 
   public increment() {
     this.count += 1;

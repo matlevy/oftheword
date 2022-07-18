@@ -22,7 +22,7 @@ export default class WordFinder extends Vue {
   public search() {
     console.clear();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const term: SPIRIT = Root.getInstance().O.IN.GO!.FACE({
+    const term: SPIRIT = Root.getInstance().IN.O.IN.GO!.FACE({
       S: this.searchTerm,
       P: -1,
       T: {},

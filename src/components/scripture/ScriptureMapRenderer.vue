@@ -7,15 +7,15 @@
         v-for="(word, wordIndex) in scripture.I"
         v-bind:key="wordIndex"
       >
-        <triad-renderer
+        <triplet-renderer
           v-for="(output, wordLetterIndex) in word.A"
           v-bind:key="wordLetterIndex"
           @pick="onGlyphPick"
-          @unpick="onGlyphUnPick"
-          :glyph="output"
+          @unpick="onLetterUnPick"
+          :letter="output"
           :number="
             scripture.O.indexOf(
-              output.MAP(mapDirection)[0].a.character.charCodeAt(0) -
+              output.MAP(mapDirection)[0].a.IN.E.charCodeAt(0) -
                 scripture.IN.GOD.IN.G.start
             ) + 1
           "
@@ -24,23 +24,23 @@
           :scripture="scripture"
           :map-direction="mapDirection"
         >
-        </triad-renderer>
+        </triplet-renderer>
       </span>
     </div>
     <!-- <div class="words">
       <span class="word">
         <span
           class="stack"
-          v-for="(glyph, wordLetterIndex) in selectedGlyphs"
+          v-for="(letter, wordLetterIndex) in selectedGlyphs"
           v-bind:key="wordLetterIndex"
         >
-          <span class="glyph">
-            <glyph-renderer
+          <span class="letter">
+            <letter-renderer
               :selected="true"
-              @pick="onGlyphUnPick"
-              @unpick="onGlyphUnPick"
-              :glyph="glyph"
-            ></glyph-renderer>
+              @pick="onLetterUnPick"
+              @unpick="onLetterUnPick"
+              :letter="letter"
+            ></letter-renderer>
           </span>
         </span>
       </span>
@@ -48,33 +48,33 @@
   </div>
 </template>
 <script lang="ts">
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Scripture, ScriptureReference } from "@/types/Scripture";
-import { Triad } from "@/types/Triad";
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
+import { Triplet } from "@/types/Triplet";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import { Options, Vue } from "vue-class-component";
 
-import TriadRenderer from "../glyph/TriadRenderer.vue";
-import GlyphRenderer from "../glyph/GlyphRenderer.vue";
+import TripletRenderer from "../letter/TripletRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   name: "scripture-map-renderer",
   props: {
     scripture: Scripture,
     wordBorder: Boolean,
-    mapDirection: TriadMappingDirection,
+    mapDirection: TripletMappingDirection,
     input: String,
   },
   components: {
-    TriadRenderer,
-    GlyphRenderer,
+    TripletRenderer,
+    LetterRenderer,
   },
 })
 export default class ScriptureMapRenderer extends Vue {
-  public mapDirection!: TriadMappingDirection;
+  public mapDirection!: TripletMappingDirection;
   public scripture!: Scripture;
   public wordBorder!: boolean;
-  public selectedGlyphs: Array<Glyph> = [];
+  public selectedGlyphs: Array<Letter> = [];
   public input!: string;
   //
   private tally = 0;
@@ -84,12 +84,12 @@ export default class ScriptureMapRenderer extends Vue {
     return this.tally;
   }
 
-  public onGlyphPick(glyph: Glyph) {
+  public onGlyphPick(letter: Letter) {
     if (this.selectedGlyphs.length < 3) {
-      this.selectedGlyphs.push(glyph);
+      this.selectedGlyphs.push(letter);
     }
     if (this.selectedGlyphs.length >= 3) {
-      const search: Triad = this.scripture.IN.GOD.O.O.get({
+      const search: Triplet = this.scripture.IN.GOD.O.O.get({
         a: this.selectedGlyphs[0],
         b: this.selectedGlyphs[1],
         c: this.selectedGlyphs[2],
@@ -107,9 +107,9 @@ export default class ScriptureMapRenderer extends Vue {
     }
   }
 
-  public onGlyphUnPick(glyph: Glyph) {
-    if (this.selectedGlyphs.indexOf(glyph) != -1) {
-      this.selectedGlyphs.splice(this.selectedGlyphs.indexOf(glyph), 1);
+  public onLetterUnPick(letter: Letter) {
+    if (this.selectedGlyphs.indexOf(letter) != -1) {
+      this.selectedGlyphs.splice(this.selectedGlyphs.indexOf(letter), 1);
     }
   }
 }
@@ -143,7 +143,7 @@ export default class ScriptureMapRenderer extends Vue {
     padding: 10px 0;
     align-items: center;
     justify-content: center;
-    .glyph {
+    .letter {
       display: flex;
       flex-flow: column;
       text-align: center;

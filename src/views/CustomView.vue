@@ -13,30 +13,29 @@
       @cognatePick="cognatePick"
       :spirit="word.IT"
     ></cognate-map>
-    <bi-glyph-map
+    <two-letter-map
       v-if="word.E.length > 3"
       @select="onSelect"
-      class="biglyph-map"
+      class="biletter-map"
       :word="word"
-    ></bi-glyph-map>
+    ></two-letter-map>
     <!--<KeyGenesisVersesAsGrid></KeyGenesisVersesAsGrid>-->
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { Scripture } from "@/types/Scripture";
-import { GlyphMapLatin } from "@/types/GlyphMapLatin";
-import { GlyphMapSpecial } from "@/types/GlyphMapSpecial";
+import { SpecialLetterMap } from "@/types/SpecialLetterMap";
 import { God } from "@/types/wordActions/God";
-import { TriadMap } from "@/types/TriadMap";
+import { TripletMap } from "@/types/TripletMap";
 import { WordMap } from "@/types/WordMap";
 import { Word } from "@/types/Word";
 import { Root } from "@/root";
-import { BiGlyph } from "@/types/BiGlyph";
+import { TwoLetters } from "@/types/TwoLetters";
 import { SPIRIT } from "@/types/wordActions/Spirit";
 
 import OutputView from "@/components/search/OutputView.vue";
-import BiGlyphMap from "@/components/search/BiGlyphMap.vue";
+import TwoLetterMap from "@/components/search/TwoLetterMap.vue";
 import KeyGenesisVersesAsGrid from "@/components/scripture/KeyGenesisVersesAsGrid.vue";
 import CognateMap from "@/components/word/CognateMap.vue";
 import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
@@ -46,7 +45,7 @@ import CognateInterconnectivity from "@/components/word/CognateInterconnectivity
   name: "custom-view",
   components: {
     OutputView,
-    BiGlyphMap,
+    TwoLetterMap,
     KeyGenesisVersesAsGrid,
     CognateMap,
     VerseAsGrid,
@@ -62,10 +61,10 @@ export default class CustomView extends Vue {
   //
   private GOD: God = new God({
     OD: this.wordMap,
-    O: Root.getInstance().triadMap,
-    G: GlyphMapLatin.getInstance(),
-    X: GlyphMapSpecial.getInstance(),
-    GO: Root.getInstance().O.GO,
+    O: Root.getInstance().IN.O.O,
+    G: Root.getInstance().IN.O.G,
+    X: SpecialLetterMap.getInstance(),
+    GO: Root.getInstance().IN.O.GO,
   });
   //
   public scripture: Scripture = new Scripture({
@@ -93,15 +92,15 @@ export default class CustomView extends Vue {
     });
   }
   //
-  public get triads(): TriadMap {
-    return Root.getInstance().triadMap;
+  public get triads(): TripletMap {
+    return Root.getInstance().letterMap;
   }
   //
   public cognatePick(s: SPIRIT) {
     console.log("todo", s);
   }
   //
-  public onSelect(event: { word: Word; pair: BiGlyph }) {
+  public onSelect(event: { word: Word; pair: TwoLetters }) {
     console.log(event);
   }
 }
@@ -117,7 +116,7 @@ export default class CustomView extends Vue {
 .cognate-map {
   margin-top: 2rem;
 }
-.biglyph-map {
+.biletter-map {
   margin-top: 2rem;
 }
 </style>

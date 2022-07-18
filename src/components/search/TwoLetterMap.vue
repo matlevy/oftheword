@@ -1,5 +1,5 @@
 <template>
-  <div class="biglyph-map">
+  <div class="two-letter-map">
     <div class="notes">
       Asking the question: given two letters, and the surrounding two letters of
       such, and the known first instance of such; what are the parenting two
@@ -9,7 +9,7 @@
       <BiGlyphMapRow
         @select="onPairSelected(word, $event)"
         :word="word"
-        :glyphMap="bgm"
+        :letterMap="bgm"
       ></BiGlyphMapRow>
     </div>
   </div>
@@ -17,30 +17,30 @@
 <script lang="ts">
 import { Word } from "@/types/Word";
 import { Vue, Options } from "vue-class-component";
+import { TwoLetterContainer } from "@/types/TwoLetters";
 
-import GlyphRenderer from "@/components/glyph/GlyphRenderer.vue";
+import LetterRenderer from "@/components/letter/LetterRenderer.vue";
 import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
-import { BiglyphContainer } from "@/types/BiGlyph";
 
 @Options({
-  name: "biglyph-map",
+  name: "two-letter-map",
   props: {
     word: Word,
   },
   components: {
-    GlyphRenderer,
+    LetterRenderer,
     BiGlyphMapRow,
   },
 })
-export default class BiGlyphMap extends Vue {
+export default class TwoLetterMap extends Vue {
   public word!: Word;
-  public onPairSelected(WR: Word, BG: BiglyphContainer) {
+  public onPairSelected(WR: Word, BG: TwoLetterContainer) {
     this.$emit("select", { WR, BG });
   }
 }
 </script>
 <style lang="scss" scoped>
-.biglyph-map {
+.two-letter-map {
   display: flex;
   flex-direction: column;
 }

@@ -1,4 +1,4 @@
-export enum TriadMappingDirection {
+export enum TripletMappingDirection {
   ABC = 0,
   ACB = 1,
   BAC = 2,

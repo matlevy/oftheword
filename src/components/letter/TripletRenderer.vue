@@ -1,63 +1,63 @@
 <template>
-  <span class="triad" v-if="glyph.MAP(mapDirection)[0]">
-    <glyph-renderer
+  <span class="triad" v-if="letter.MAP(mapDirection)[0]">
+    <letter-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
-      :glyph="glyph.MAP(mapDirection)[0].a"
+      :letter="letter.MAP(mapDirection)[0].a"
       :colours="true"
       :class="{
         dim: dimA,
       }"
-    ></glyph-renderer>
-    <glyph-renderer
+    ></letter-renderer>
+    <letter-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
-      :glyph="glyph.MAP(mapDirection)[0].b"
+      :letter="letter.MAP(mapDirection)[0].b"
       :colours="true"
       :class="{ dim: dimB }"
-    ></glyph-renderer>
-    <glyph-renderer
+    ></letter-renderer>
+    <letter-renderer
       @pick="onGlyphPick"
       @unpick="onGlyphUnPick"
-      :glyph="glyph.MAP(mapDirection)[0].c"
+      :letter="letter.MAP(mapDirection)[0].c"
       :colours="true"
       :class="{ dim: dimC }"
-    ></glyph-renderer>
+    ></letter-renderer>
     <number-renderer :class="{ dim: I }" :number="number"></number-renderer>
   </span>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import { Glyph } from "@/types/Glyph";
+import { Letter } from "@/types/Letter";
 import { Scripture } from "@/types/Scripture";
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
+import { Triplet, TripletInterface } from "@/types/Triplet";
 
-import GlyphRenderer from "./GlyphRenderer.vue";
+import LetterRenderer from "./LetterRenderer.vue";
 import NumberRenderer from "./NumberRenderer.vue";
-import { Triad, TriGlyph } from "@/types/Triad";
 
 @Options({
-  name: "triad-renderer",
+  name: "triplet-renderer",
   props: {
-    selectedGlyphs: Array,
+    selectedLetters: Array,
     scripture: Scripture,
-    mapDirection: TriadMappingDirection,
+    mapDirection: TripletMappingDirection,
     number: Number,
-    glyph: Glyph,
+    letter: Letter,
     match: String,
     filter: String,
   },
   components: {
-    GlyphRenderer,
+    LetterRenderer,
     NumberRenderer,
   },
 })
-export default class TriadRenderer extends Vue {
-  public selectedGlyphs: Array<Glyph> = [];
+export default class TripletRenderer extends Vue {
+  public selectedLetters: Array<Letter> = [];
   public scripture!: Scripture;
-  public mapDirection!: TriadMappingDirection;
+  public mapDirection!: TripletMappingDirection;
   public number!: number;
-  public glyph!: Glyph;
+  public letter!: Letter;
   public match!: string;
   public filter!: string;
   //
@@ -66,13 +66,13 @@ export default class TriadRenderer extends Vue {
     super(args);
   }
   //
-  public get IS(): TriGlyph {
-    const triad: Triad = this.glyph.MAP(this.mapDirection)[0] as Triad;
+  public get IS(): TripletInterface {
+    const triad: Triplet = this.letter.MAP(this.mapDirection)[0] as Triplet;
     const src = this.filter.length > 0 ? this.filter : this.match;
     return {
-      a: src.indexOf(triad.a.character) != -1 ? triad.a : undefined,
-      b: src.indexOf(triad.b.character) != -1 ? triad.b : undefined,
-      c: src.indexOf(triad.c.character) != -1 ? triad.c : undefined,
+      a: src.indexOf(triad.a.IN.E) != -1 ? triad.a : undefined,
+      b: src.indexOf(triad.b.IN.E) != -1 ? triad.b : undefined,
+      c: src.indexOf(triad.c.IN.E) != -1 ? triad.c : undefined,
     };
   }
   //
@@ -87,39 +87,39 @@ export default class TriadRenderer extends Vue {
   //
   public get dimA() {
     if (this.filter?.length > 0) {
-      return this.IS.a != this.glyph.MAP(this.mapDirection)[0].a;
+      return this.IS.a != this.letter.MAP(this.mapDirection)[0].a;
     }
     return (
       this.I &&
       !(
-        this.IS.b == this.glyph.MAP(this.mapDirection)[0].b ||
-        this.IS.c == this.glyph.MAP(this.mapDirection)[0].c
+        this.IS.b == this.letter.MAP(this.mapDirection)[0].b ||
+        this.IS.c == this.letter.MAP(this.mapDirection)[0].c
       )
     );
   }
   public get dimB() {
     if (this.filter?.length > 0) {
-      return this.IS.a != this.glyph.MAP(this.mapDirection)[0].a;
+      return this.IS.a != this.letter.MAP(this.mapDirection)[0].a;
     }
-    return this.I && this.IS.b != this.glyph.MAP(this.mapDirection)[0].b;
+    return this.I && this.IS.b != this.letter.MAP(this.mapDirection)[0].b;
   }
   public get dimC() {
     if (this.filter?.length > 0) {
-      return this.IS.a != this.glyph.MAP(this.mapDirection)[0].a;
+      return this.IS.a != this.letter.MAP(this.mapDirection)[0].a;
     }
-    return this.I && this.IS.c != this.glyph.MAP(this.mapDirection)[0].c;
+    return this.I && this.IS.c != this.letter.MAP(this.mapDirection)[0].c;
   }
   //
   public get I(): boolean {
     return this.match?.length > 0;
   }
   //
-  public onGlyphPick(glyph: Glyph) {
-    this.$emit("pick", glyph);
+  public onLetterPick(letter: Letter) {
+    this.$emit("pick", letter);
   }
   //
-  public onGlyphUnPick(glyph: Glyph) {
-    this.$emit("unpick", glyph);
+  public onLetterUnPick(letter: Letter) {
+    this.$emit("unpick", letter);
   }
 }
 </script>
@@ -136,7 +136,7 @@ export default class TriadRenderer extends Vue {
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  .glyph {
+  .letter {
     display: flex;
     flex-flow: column;
     text-align: center;

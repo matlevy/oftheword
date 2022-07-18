@@ -1,7 +1,7 @@
-import { CircleLink } from "./CircleLink";
-import { Glyph } from "./Glyph";
+import { CircleLink } from "@/types/CircleLink";
+import { Letter } from "./Letter";
 
-export class TriadMapPoint {
+export class TripletMapPoint {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public words: any = {};
   public connections: Array<CircleLink> = [];
@@ -10,9 +10,9 @@ export class TriadMapPoint {
     public circle: number,
     public radii: number,
     public ref: string,
-    public glyph: Glyph
+    public letter: Letter
   ) {}
-  public link(point: TriadMapPoint) {
+  public link(point: TripletMapPoint) {
     if (point) {
       let link: CircleLink = this.connections.find(
         (v: CircleLink) => v.point == point
@@ -27,7 +27,7 @@ export class TriadMapPoint {
     }
   }
   public getBiGlyphIndex(): number {
-    return (this.circle * 7 + this.radii) / this.glyph.index;
+    return (this.circle * 7 + this.radii) / this.letter.IN.T;
   }
   public getPairedGlyphs(): Array<number> {
     let b: number = this.getBiGlyphIndex() % 26;

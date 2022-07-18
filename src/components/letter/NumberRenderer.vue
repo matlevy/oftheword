@@ -14,7 +14,7 @@ import { Options, Vue } from "vue-class-component";
 export default class NumberRenderer extends Vue {
   public number!: number;
 
-  constructor(...args: any[]) {
+  constructor(...args: unknown[]) {
     super(args);
   }
 }

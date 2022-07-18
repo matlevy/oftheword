@@ -20,7 +20,7 @@ import { Root } from "@/root";
 
 import ScriptureMapRenderer from "@/components/scripture/ScriptureMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
-import { TriadMappingDirection } from "@/types/TriadMappingDirection";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 
 //
 @Options({
@@ -30,7 +30,7 @@ import { TriadMappingDirection } from "@/types/TriadMappingDirection";
   },
 })
 export default class ScriptureView extends Vue {
-  public mapDirection: TriadMappingDirection = TriadMappingDirection.BAC;
+  public mapDirection: TripletMappingDirection = TripletMappingDirection.BAC;
   public search = "";
   //
   constructor(...args: any[]) {
