@@ -1,8 +1,8 @@
 <template>
   <span class="triad" v-if="letter.MAP(mapDirection)[0]">
     <letter-renderer
-      @pick="onGlyphPick"
-      @unpick="onGlyphUnPick"
+      @pick="onLetterPick"
+      @unpick="onLetterUnPick"
       :letter="letter.MAP(mapDirection)[0].a"
       :colours="true"
       :class="{
@@ -10,15 +10,15 @@
       }"
     ></letter-renderer>
     <letter-renderer
-      @pick="onGlyphPick"
-      @unpick="onGlyphUnPick"
+      @pick="onLetterPick"
+      @unpick="onLetterUnPick"
       :letter="letter.MAP(mapDirection)[0].b"
       :colours="true"
       :class="{ dim: dimB }"
     ></letter-renderer>
     <letter-renderer
-      @pick="onGlyphPick"
-      @unpick="onGlyphUnPick"
+      @pick="onLetterPick"
+      @unpick="onLetterUnPick"
       :letter="letter.MAP(mapDirection)[0].c"
       :colours="true"
       :class="{ dim: dimC }"

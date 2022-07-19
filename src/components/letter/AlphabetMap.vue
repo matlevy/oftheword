@@ -1,24 +1,30 @@
 <template>
   <div class="alphabet-view">
-    <scripture-map-renderer
-      :input="search"
-      :map-direction="TO"
-      :word-border="false"
-      :scripture="scripture"
-    ></scripture-map-renderer>
-    <scripture-map-renderer
-      :input="search"
-      :map-direction="RO"
-      :word-border="false"
-      :scripture="scripture"
-    ></scripture-map-renderer>
-    <scripture-map-renderer
-      :input="search"
-      :map-direction="UT"
-      :word-border="false"
-      :scripture="scripture"
-    ></scripture-map-renderer>
-    <!-- <input v-model="search" width="50" /> -->
+    <div class="column column-label">
+      <div class="row" v-for="(L, I) in letters" v-bind:key="I">
+        <letter-renderer
+          :class="{ ['lowerBorder']: hasDivider(I) }"
+          :letter="L"
+          :colours="true"
+          class="alphabet-letter"
+        ></letter-renderer>
+      </div>
+    </div>
+    <div
+      class="column"
+      :class="{ ['rightBorder']: hasDivider(X) }"
+      v-for="(C, X) in alphabet.A"
+      v-bind:key="X"
+    >
+      <div class="row" v-for="(A, Y) in C.FAC" v-bind:key="Y">
+        <letter-renderer
+          :class="{ ['lowerBorder']: hasDivider(Y) }"
+          :letter="A"
+          :colours="true"
+          class="alphabet-letter"
+        ></letter-renderer>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -32,11 +38,13 @@ import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import { Root } from "@/root";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
+import LetterRenderer from "./LetterRenderer.vue";
+import { Letter } from "@/types/Letter";
 
 @Options({
-  name: "alphabet-map",
   components: {
     ScriptureMapRenderer,
+    LetterRenderer,
   },
   props: {
     triad: TripletMap,
@@ -69,7 +77,6 @@ export default class AlphaBetMap extends Vue {
   constructor(...args: unknown[]) {
     super(args);
     this.scripture.read(this.GOD.IN.G.getAllAsString().concat(" "));
-    console.log(this.scripture);
   }
   //
   public mounted() {
@@ -85,5 +92,42 @@ export default class AlphaBetMap extends Vue {
       T: {},
     });
   }
+  //
+  public get alphabet(): Word {
+    return this.scripture.I[0];
+  }
+  //
+  public get letters(): Letter[] {
+    return [...Root.getInstance().IN.O.G.getAllAsString()].map((v: string) =>
+      Root.getInstance().IN.O.G.getLetter(v)
+    );
+  }
+  //
+  public hasDivider(index: number) {
+    return [4, 8, 14, 20, 26].indexOf(index) != -1;
+  }
 }
 </script>
+<style lang="scss" scoped>
+.column {
+  display: inline-block;
+  float: left;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.column-label {
+  border-right: 1px dotted rgba(255, 255, 255, 0.2);
+}
+.rightBorder {
+  border-left: 1px dotted rgba(255, 255, 255, 0.2);
+}
+.lowerBorder {
+  border-top: 1px dotted rgba(255, 255, 255, 0.2);
+}
+.alphabet-letter {
+  margin: 0rem;
+  padding: 0.5rem;
+}
+</style>

@@ -64,4 +64,11 @@ export class Letter {
       return p;
     }, []);
   }
+  //
+  public get FAC(): Letter[] {
+    if (this.IN.R) {
+      return this.IN.R.FA(this);
+    }
+    return [];
+  }
 }

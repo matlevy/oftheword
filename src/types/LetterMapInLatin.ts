@@ -65,7 +65,7 @@ export class LetterMapInLatin implements LetterMap {
   }
   //
   public getAllAsString(): string {
-    return LetterMapInLatin.ALPHABET.toString();
+    return LetterMapInLatin.ALPHABET.join("");
   }
   //
   public getPresenterClass(letter: Letter) {

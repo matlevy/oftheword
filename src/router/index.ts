@@ -1,4 +1,5 @@
 import CustomView from "@/views/CustomView.vue";
+import AlphabetView from "../views/AlphabetView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -35,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/alphabet",
     name: "alphabet",
-    component: () => import("../views/AlphabetView.vue"),
+    component: AlphabetView,
   },
   {
     path: "/search",

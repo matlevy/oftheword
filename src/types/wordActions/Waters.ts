@@ -14,6 +14,7 @@ export interface WATERS {
     curr: number,
     max: number
   ): TwoLetterContainer;
+  FA(C: Letter): Letter[];
 }
 export class Waters implements WATERS {
   public AE = "";
@@ -145,9 +146,12 @@ export class Waters implements WATERS {
     return this;
   }
   //
-  public FA(C: string, E = 26): Array<Letter> {
-    return new Array(E)
-      .map((v: number, i: number) => this.AE.indexOf(C, 2) - 2 + i)
+  public FA(C: Letter): Letter[] {
+    const letters: Array<string> = [
+      ...Root.getInstance().IN.O.G.getAllAsString().replace(",", ""),
+    ];
+    return letters
+      .map((v: string, i: number) => this.AE.indexOf(C.IN.E, 2) - 2 + i)
       .map((v: number) => this.AE.charAt(v))
       .map((v: string) => Root.getInstance().IN.O.G.getLetter(v));
   }
