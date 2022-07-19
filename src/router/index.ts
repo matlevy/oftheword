@@ -1,6 +1,7 @@
 import CustomView from "@/views/CustomView.vue";
 import AlphabetView from "../views/AlphabetView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import AlphabetFullGrid from "@/views/AlphabetFullGrid.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -32,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/wc/:book/:chapter/:verse",
     name: "bowordcolumnok",
     component: () => import("../views/ScriptureWordColumnView.vue"),
+  },
+  {
+    path: "/alphabet/grid",
+    name: "alphabetgrid",
+    component: AlphabetFullGrid,
   },
   {
     path: "/alphabet",

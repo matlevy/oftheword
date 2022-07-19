@@ -15,6 +15,7 @@ export interface WATERS {
     max: number
   ): TwoLetterContainer;
   FA(C: Letter): Letter[];
+  S(letter: Letter): number;
 }
 export class Waters implements WATERS {
   public AE = "";
@@ -154,5 +155,9 @@ export class Waters implements WATERS {
       .map((v: string, i: number) => this.AE.indexOf(C.IN.E, 2) - 2 + i)
       .map((v: number) => this.AE.charAt(v))
       .map((v: string) => Root.getInstance().IN.O.G.getLetter(v));
+  }
+  //
+  public S(letter: Letter): number {
+    return this.AE.indexOf(letter.IN.E) + 1;
   }
 }

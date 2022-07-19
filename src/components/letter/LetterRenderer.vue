@@ -1,10 +1,15 @@
 <template>
-  <span class="letter" @click="pick" :class="{ [letterClass]: true }">{{
-    letter.IN.E
-  }}</span>
+  <span
+    class="letter"
+    :title="letter.T.toString()"
+    @click="pick"
+    :class="{ [letterClass]: true }"
+    >{{ letterRender }}</span
+  >
 </template>
 
 <script lang="ts">
+import { Root } from "@/root";
 import { Letter } from "@/types/Letter";
 import { Options, Vue } from "vue-class-component";
 
@@ -15,12 +20,14 @@ import { Options, Vue } from "vue-class-component";
     selected: Boolean,
     letter: Letter,
     colours: Boolean,
+    viewAsNumbers: Boolean,
   },
 })
 export default class LetterRenderer extends Vue {
   public selected = false;
   public letter!: Letter;
   public colours!: boolean;
+  public viewAsNumbers!: boolean;
 
   public get letterClass() {
     if (this.letter.IN.TT && this.colours)
@@ -36,6 +43,15 @@ export default class LetterRenderer extends Vue {
       this.selected = true;
       this.$emit("pick", this.letter);
     }
+  }
+
+  public get letterRender(): string {
+    if (this.viewAsNumbers) {
+      return Root.getInstance()
+        .IN.O.G.getLetterGroupPosition(this.letter)
+        .toString();
+    }
+    return this.letter.IN.E;
   }
 }
 </script>

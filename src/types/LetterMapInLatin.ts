@@ -86,4 +86,23 @@ export class LetterMapInLatin implements LetterMap {
     }
     return "";
   }
+  //
+  public getLetterGroupPosition(letter: Letter): number {
+    if (LetterMapInLatin.A.indexOf(letter.IN.E) != -1) {
+      return LetterMapInLatin.A.indexOf(letter.IN.E) + 1;
+    }
+    if (LetterMapInLatin.E.indexOf(letter.IN.E) != -1) {
+      return LetterMapInLatin.E.indexOf(letter.IN.E) + 1;
+    }
+    if (LetterMapInLatin.I.indexOf(letter.IN.E) != -1) {
+      return LetterMapInLatin.I.indexOf(letter.IN.E) + 1;
+    }
+    if (LetterMapInLatin.O.indexOf(letter.IN.E) != -1) {
+      return LetterMapInLatin.O.indexOf(letter.IN.E) + 1;
+    }
+    if (LetterMapInLatin.U.indexOf(letter.IN.E) != -1) {
+      return LetterMapInLatin.U.indexOf(letter.IN.E) + 1;
+    }
+    return 0;
+  }
 }

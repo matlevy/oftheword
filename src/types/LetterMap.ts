@@ -7,4 +7,5 @@ export interface LetterMap {
   getIndexOfTwoLetters(a: Letter, b: Letter): number;
   getAllAsString(): string;
   getPresenterClass(letter: Letter): string;
+  getLetterGroupPosition(letter: Letter): number;
 }

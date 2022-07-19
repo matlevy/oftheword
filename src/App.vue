@@ -9,7 +9,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: black;
   margin: 0;
   padding: 0;
 }
@@ -20,6 +19,6 @@ html {
   top: 0;
   bottom: 0;
   min-height: 100%;
-  background-color: black;
+  background-color: rgb(15, 15, 15);
 }
 </style>

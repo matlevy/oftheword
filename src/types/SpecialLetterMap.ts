@@ -72,4 +72,8 @@ export class SpecialLetterMap implements LetterMap {
   public getPresenterClass(letter: Letter): string {
     return "";
   }
+  //
+  public getLetterGroupPosition(letter: Letter): number {
+    return 0;
+  }
 }

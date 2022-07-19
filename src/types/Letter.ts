@@ -71,4 +71,11 @@ export class Letter {
     }
     return [];
   }
+  //
+  public get T(): number {
+    if (this.IN.R) {
+      return this.IN.R.S(this);
+    }
+    return -1;
+  }
 }

@@ -90,4 +90,8 @@ export class GlyphMapHebrew implements LetterMap {
     }
     return "";
   }
+  //
+  public getLetterGroupPosition(letter: Letter): number {
+    return 0;
+  }
 }
