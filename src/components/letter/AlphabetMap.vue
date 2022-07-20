@@ -29,6 +29,7 @@
             :viewAsNumbers="viewGridLettersAsNumbers"
             :letter="A"
             :colours="true"
+            @click="onLetterPick(A, X, Y)"
             class="alphabet-letter"
           ></letter-renderer>
         </div>
@@ -77,6 +78,7 @@ import LetterRenderer from "./LetterRenderer.vue";
     onlyColour: String,
     allowToggle: Boolean,
     borderContainer: Boolean,
+    gridSpelling: Array,
   },
 })
 export default class AlphaBetMap extends Vue {
@@ -98,6 +100,7 @@ export default class AlphaBetMap extends Vue {
   public allowToggle!: boolean;
   public borderContainer!: boolean;
   public inputHSearchSource!: string;
+  public gridSpelling!: Array<{ P: Letter; I: number; C: number }>;
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -129,7 +132,7 @@ export default class AlphaBetMap extends Vue {
     console.clear();
     return this.at
       .map((v: string) => this.GOD.IN.G.getLetter(v).FAC)
-      .filter((v: Letter[], i: number) => {
+      .filter((v: Letter[]) => {
         const rowString = v.map((l: Letter) => l.IN.E).join("");
         const Q = new RegExp(`[${this.colFilter}]`, "gm");
         const P = this.GOD.G.getAllAsString().indexOf(this.inputHSearchSource);
@@ -214,6 +217,14 @@ export default class AlphaBetMap extends Vue {
     return !this.viewGridLettersAsNumbers
       ? "View As Numbers & Colours In Grid"
       : "View As Letters In Grid";
+  }
+  //
+  public onLetterPick(P: Letter, I: number, C: number) {
+    this.$emit("letterPick", {
+      P,
+      I,
+      C,
+    });
   }
 }
 </script>

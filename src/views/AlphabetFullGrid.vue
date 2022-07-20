@@ -36,8 +36,24 @@
         </option>
       </select>
       <input placeholder="Filter Row" v-model="rFilter" size="15" />
+      <span v-if="chosenLetters.length > 0">
+        <button v-if="chosenLetters.length > 0" @click="onPickSpelling">
+          <span v-for="(el, index) in chosenLetters" v-bind:key="index">{{
+            el.P.IN.E
+          }}</span>
+        </button>
+        <button>
+          <font-awesome-icon
+            class="trash"
+            icon="fa-solid fa-trash-can"
+            @click="resetChosenLetters"
+          />
+        </button>
+      </span>
     </div>
     <AlphaBetMap
+      @letterPick="onLetterPick"
+      :gridSpelling="appliedSpelling"
       :inputH="customHorizontal"
       :inputHSearchSource="searchRow"
       :inputV="customVertical"
@@ -48,13 +64,17 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
 import { Root } from "@/root";
+import { Letter } from "@/types/Letter";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
 
 @Options({
   name: "alphabet-full-grid",
   components: {
     AlphaBetMap,
+    FontAwesomeIcon,
   },
 })
 export default class AlphabetFullGrid extends Vue {
@@ -63,10 +83,14 @@ export default class AlphabetFullGrid extends Vue {
   private customV = "";
   private customH = "";
   private searchR = "C";
+  private lastChosenLetter;
+  //
+  public chosenLetters: Array<{ P: Letter; I: number; C: number }> = [];
   //
   public searchLetters: string[] = [
     ...Root.getInstance().IN.O.G.getAllAsString(),
   ];
+  public appliedSpelling: Array<{ P: Letter; I: number; C: number }> = [];
   //
   public get cFilter(): string {
     return this.columnFilter;
@@ -110,6 +134,19 @@ export default class AlphabetFullGrid extends Vue {
   public get searchRow(): string {
     return this.searchR;
   }
+  //
+  public onLetterPick(e: { P: Letter; I: number; C: number }) {
+    this.chosenLetters.push(e);
+  }
+  //
+  public resetChosenLetters() {
+    this.chosenLetters = [];
+    this.appliedSpelling = [];
+  }
+  //
+  public onPickSpelling() {
+    this.appliedSpelling = this.chosenLetters;
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -125,6 +162,10 @@ export default class AlphabetFullGrid extends Vue {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+button {
+  cursor: pointer;
+}
+button,
 select,
 input {
   background: transparent;

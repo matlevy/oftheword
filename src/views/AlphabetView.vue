@@ -62,8 +62,9 @@
       <AlphaBetMap
         noColumnLabel
         noDivisions
+        borderContainer
         :onlyColour="vowels"
-        :input="demoA"
+        :inputH="demoA"
         :rowFilter="c"
         :highlight="vowels"
       ></AlphaBetMap>
@@ -82,7 +83,7 @@
         noDivisions
         borderContainer
         :onlyColour="vowels"
-        :input="vowels"
+        :inputH="vowels"
         :rowFilter="c"
         :highlight="vowels"
       ></AlphaBetMap>
@@ -145,8 +146,7 @@
       <AlphaBetMap
         v-for="(map, index) in hebrewMappings"
         v-bind:key="index"
-        :input="map"
-        :colFilter="map"
+        :inputH="map"
         :rowFilter="c"
         class="hebrew-map"
         noColumnLabel
@@ -215,8 +215,8 @@
       <AlphaBetMap
         class="word"
         allowToggle
-        :input="fruit"
-        :row-filter="abc"
+        :inputH="fruit"
+        :rowFilter="abc"
       ></AlphaBetMap>
     </div>
     <div class="notes">
@@ -245,8 +245,9 @@
       <AlphaBetMap
         class="word"
         allowToggle
-        :row-filter="vowels"
-        :col-filter="vowels"
+        :rowFilter="vowels"
+        :colFilter="vowels"
+        :inputHSearchSource="c"
       ></AlphaBetMap>
     </div>
     <div class="notes">
@@ -324,7 +325,7 @@
         class="word"
         allowToggle
         :row-filter="ils"
-        :input="coincidence"
+        :inputH="coincidence"
       ></AlphaBetMap>
     </div>
     <div class="notes">
@@ -428,6 +429,9 @@ export default class AlphabetView extends Vue {
 }
 </script>
 <style>
+.notes {
+  line-height: 2rem;
+}
 .alphabet-map-view {
   text-align: left;
   color: white;
