@@ -71,12 +71,12 @@ export default class LetterRenderer extends Vue {
   color: limegreen;
 }
 .letter-i {
-  color: rgb(0, 100, 250);
+  color: rgb(0, 132, 255);
 }
 .letter-o {
   color: yellow;
 }
 .letter-u {
-  color: purple;
+  color: rgb(193, 0, 223);
 }
 </style>
