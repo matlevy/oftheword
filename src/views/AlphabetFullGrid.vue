@@ -22,12 +22,34 @@
         [C];
       </p>
     </div>
-    <AlphaBetMap></AlphaBetMap>
+    <div class="filters">
+      <input
+        placeholder="Enter Letters"
+        v-model="customHorizontal"
+        size="30"
+        max="26"
+      />
+      <input placeholder="Col Letters" v-model="cFilter" size="15" />
+      <select v-model="searchRow" class="search-letters">
+        <option v-for="(letter, index) in searchLetters" v-bind:key="index">
+          {{ letter }}
+        </option>
+      </select>
+      <input placeholder="Filter Row" v-model="rFilter" size="15" />
+    </div>
+    <AlphaBetMap
+      :inputH="customHorizontal"
+      :inputHSearchSource="searchRow"
+      :inputV="customVertical"
+      :rowFilter="rFilter"
+      :colFilter="cFilter"
+    ></AlphaBetMap>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
+import { Root } from "@/root";
 
 @Options({
   name: "alphabet-full-grid",
@@ -35,7 +57,60 @@ import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
     AlphaBetMap,
   },
 })
-export default class AlphabetFullGrid extends Vue {}
+export default class AlphabetFullGrid extends Vue {
+  private columnFilter = "";
+  private rowFilter = "";
+  private customV = "";
+  private customH = "";
+  private searchR = "C";
+  //
+  public searchLetters: string[] = [
+    ...Root.getInstance().IN.O.G.getAllAsString(),
+  ];
+  //
+  public get cFilter(): string {
+    return this.columnFilter;
+  }
+  //
+  public set cFilter(value: string) {
+    this.columnFilter = value.toLocaleUpperCase();
+  }
+  //
+  public get rFilter(): string {
+    if (!this.rowFilter) return "";
+    return this.rowFilter;
+  }
+  //
+  public set rFilter(value: string) {
+    this.rowFilter = value.toLocaleUpperCase();
+  }
+  //
+  public get customHorizontal(): string {
+    if (!this.customH) return "";
+    return this.customH;
+  }
+  //
+  public set customHorizontal(value: string) {
+    this.customH = value.toLocaleUpperCase();
+  }
+  //
+  public get customVertical(): string {
+    if (!this.customV) return "";
+    return this.customV;
+  }
+  //
+  public set customVertical(value: string) {
+    this.customV = value.toLocaleUpperCase();
+  }
+  //
+  public set searchRow(value: string) {
+    this.searchR = value.toLocaleUpperCase();
+  }
+  //
+  public get searchRow(): string {
+    return this.searchR;
+  }
+}
 </script>
 <style lang="scss" scoped>
 .alphabet-map-view {
@@ -49,5 +124,15 @@ export default class AlphabetFullGrid extends Vue {}
   color: white;
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+select,
+input {
+  background: transparent;
+  padding: 0.5rem;
+  border: none;
+  color: white;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  outline: 1px dotted rgba(255, 255, 255, 0.2);
 }
 </style>

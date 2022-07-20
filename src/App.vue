@@ -19,6 +19,6 @@ html {
   top: 0;
   bottom: 0;
   min-height: 100%;
-  background-color: rgb(15, 15, 15);
+  background-color: rgb(25, 25, 25);
 }
 </style>

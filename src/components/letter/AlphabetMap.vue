@@ -17,13 +17,8 @@
           ></letter-renderer>
         </div>
       </div>
-      <div
-        class="column"
-        :class="{ ['rightBorder']: hasDivider(C) }"
-        v-for="(C, X) in filteredColumn(alphabet.A)"
-        v-bind:key="X"
-      >
-        <div class="row" v-for="(A, Y) in filteredRow(C.FAC)" v-bind:key="Y">
+      <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
+        <div class="row" v-for="(A, Y) in filteredRow(C)" v-bind:key="Y">
           <letter-renderer
             :class="{
               ['lowerBorder']: hasDivider(letters[Y]),
@@ -56,7 +51,6 @@ import { WordMap } from "@/types/WordMap";
 import { Word } from "@/types/Word";
 import { God } from "@/types/wordActions/God";
 import { TripletMap } from "@/types/TripletMap";
-import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import { Root } from "@/root";
 import { Letter } from "@/types/Letter";
 
@@ -74,7 +68,9 @@ import LetterRenderer from "./LetterRenderer.vue";
     scripture: Scripture,
     rowFilter: String,
     colFilter: String,
-    input: String,
+    inputH: String,
+    inputHSearchSource: String,
+    inputV: String,
     higlight: String,
     noColumnLabel: Boolean,
     noDivisions: Boolean,
@@ -84,9 +80,6 @@ import LetterRenderer from "./LetterRenderer.vue";
   },
 })
 export default class AlphaBetMap extends Vue {
-  public TO: TripletMappingDirection = TripletMappingDirection.BAC;
-  public UT: TripletMappingDirection = TripletMappingDirection.CAB;
-  public RO: TripletMappingDirection = TripletMappingDirection.ACB;
   public ROOT: Root = Root.getInstance();
   public search = "";
   public triad!: TripletMap;
@@ -96,13 +89,15 @@ export default class AlphaBetMap extends Vue {
   public rowFilter!: string;
   public colFilter!: string;
   public higlight!: string;
-  public input!: string;
+  public inputH!: string;
+  public inputV!: string;
   public noDivisions!: boolean;
   public noColumnLabel!: boolean;
   public onlyColour!: string;
   public viewGridLettersAsNumbers = false;
   public allowToggle!: boolean;
   public borderContainer!: boolean;
+  public inputHSearchSource!: string;
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -116,15 +111,36 @@ export default class AlphaBetMap extends Vue {
     map: false,
   });
   //
-  constructor(...args: unknown[]) {
-    super(args);
-  }
-  //
   public get stream(): string {
-    if (this.input) {
-      return this.input;
+    if (this.inputH) {
+      return this.inputH;
     }
     return this.GOD.IN.G.getAllAsString();
+  }
+  //
+  public get at(): string[] {
+    if (this.inputH) {
+      return [...this.inputH];
+    }
+    return [...this.GOD.IN.G.getAllAsString()];
+  }
+  //
+  public get matrix(): Array<Letter[]> {
+    console.clear();
+    return this.at
+      .map((v: string) => this.GOD.IN.G.getLetter(v).FAC)
+      .filter((v: Letter[], i: number) => {
+        const rowString = v.map((l: Letter) => l.IN.E).join("");
+        const Q = new RegExp(`[${this.colFilter}]`, "gm");
+        const P = this.GOD.G.getAllAsString().indexOf(this.inputHSearchSource);
+        if (this.colFilter) {
+          const T = [...rowString.matchAll(Q)].map(
+            (p: RegExpMatchArray) => p.index
+          );
+          return T.indexOf(P) >= 0;
+        }
+        return true;
+      });
   }
   //
   public get alphabet(): Word {
@@ -133,6 +149,12 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public get letters(): Letter[] {
+    if (this.inputV) {
+      return [...this.inputV].map((v: string) => {
+        console.log(Root.getInstance().IN.O.G.getLetter(v));
+        return Root.getInstance().IN.O.G.getLetter(v);
+      });
+    }
     return [...Root.getInstance().IN.O.G.getAllAsString()].map((v: string) =>
       Root.getInstance().IN.O.G.getLetter(v)
     );
@@ -165,13 +187,6 @@ export default class AlphaBetMap extends Vue {
     });
   }
   //
-  public colorOnly(letter: Letter) {
-    if (this.onlyColour) {
-      return this.onlyColour.indexOf(letter.IN.E) == -1;
-    }
-    return false;
-  }
-  //
   public filteredColumn(letters: Letter[]) {
     return letters.filter((letter: Letter, index: number) => {
       const rowLetter = this.stream[index];
@@ -180,6 +195,13 @@ export default class AlphaBetMap extends Vue {
       }
       return true;
     });
+  }
+  //
+  public colorOnly(letter: Letter) {
+    if (this.onlyColour) {
+      return this.onlyColour.indexOf(letter.IN.E) == -1;
+    }
+    return false;
   }
   //
   public toggleNumbers() {
@@ -213,7 +235,7 @@ export default class AlphaBetMap extends Vue {
   border-top: 1px dotted rgba(255, 255, 255, 0.2);
 }
 .hiddenBorder {
-  border-top: 1px solid rgb(15, 15, 15);
+  border-top: 1px solid rgb(25, 25, 25);
 }
 .alphabet-letter {
   margin: 0rem;
