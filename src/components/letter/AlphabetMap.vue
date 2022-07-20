@@ -29,7 +29,7 @@
             :viewAsNumbers="viewGridLettersAsNumbers"
             :letter="A"
             :colours="true"
-            @click="onLetterPick(A, X, Y)"
+            @click="onLetterPick({ P: A, I: X, C: Y })"
             class="alphabet-letter"
           ></letter-renderer>
         </div>
@@ -57,6 +57,17 @@ import { Letter } from "@/types/Letter";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import LetterRenderer from "./LetterRenderer.vue";
+
+export interface GridLetterChoice {
+  P: Letter;
+  I: number;
+  C: number;
+}
+
+export interface GridCrossReference {
+  R: string;
+  C: string;
+}
 
 @Options({
   components: {
@@ -100,7 +111,7 @@ export default class AlphaBetMap extends Vue {
   public allowToggle!: boolean;
   public borderContainer!: boolean;
   public inputHSearchSource!: string;
-  public gridSpelling!: Array<{ P: Letter; I: number; C: number }>;
+  public gridSpelling!: Array<GridLetterChoice>;
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -115,6 +126,7 @@ export default class AlphaBetMap extends Vue {
   });
   //
   public get stream(): string {
+    if (this.crossReference.C.length > 0) return this.crossReference.C;
     if (this.inputH) {
       return this.inputH;
     }
@@ -122,21 +134,26 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public get at(): string[] {
+    if (this.crossReference.C.length > 0) return [...this.crossReference.C];
     if (this.inputH) {
       return [...this.inputH];
     }
     return [...this.GOD.IN.G.getAllAsString()];
   }
   //
+  public get columnFilter(): string {
+    if (this.crossReference.C.length > 0) return this.crossReference.C;
+    return this.colFilter;
+  }
+  //
   public get matrix(): Array<Letter[]> {
-    console.clear();
     return this.at
       .map((v: string) => this.GOD.IN.G.getLetter(v).FAC)
       .filter((v: Letter[]) => {
         const rowString = v.map((l: Letter) => l.IN.E).join("");
-        const Q = new RegExp(`[${this.colFilter}]`, "gm");
+        const Q = new RegExp(`[${this.columnFilter}]`, "gm");
         const P = this.GOD.G.getAllAsString().indexOf(this.inputHSearchSource);
-        if (this.colFilter) {
+        if (this.columnFilter) {
           const T = [...rowString.matchAll(Q)].map(
             (p: RegExpMatchArray) => p.index
           );
@@ -219,12 +236,28 @@ export default class AlphaBetMap extends Vue {
       : "View As Letters In Grid";
   }
   //
-  public onLetterPick(P: Letter, I: number, C: number) {
-    this.$emit("letterPick", {
-      P,
-      I,
-      C,
-    });
+  public onLetterPick(choice: GridLetterChoice) {
+    this.$emit("letterPick", choice);
+  }
+  //
+  public get crossReference(): GridCrossReference {
+    if (this.gridSpelling) {
+      return this.gridSpelling.reduce<GridCrossReference>(
+        (p: GridCrossReference, v: GridLetterChoice) => {
+          if (p.C.indexOf(this.stream.charAt(v.I)) == -1)
+            p.C = p.C.concat(this.stream.charAt(v.I));
+          return p;
+        },
+        {
+          R: "",
+          C: "",
+        }
+      );
+    }
+    return {
+      C: "",
+      R: "",
+    };
   }
 }
 </script>

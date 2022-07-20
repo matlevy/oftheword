@@ -36,13 +36,13 @@
         </option>
       </select>
       <input placeholder="Filter Row" v-model="rFilter" size="15" />
-      <span v-if="chosenLetters.length > 0">
+      <span>
         <button v-if="chosenLetters.length > 0" @click="onPickSpelling">
           <span v-for="(el, index) in chosenLetters" v-bind:key="index">{{
             el.P.IN.E
           }}</span>
         </button>
-        <button>
+        <button v-if="chosenLetters.length > 0 || appliedSpelling.length > 0">
           <font-awesome-icon
             class="trash"
             icon="fa-solid fa-trash-can"
@@ -68,7 +68,9 @@ import { Root } from "@/root";
 import { Letter } from "@/types/Letter";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
+import AlphaBetMap, {
+  GridLetterChoice,
+} from "@/components/letter/AlphabetMap.vue";
 
 @Options({
   name: "alphabet-full-grid",
@@ -83,7 +85,6 @@ export default class AlphabetFullGrid extends Vue {
   private customV = "";
   private customH = "";
   private searchR = "C";
-  private lastChosenLetter;
   //
   public chosenLetters: Array<{ P: Letter; I: number; C: number }> = [];
   //
@@ -135,7 +136,7 @@ export default class AlphabetFullGrid extends Vue {
     return this.searchR;
   }
   //
-  public onLetterPick(e: { P: Letter; I: number; C: number }) {
+  public onLetterPick(e: GridLetterChoice) {
     this.chosenLetters.push(e);
   }
   //
@@ -146,6 +147,7 @@ export default class AlphabetFullGrid extends Vue {
   //
   public onPickSpelling() {
     this.appliedSpelling = this.chosenLetters;
+    this.chosenLetters = [];
   }
 }
 </script>
