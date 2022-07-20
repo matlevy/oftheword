@@ -34,6 +34,15 @@
           ></letter-renderer>
         </div>
       </div>
+      <div class="column column-label search-col" v-if="canSubNav">
+        <div class="row" v-for="(L, I) in filteredRow(letters)" v-bind:key="I">
+          <font-awesome-icon
+            class="search"
+            icon="fa-solid fa-arrows-turn-to-dots"
+            @click="place(I)"
+          />
+        </div>
+      </div>
     </div>
     <div class="controls-and-notes" v-if="allowToggle">
       <span
@@ -54,6 +63,7 @@ import { God } from "@/types/wordActions/God";
 import { TripletMap } from "@/types/TripletMap";
 import { Root } from "@/root";
 import { Letter } from "@/types/Letter";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import LetterRenderer from "./LetterRenderer.vue";
@@ -73,6 +83,7 @@ export interface GridCrossReference {
   components: {
     ScriptureMapRenderer,
     LetterRenderer,
+    FontAwesomeIcon,
   },
   props: {
     triad: TripletMap,
@@ -132,6 +143,9 @@ export default class AlphaBetMap extends Vue {
     }
     return this.GOD.IN.G.getAllAsString();
   }
+  public get canSubNav(): boolean {
+    return this.columnFilter.length > 0 || this.inputH.length > 0;
+  }
   //
   public get at(): string[] {
     if (this.crossReference.C.length > 0) return [...this.crossReference.C];
@@ -161,6 +175,15 @@ export default class AlphaBetMap extends Vue {
         }
         return true;
       });
+  }
+  //
+  public place(selection: number) {
+    const row = this.matrix
+      .map((c: Letter[]) => {
+        return c.find((v: Letter, i: number) => i == selection)?.IN.E;
+      })
+      .join("");
+    this.$emit("pick-row", row);
   }
   //
   public get alphabet(): Word {
@@ -313,5 +336,15 @@ export default class AlphaBetMap extends Vue {
 }
 .borderContainer {
   border: 1px dotted rgba(255, 255, 255, 0.2);
+}
+.search-col {
+  border: 1px dotted rgba(255, 255, 255, 0.2);
+}
+.search {
+  min-height: 15px;
+  max-height: 15px;
+  padding: 12px;
+  opacity: 0.5;
+  cursor: pointer;
 }
 </style>

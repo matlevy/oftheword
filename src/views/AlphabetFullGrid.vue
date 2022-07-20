@@ -53,6 +53,7 @@
     </div>
     <AlphaBetMap
       @letterPick="onLetterPick"
+      @pickRow="onRowPick"
       :gridSpelling="appliedSpelling"
       :inputH="customHorizontal"
       :inputHSearchSource="searchRow"
@@ -92,6 +93,11 @@ export default class AlphabetFullGrid extends Vue {
     ...Root.getInstance().IN.O.G.getAllAsString(),
   ];
   public appliedSpelling: Array<{ P: Letter; I: number; C: number }> = [];
+  //
+  public onRowPick(selection: string) {
+    this.customH = selection;
+    this.resetChosenLetters();
+  }
   //
   public get cFilter(): string {
     return this.columnFilter;

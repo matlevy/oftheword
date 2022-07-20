@@ -8,10 +8,12 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faArrowRightToBracket,
   faTrashCan,
+  faArrowsTurnToDots,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faArrowRightToBracket);
 library.add(faTrashCan);
+library.add(faArrowsTurnToDots);
 
 Root.getInstance().init();
 
