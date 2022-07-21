@@ -2,6 +2,7 @@ import CustomView from "@/views/CustomView.vue";
 import AlphabetView from "../views/AlphabetView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import AlphabetFullGrid from "@/views/AlphabetFullGrid.vue";
+import GenesisOpeningVue from "@/views/GenesisOpening.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/alphabet",
     name: "alphabet",
     component: AlphabetView,
+  },
+  {
+    path: "/genesis/opening",
+    name: "genesis-opening",
+    component: GenesisOpeningVue,
   },
   {
     path: "/search",

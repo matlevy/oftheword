@@ -21,4 +21,8 @@ html {
   min-height: 100%;
   background-color: rgb(25, 25, 25);
 }
+h1 {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
 </style>

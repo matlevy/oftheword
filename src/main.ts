@@ -9,11 +9,15 @@ import {
   faArrowRightToBracket,
   faTrashCan,
   faArrowsTurnToDots,
+  faCircle,
+  faCircleDot,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faArrowRightToBracket);
 library.add(faTrashCan);
 library.add(faArrowsTurnToDots);
+library.add(faCircle);
+library.add(faCircleDot);
 
 Root.getInstance().init();
 

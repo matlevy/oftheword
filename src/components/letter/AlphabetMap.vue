@@ -5,32 +5,48 @@
       :class="{ ['borderContainer']: borderContainer }"
     >
       <div class="column column-label" v-if="!noColumnLabel">
-        <div class="row" v-for="(L, I) in filteredRow(letters)" v-bind:key="I">
-          <letter-renderer
-            :class="{
-              ['lowerBorder']: hasDivider(letters[I]),
-              ['hiddenBorder']: !hasDivider(letters[I]),
-            }"
-            :letter="L"
-            :colours="true"
-            class="alphabet-letter"
-          ></letter-renderer>
-        </div>
+        <letter-renderer
+          v-for="(L, I) in filteredRow(letters)"
+          v-bind:key="I"
+          :class="{
+            ['lowerBorder']: hasDivider(letters[I]),
+            ['hiddenBorder']: !hasDivider(letters[I]),
+          }"
+          :showAsShape="showOnlyColor"
+          :letter="L"
+          :colours="true"
+          class="row alphabet-letter"
+        ></letter-renderer>
       </div>
-      <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
-        <div class="row" v-for="(A, Y) in filteredRow(C)" v-bind:key="Y">
+      <div class="rows">
+        <div>
+          <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
+            <letter-renderer
+              v-for="(A, Y) in filteredRow(C)"
+              v-bind:key="Y"
+              :class="{
+                ['lowerBorder']: hasDivider(letters[Y]),
+                ['hiddenBorder']: !hasDivider(letters[Y]),
+                ['unHighlightLetter']: unHiglightLetter(A),
+                ['whiteOnly']: colorOnly(A),
+              }"
+              :showAsShape="showOnlyColor"
+              :viewAsNumbers="viewGridLettersAsNumbers"
+              :letter="A"
+              :colours="true"
+              @click="onLetterPick({ P: A, I: X, C: Y })"
+              class="row alphabet-letter"
+            ></letter-renderer>
+          </div>
+        </div>
+        <div v-if="showColumnLetterAtBottom">
           <letter-renderer
-            :class="{
-              ['lowerBorder']: hasDivider(letters[Y]),
-              ['hiddenBorder']: !hasDivider(letters[Y]),
-              ['unHighlightLetter']: unHiglightLetter(A),
-              ['whiteOnly']: colorOnly(A),
-            }"
-            :viewAsNumbers="viewGridLettersAsNumbers"
-            :letter="A"
+            v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
+            v-bind:key="I"
+            :showAsShape="showOnlyColor"
+            :letter="getNumberAsAlphabetLetter(I)"
             :colours="true"
-            @click="onLetterPick({ P: A, I: X, C: Y })"
-            class="alphabet-letter"
+            class="column alphabet-letter"
           ></letter-renderer>
         </div>
       </div>
@@ -101,6 +117,10 @@ export interface GridCrossReference {
     allowToggle: Boolean,
     borderContainer: Boolean,
     gridSpelling: Array,
+    showOnlyColor: Boolean,
+    showColumnLetterAtBottom: Boolean,
+    colCountOffset: Number,
+    cuts: Array,
   },
 })
 export default class AlphaBetMap extends Vue {
@@ -123,6 +143,10 @@ export default class AlphaBetMap extends Vue {
   public borderContainer!: boolean;
   public inputHSearchSource!: string;
   public gridSpelling!: Array<GridLetterChoice>;
+  public showOnlyColor!: boolean;
+  public showColumnLetterAtBottom!: boolean;
+  public colCountOffset!: number;
+  public cuts!: number[];
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -137,18 +161,25 @@ export default class AlphaBetMap extends Vue {
   });
   //
   public get stream(): string {
-    if (this.crossReference.C.length > 0) return this.crossReference.C;
+    if (this.crossReference && this.crossReference.C.length > 0)
+      return this.crossReference.C;
     if (this.inputH) {
       return this.inputH;
     }
     return this.GOD.IN.G.getAllAsString();
   }
   public get canSubNav(): boolean {
-    return this.columnFilter.length > 0 || this.inputH.length > 0;
+    if (!this.columnFilter || !this.inputH) return false;
+    return (
+      this.columnFilter.length > 0 ||
+      (this.inputH && this.inputH.length > 0) ||
+      false
+    );
   }
   //
   public get at(): string[] {
-    if (this.crossReference.C.length > 0) return [...this.crossReference.C];
+    if (this.crossReference && this.crossReference.C.length > 0)
+      return [...this.crossReference.C];
     if (this.inputH) {
       return [...this.inputH];
     }
@@ -156,7 +187,8 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public get columnFilter(): string {
-    if (this.crossReference.C.length > 0) return this.crossReference.C;
+    if (this.crossReference && this.crossReference.C.length > 0)
+      return this.crossReference.C;
     return this.colFilter;
   }
   //
@@ -184,6 +216,20 @@ export default class AlphaBetMap extends Vue {
       })
       .join("");
     this.$emit("pick-row", row);
+  }
+  //
+  public getNumberAsAlphabetLetter(index: number): Letter {
+    const offset = this.colCountOffset ? this.colCountOffset : 0;
+    const pos = (index + offset) % 26;
+    let cut = 0;
+    if (this.cuts) {
+      cut = this.cuts.filter((v) => v <= index).reduce((p, c) => c, 0);
+      if (cut == 0) {
+        return this.GOD.G.getFromIndex(pos + 1);
+      }
+      return this.GOD.G.getFromIndex(index - cut + 1);
+    }
+    return this.GOD.G.getFromIndex(pos + 1);
   }
   //
   public get alphabet(): Word {
@@ -292,6 +338,11 @@ export default class AlphaBetMap extends Vue {
   display: flex;
   flex-direction: row;
 }
+.rows {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+}
 .column-label {
   border-right: 1px dotted rgba(255, 255, 255, 0.2);
 }
@@ -307,6 +358,9 @@ export default class AlphaBetMap extends Vue {
 .alphabet-letter {
   margin: 0rem;
   padding: 0.5rem;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
 }
 .unHighlightLetter {
   opacity: 0.2;

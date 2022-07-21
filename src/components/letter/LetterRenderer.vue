@@ -1,11 +1,18 @@
 <template>
   <span
+    v-if="!showAsShape"
     class="letter"
     :title="letter.T.toString()"
     @click="pick"
     :class="{ [letterClass]: true }"
     >{{ letterRender }}</span
   >
+  <span v-else class="letter">
+    <font-awesome-icon
+      icon="fa-solid fa-circle-dot"
+      :class="{ [letterClass]: true }"
+    />
+  </span>
 </template>
 
 <script lang="ts">
@@ -13,14 +20,19 @@ import { Root } from "@/root";
 import { Letter } from "@/types/Letter";
 import { Options, Vue } from "vue-class-component";
 
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 @Options({
   name: "letter-renderer",
-  components: {},
+  components: {
+    FontAwesomeIcon,
+  },
   props: {
     selected: Boolean,
     letter: Letter,
     colours: Boolean,
     viewAsNumbers: Boolean,
+    showAsShape: Boolean,
   },
 })
 export default class LetterRenderer extends Vue {
@@ -28,7 +40,8 @@ export default class LetterRenderer extends Vue {
   public letter!: Letter;
   public colours!: boolean;
   public viewAsNumbers!: boolean;
-
+  public showAsShape!: boolean;
+  //
   public get letterClass() {
     if (this.letter.IN.TT && this.colours)
       return this.letter.IN.TT.getPresenterClass(this.letter);
