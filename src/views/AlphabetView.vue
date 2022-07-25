@@ -1,6 +1,6 @@
 <template>
   <div class="alphabet-map-view">
-    <h1>The Alphabet</h1>
+    <h3>The Alphabet</h3>
     <div class="notes">
       <p>
         At the heart of all Holy Scriptures, and langauge, is a tool often
@@ -375,16 +375,19 @@
         Explore The Alphabet Grid
       </button>
     </div>
+    <EncapsulationDecoratorVue></EncapsulationDecoratorVue>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
+import EncapsulationDecoratorVue from "@/components/reading/EncapsulationDecorator.vue";
 
 @Options({
   name: "letter-view",
   components: {
     AlphaBetMap,
+    EncapsulationDecoratorVue,
   },
 })
 export default class AlphabetView extends Vue {
@@ -431,11 +434,12 @@ export default class AlphabetView extends Vue {
 <style>
 .notes {
   line-height: 2rem;
+  max-width: 800px;
 }
 .alphabet-map-view {
   text-align: left;
   color: white;
-  margin: 1rem;
+  margin: 2rem;
   max-width: 1000px;
 }
 .block-insert {
@@ -449,7 +453,7 @@ export default class AlphabetView extends Vue {
 .hebrew-mappings {
   display: flex;
   flex-direction: row;
-  max-width: 1000px;
+  max-width: 800px;
   flex-wrap: wrap;
 }
 .hebrew-map {
@@ -468,7 +472,7 @@ li {
   margin-bottom: 1rem;
 }
 .link-button {
-  background: black;
+  background: transparent;
   padding: 1rem;
   border: 1px solid white;
   margin-bottom: 2rem;

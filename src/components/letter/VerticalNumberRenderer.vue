@@ -1,6 +1,7 @@
 <template>
   <div class="vertical-number-renderer">
     <LetterRenderer
+      v-if="asLetters"
       class="as-letter"
       :letter="numberAsLetter"
       :colours="true"
@@ -34,6 +35,7 @@ import LetterRenderer from "./LetterRenderer.vue";
 })
 export default class VerticalNumberRenderer extends Vue {
   public number!: number;
+  public asLetters!: boolean;
   //
   private lettersCount: number =
     Root.getInstance().IN.O.G.getAllAsString().length;

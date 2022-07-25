@@ -60,9 +60,11 @@
         </div>
         <div v-if="showTally" class="row number-row">
           <VerticalNumberRenderer
+            ref="vNumberRenderer"
             v-for="(L, I) in getMatrixRowSequentialIndexTally(numberFocus)"
             v-bind:key="I"
             :number="L + (tallyOffset || 0)"
+            :asLetters="showTallyLetters"
           ></VerticalNumberRenderer>
         </div>
         <div v-if="allowNumberFocus">
@@ -159,6 +161,7 @@ export interface GridCrossReference {
     showIndexValues: Boolean,
     allowNumberFocus: Boolean,
     showLetterCrossReference: Boolean,
+    showTallyLetters: Boolean,
   },
 })
 export default class AlphaBetMap extends Vue {
@@ -191,6 +194,7 @@ export default class AlphaBetMap extends Vue {
   public allowNumberFocus!: boolean;
   public showIndexValues!: boolean;
   public showLetterCrossReference!: boolean;
+  public showTallyLetters!: boolean;
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -401,6 +405,10 @@ export default class AlphaBetMap extends Vue {
   //
   public focusNumbers(focus: Letter) {
     this.numberFocus = focus.IN.E;
+    const tally: number[] = this.getMatrixRowSequentialIndexTally(
+      this.numberFocus
+    );
+    this.$emit("rowTallyChange", tally[tally.length - 1]);
   }
 }
 </script>

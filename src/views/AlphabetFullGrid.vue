@@ -65,6 +65,7 @@
       :onlyColour="colorFilter"
       :showTally="true"
       :allowNumberFocus="true"
+      :showTallyLetters="true"
     ></AlphaBetMap>
   </div>
 </template>

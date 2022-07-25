@@ -1,6 +1,6 @@
 <template>
   <div class="genesis-opening">
-    <div><h1>Genesis: The Opening, and Root Map</h1></div>
+    <div><h3>Genesis 1:1-2 The Opening & Root Map</h3></div>
     <div class="notes">
       <p>
         Through observation it was noted that the opening two verses of Genesis,
@@ -411,20 +411,6 @@
           to the second, and fourth form: through [WAS], and likewise [EARTH];
         </p>
       </div>
-    </div>
-    <div class="notes">
-      <h3>Further Mathematical Phenomenam</h3>
-      <p>
-        As a final observation, in relation to tallys of index values of given
-        letters: removing repition of words, and noting the tally of index
-        values, further mathematical phenomenam can be observed.
-      </p>
-      <p>
-        In positions [G], and [A], we have the two numerical values required to
-        calculate Theta, commonly known as the golden ration; and the
-        corresponding vertical column of [G], and [E], when subtracted, provide
-        the multiple: seven by twentytwo;
-      </p>
     </div>
     <EncapsulationDecoratorVue></EncapsulationDecoratorVue>
   </div>

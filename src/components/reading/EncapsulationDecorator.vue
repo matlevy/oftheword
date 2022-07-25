@@ -14,9 +14,9 @@ export default class EncapsulationDecoratorVue extends Vue {
     const collection = document.getElementsByTagName<"p">("p");
     console.log(
       [...collection].map((v) => {
-        v.innerHTML = v.innerHTML.replace(/\[([A-Za-z]+)\]/gi, (v) => {
-          if (v.match(/[A-Z]+/gi)) {
-            const text = v.match(/[A-Z]+/gi) || "";
+        v.innerHTML = v.innerHTML.replace(/\[([A-Za-z0-9\s]+)\]/gi, (v) => {
+          if (v.match(/[A-Z0-9\s]+/gi)) {
+            const text = v.match(/[A-Z0-9\s]+/gi) || "";
             return `<b class="letters-marker">${text[0]}</b>`;
           }
           return v;
