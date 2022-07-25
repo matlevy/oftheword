@@ -1,19 +1,16 @@
 <template>
   <div class="cognate-map">
     <div class="notes">
-      By looking to earlier writing, we can see that the word
-      <b>{{ spirit.S }}</b> is constructed of parts of other words, called
-      cognates: which all words are created from;
+      Looking to earlier writing, <b>{{ spirit.S }}</b> is formed of letters of
+      other words to connect a map;
     </div>
     <CognateInterconnectivity :spirit="spirit"></CognateInterconnectivity>
     <div class="notes">
-      Cognates of <b>{{ spirit.S }}</b> can be mapped based on first occurace;
-      and by selecting from the given results we can identify surrounding
-      letters: these will help to understand how the word is mapped; and, by
-      reffering back to the earliest occurence of these cognates in a grid of
-      the scripture we gain deeper understanding of the connection of
-      <b>{{ spirit.S }}</b
-      >.
+      And <b>{{ spirit.S }}</b> can be mapped based on the first occurace of
+      these letters, and other connecting letters in the scripture this occurs;
+      and by selecting from these we can identify surrounding letters, and
+      connecting letters of those: these will help to understand how the word is
+      mapped within the alphabet;
     </div>
     <div class="root">
       <cognate-element

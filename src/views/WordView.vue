@@ -9,6 +9,7 @@
       ></raw-scripture-renderer>
     </div>
     <div class="word-details">
+      <AlphaBetMap></AlphaBetMap>
       <div class="notes" v-if="canMoveToSecondary">
         Note: To have a better understanding of the word
         <b>{{ secondaryWord.E }}</b
@@ -40,7 +41,6 @@ import { SPIRIT } from "@/types/wordActions/Spirit";
 import { Word } from "@/types/Word";
 
 import CognateMap from "@/components/word/CognateMap.vue";
-import WordMapRenderer from "@/components/word/WordMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 import OutputView from "@/components/search/OutputView.vue";
 import TwoLetterMap from "@/components/search/TwoLetterMap.vue";
@@ -48,7 +48,6 @@ import TwoLetterMap from "@/components/search/TwoLetterMap.vue";
 @Options({
   name: "word-view",
   components: {
-    WordMapRenderer,
     CognateMap,
     RawScriptureRenderer,
     TwoLetterMap,

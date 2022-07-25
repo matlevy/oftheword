@@ -3,12 +3,13 @@ import AlphabetView from "../views/AlphabetView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import AlphabetFullGrid from "@/views/AlphabetFullGrid.vue";
 import GenesisOpeningVue from "@/views/GenesisOpening.vue";
+import MathematicalPhen from "@/views/MathematicalPhenomenom.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
-    component: CustomView,
+    component: AlphabetFullGrid,
   },
   {
     path: "/custom",
@@ -39,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/alphabet/grid",
     name: "alphabetgrid",
     component: AlphabetFullGrid,
+  },
+  {
+    path: "/alphabet/mathandscience",
+    name: "alphabetmath",
+    component: MathematicalPhen,
   },
   {
     path: "/alphabet",

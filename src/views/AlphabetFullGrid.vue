@@ -1,6 +1,6 @@
 <template>
   <div class="alphabet-map-view">
-    <h1>Full Alphabet Grid</h1>
+    <!-- <h1>Full Alphabet Grid</h1>
     <div class="notes">
       <p>
         As discussed previously, it is possible to divide the Alphabet into
@@ -21,21 +21,22 @@
         The "natural word", to which we write, is contructed of letters in row
         [C];
       </p>
-    </div>
+    </div> -->
     <div class="filters">
       <input
-        placeholder="Enter Letters"
+        placeholder="Enter A Custom Word"
         v-model="customHorizontal"
         size="30"
         max="26"
       />
-      <input placeholder="Col Letters" v-model="cFilter" size="15" />
+      <input placeholder="Filter Columns" v-model="cFilter" size="15" />
       <select v-model="searchRow" class="search-letters">
         <option v-for="(letter, index) in searchLetters" v-bind:key="index">
           {{ letter }}
         </option>
       </select>
       <input placeholder="Filter Row" v-model="rFilter" size="15" />
+      <input placeholder="Only Colour" v-model="colorFilter" size="15" />
       <span>
         <button v-if="chosenLetters.length > 0" @click="onPickSpelling">
           <span v-for="(el, index) in chosenLetters" v-bind:key="index">{{
@@ -60,6 +61,10 @@
       :inputV="customVertical"
       :rowFilter="rFilter"
       :colFilter="cFilter"
+      :showLetterCrossReference="true"
+      :onlyColour="colorFilter"
+      :showTally="true"
+      :allowNumberFocus="true"
     ></AlphaBetMap>
   </div>
 </template>
@@ -86,6 +91,7 @@ export default class AlphabetFullGrid extends Vue {
   private customV = "";
   private customH = "";
   private searchR = "C";
+  private colFilter = "";
   //
   public chosenLetters: Array<{ P: Letter; I: number; C: number }> = [];
   //
@@ -97,6 +103,13 @@ export default class AlphabetFullGrid extends Vue {
   public onRowPick(selection: string) {
     this.customH = selection;
     this.resetChosenLetters();
+  }
+  //
+  public get colorFilter() {
+    return this.colFilter;
+  }
+  public set colorFilter(value: string) {
+    this.colFilter = value.toUpperCase();
   }
   //
   public get cFilter(): string {

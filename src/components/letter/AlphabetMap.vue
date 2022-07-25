@@ -6,7 +6,7 @@
     >
       <div class="column column-label" v-if="!noColumnLabel">
         <letter-renderer
-          v-for="(L, I) in filteredRow(letters)"
+          v-for="(L, I) in filterMatrixRowByLetters(letters, rowFilter)"
           v-bind:key="I"
           :class="{
             ['lowerBorder']: hasDivider(letters[I]),
@@ -20,26 +20,28 @@
       </div>
       <div class="rows">
         <div>
-          <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
-            <letter-renderer
-              v-for="(A, Y) in filteredRow(C)"
-              v-bind:key="Y"
-              :class="{
-                ['lowerBorder']: hasDivider(letters[Y]),
-                ['hiddenBorder']: !hasDivider(letters[Y]),
-                ['unHighlightLetter']: unHiglightLetter(A),
-                ['whiteOnly']: colorOnly(A),
-              }"
-              :showAsShape="showOnlyColor"
-              :viewAsNumbers="viewGridLettersAsNumbers"
-              :letter="A"
-              :colours="true"
-              @click="onLetterPick({ P: A, I: X, C: Y })"
-              class="row alphabet-letter"
-            ></letter-renderer>
+          <div>
+            <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
+              <letter-renderer
+                v-for="(A, Y) in filterMatrixRowByLetters(C, rowFilter)"
+                v-bind:key="Y"
+                :class="{
+                  ['lowerBorder']: hasDivider(letters[Y]),
+                  ['hiddenBorder']: !hasDivider(letters[Y]),
+                  ['unHighlightLetter']: unHiglightLetter(A),
+                  ['whiteOnly']: colorOnly(A),
+                }"
+                :showAsShape="showOnlyColor"
+                :viewAsNumbers="viewGridLettersAsNumbers"
+                :letter="A"
+                :colours="true"
+                @click="onLetterPick({ P: A, I: X, C: Y })"
+                class="row alphabet-letter"
+              ></letter-renderer>
+            </div>
           </div>
         </div>
-        <div v-if="showColumnLetterAtBottom">
+        <div v-if="showLetterCrossReference">
           <letter-renderer
             v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
             v-bind:key="I"
@@ -49,9 +51,38 @@
             class="column alphabet-letter"
           ></letter-renderer>
         </div>
+        <div v-if="showIndexValues" class="row number-row">
+          <VerticalNumberRenderer
+            v-for="(L, I) in getMatrixRow(numberFocus)"
+            v-bind:key="I"
+            :number="L.IN.E.charCodeAt(0) - 64"
+          ></VerticalNumberRenderer>
+        </div>
+        <div v-if="showTally" class="row number-row">
+          <VerticalNumberRenderer
+            v-for="(L, I) in getMatrixRowSequentialIndexTally(numberFocus)"
+            v-bind:key="I"
+            :number="L + (tallyOffset || 0)"
+          ></VerticalNumberRenderer>
+        </div>
+        <div v-if="allowNumberFocus">
+          <letter-renderer
+            v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
+            v-bind:key="I"
+            @click="focusNumbers(L)"
+            :showAsShape="showOnlyColor"
+            :letter="L"
+            :colours="true"
+            class="column alphabet-letter"
+          ></letter-renderer>
+        </div>
       </div>
       <div class="column column-label search-col" v-if="canSubNav">
-        <div class="row" v-for="(L, I) in filteredRow(letters)" v-bind:key="I">
+        <div
+          class="row"
+          v-for="(L, I) in filterMatrixRowByLetters(letters, rowFilter)"
+          v-bind:key="I"
+        >
           <font-awesome-icon
             class="search"
             icon="fa-solid fa-arrows-turn-to-dots"
@@ -83,6 +114,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import ScriptureMapRenderer from "../scripture/ScriptureMapRenderer.vue";
 import LetterRenderer from "./LetterRenderer.vue";
+import VerticalNumberRenderer from "./VerticalNumberRenderer.vue";
 
 export interface GridLetterChoice {
   P: Letter;
@@ -100,6 +132,7 @@ export interface GridCrossReference {
     ScriptureMapRenderer,
     LetterRenderer,
     FontAwesomeIcon,
+    VerticalNumberRenderer,
   },
   props: {
     triad: TripletMap,
@@ -121,6 +154,11 @@ export interface GridCrossReference {
     showColumnLetterAtBottom: Boolean,
     colCountOffset: Number,
     cuts: Array,
+    tallyOffset: Number,
+    showTally: Boolean,
+    showIndexValues: Boolean,
+    allowNumberFocus: Boolean,
+    showLetterCrossReference: Boolean,
   },
 })
 export default class AlphaBetMap extends Vue {
@@ -147,6 +185,12 @@ export default class AlphaBetMap extends Vue {
   public showColumnLetterAtBottom!: boolean;
   public colCountOffset!: number;
   public cuts!: number[];
+  public numberFocus = "C";
+  public tallyOffset!: number;
+  public showTally!: boolean;
+  public allowNumberFocus!: boolean;
+  public showIndexValues!: boolean;
+  public showLetterCrossReference!: boolean;
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -266,14 +310,40 @@ export default class AlphaBetMap extends Vue {
     return false;
   }
   //
-  public filteredRow(letters: Letter[]) {
+  public filterMatrixRowByLetters(
+    letters: Letter[],
+    lettersToFilterBy: string
+  ) {
     return letters.filter((letter: Letter, index: number) => {
       const rowLetter = Root.getInstance().IN.O.G.getAllAsString()[index];
-      if (this.rowFilter && this.rowFilter.length > 0) {
-        return this.rowFilter.indexOf(rowLetter) >= 0;
+      if (lettersToFilterBy && lettersToFilterBy.length > 0) {
+        return lettersToFilterBy.indexOf(rowLetter) >= 0;
       }
       return true;
     });
+  }
+  //
+  public getMatrixRow(letter: string): Letter[] {
+    const I = this.GOD.G.getAllAsString().indexOf(letter);
+    return this.matrix.reduce((p: Letter[], c: Letter[]) => {
+      p.push(c[I]);
+      return p;
+    }, []);
+  }
+  //
+  public getMatrixRowSequentialIndexTally(letter: string): number[] {
+    const I = this.GOD.G.getAllAsString().indexOf(letter);
+    return this.matrix
+      .reduce((p: Letter[], c: Letter[]) => {
+        p.push(c[I]);
+        return p;
+      }, [])
+      .reduce((P: number[], C: Letter, I: number) => {
+        const N1 = C.IN.E.charCodeAt(0) - 64;
+        const N2 = P[I - 1] ? P[I - 1] : 0;
+        P.push(N1 + N2);
+        return P;
+      }, []);
   }
   //
   public filteredColumn(letters: Letter[]) {
@@ -327,6 +397,10 @@ export default class AlphaBetMap extends Vue {
       C: "",
       R: "",
     };
+  }
+  //
+  public focusNumbers(focus: Letter) {
+    this.numberFocus = focus.IN.E;
   }
 }
 </script>
@@ -400,5 +474,10 @@ export default class AlphaBetMap extends Vue {
   padding: 12px;
   opacity: 0.5;
   cursor: pointer;
+}
+.number-row {
+  border-top: 1px dotted rgba(255, 255, 255, 0.2);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 </style>

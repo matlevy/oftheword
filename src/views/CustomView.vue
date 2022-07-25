@@ -1,12 +1,6 @@
 <template>
   <div class="custom-view">
-    <output-view
-      ref="output"
-      :triad="triads"
-      :scripture="scripture"
-      :inputWidth="70"
-      :showInput="true"
-    ></output-view>
+    <AlphabetMap></AlphabetMap>
     <cognate-map
       v-if="word.E.length > 1"
       class="cognate-map"
@@ -40,6 +34,7 @@ import KeyGenesisVersesAsGrid from "@/components/scripture/KeyGenesisVersesAsGri
 import CognateMap from "@/components/word/CognateMap.vue";
 import VerseAsGrid from "@/components/scripture/VerseAsGrid.vue";
 import CognateInterconnectivity from "@/components/word/CognateInterconnectivity.vue";
+import AlphabetMap from "../components/letter/AlphabetMap.vue";
 
 @Options({
   name: "custom-view",
@@ -50,6 +45,7 @@ import CognateInterconnectivity from "@/components/word/CognateInterconnectivity
     CognateMap,
     VerseAsGrid,
     CognateInterconnectivity,
+    AlphabetMap,
   },
 })
 export default class CustomView extends Vue {
