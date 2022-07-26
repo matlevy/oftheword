@@ -55,6 +55,7 @@
     <AlphaBetMap
       @letterPick="onLetterPick"
       @pickRow="onRowPick"
+      @focusLetter="onFocusForm"
       :gridSpelling="appliedSpelling"
       :inputH="customHorizontal"
       :inputHSearchSource="searchRow"
@@ -66,6 +67,32 @@
       :showTally="true"
       :allowNumberFocus="true"
       :showTallyLetters="true"
+    ></AlphaBetMap>
+    <div class="notes">
+      <p>
+        Connecting to the selected position of the letter
+        <span class="letters-marker">{{ focusedForm }}</span
+        >, from the alphabet, we can see the following
+        <router-link :to="{ name: 'genesis-opening' }">form</router-link>
+        highlighted;
+      </p>
+    </div>
+    <div class="filters">
+      <input placeholder="Filter Row" v-model="formFilters" size="15" />
+      <input placeholder="Only Colour" v-model="formsColourFilters" size="15" />
+    </div>
+    <AlphaBetMap
+      class="grid"
+      :showOnlyColor="false"
+      :inputH="form"
+      :showLetterCrossReference="true"
+      :colCountOffset="4"
+      :showIndexValues="false"
+      :showTally="true"
+      :allowNumberFocus="true"
+      :showTallyLetters="true"
+      :rowFilter="formFilters"
+      :onlyColour="formsColourFilters"
     ></AlphaBetMap>
   </div>
 </template>
@@ -93,6 +120,11 @@ export default class AlphabetFullGrid extends Vue {
   private customH = "";
   private searchR = "C";
   private colFilter = "";
+  private formFocus = "C";
+  private fmFilter = "";
+  private fmColorFilter = "";
+  //
+  private root = Root.getInstance();
   //
   public chosenLetters: Array<{ P: Letter; I: number; C: number }> = [];
   //
@@ -106,11 +138,34 @@ export default class AlphabetFullGrid extends Vue {
     this.resetChosenLetters();
   }
   //
+  public get formFilters() {
+    return this.fmFilter;
+  }
+  public set formFilters(value: string) {
+    this.fmFilter = value.toUpperCase();
+  }
+  //
+  public get formsColourFilters() {
+    return this.fmColorFilter;
+  }
+  public set formsColourFilters(value: string) {
+    this.fmColorFilter = value.toUpperCase();
+  }
+  //
   public get colorFilter() {
     return this.colFilter;
   }
   public set colorFilter(value: string) {
     this.colFilter = value.toUpperCase();
+  }
+  //
+  public get focusedForm() {
+    return this.formFocus;
+  }
+  //
+  public get form() {
+    const num = this.root.IN.O.G.getAllAsString().indexOf(this.formFocus);
+    return this.root.IN.O.IN.GO?.getForm(num + 1);
   }
   //
   public get cFilter(): string {
@@ -169,6 +224,10 @@ export default class AlphabetFullGrid extends Vue {
     this.appliedSpelling = this.chosenLetters;
     this.chosenLetters = [];
   }
+  //
+  public onFocusForm(letter: string) {
+    this.formFocus = letter;
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -178,6 +237,7 @@ export default class AlphabetFullGrid extends Vue {
   margin: 1rem;
   max-width: 1000px;
   margin-bottom: 2rem !important;
+  margin: 2rem;
 }
 .notes {
   color: white;

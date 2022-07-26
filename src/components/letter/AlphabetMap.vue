@@ -409,6 +409,7 @@ export default class AlphaBetMap extends Vue {
       this.numberFocus
     );
     this.$emit("rowTallyChange", tally[tally.length - 1]);
+    this.$emit("focusLetter", focus.IN.E);
   }
 }
 </script>

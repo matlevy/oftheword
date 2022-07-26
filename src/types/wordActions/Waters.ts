@@ -16,6 +16,7 @@ export interface WATERS {
   ): TwoLetterContainer;
   FA(C: Letter): Letter[];
   S(letter: Letter): number;
+  getForm(index: number): string;
 }
 export class Waters implements WATERS {
   public AE = "";
@@ -159,5 +160,11 @@ export class Waters implements WATERS {
   //
   public S(letter: Letter): number {
     return this.AE.indexOf(letter.IN.E) + 1;
+  }
+  //
+  public getForm(index: number): string {
+    const start = (index - 1) * 22;
+    const end = index * 22;
+    return this.AE.slice(start, end);
   }
 }
