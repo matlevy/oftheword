@@ -102,7 +102,6 @@ import { Vue, Options } from "vue-class-component";
 import { Root } from "@/root";
 
 import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
-import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
 import EncapsulationDecoratorVue from "@/components/reading/EncapsulationDecorator.vue";
 
 @Options({
@@ -119,13 +118,13 @@ export default class MathematicalPhen extends Vue {
   //
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   public GENESIS_ONE_ONE: string = Root.getInstance()
-    .BIBLE.getVerse(BibleBooksEnglish.ENGLISH.GENESIS, 1, 1)
+    .BIBLE.getVerse(Root.getInstance().books.GENESIS, 1, 1)
     .match(/[A-Za-z]/gi)!
     .join("")
     .toLocaleUpperCase();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   public GENESIS_ONE_TWO: string = Root.getInstance()
-    .BIBLE.getVerse(BibleBooksEnglish.ENGLISH.GENESIS, 1, 2)
+    .BIBLE.getVerse(Root.getInstance().books.GENESIS, 1, 2)
     .match(/[A-Za-z]/gi)!
     .join("")
     .toLocaleUpperCase();

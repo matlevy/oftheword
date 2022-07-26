@@ -16,7 +16,6 @@ import { Vue, Options } from "vue-class-component";
 import { Letter } from "@/types/Letter";
 import { Root } from "@/root";
 
-import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
 import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
@@ -28,12 +27,12 @@ import LetterRenderer from "../letter/LetterRenderer.vue";
 export default class KeyGenesisVersesAsGrid extends Vue {
   public get combinedText(): Letter[] {
     const AA: string = Root.getInstance().BIBLE.getVerse(
-      BibleBooksEnglish.ENGLISH.GENESIS,
+      Root.getInstance().books.GENESIS,
       1,
       1
     );
     const AB: string = Root.getInstance().BIBLE.getVerse(
-      BibleBooksEnglish.ENGLISH.GENESIS,
+      Root.getInstance().books.GENESIS,
       1,
       2
     );

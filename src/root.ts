@@ -11,10 +11,11 @@ import {
   BibleSource,
 } from "./types/bibles/BibleExplorer";
 import Bibles from "./types/bibles/Bibles";
-import BibleBooksEnglish from "./types/bibles/BibleBooksEnglish";
+import BibleBooksEnglish, { BOOK_LIST } from "./types/bibles/BibleBooks";
 import { Book } from "./types/Book";
 import { WATERS, Waters } from "./types/wordActions/Waters";
 import { LetterMap } from "./types/LetterMap";
+import BOOKS from "./types/bibles/BibleBooks";
 
 export interface RootIn {
   T: WATERS;
@@ -55,13 +56,15 @@ export class Root {
   }
 
   public get source(): BibleSource {
-    return Bibles.KING_JAMES;
+    return Bibles.VULGATE;
+  }
+
+  public get books(): BOOK_LIST {
+    return BOOKS["LATIN"];
   }
 
   public init() {
-    const book: BibleBook = this.BIBLE.getBook(
-      BibleBooksEnglish.ENGLISH.GENESIS
-    );
+    const book: BibleBook = this.BIBLE.getBook(this.books.GENESIS);
 
     this.gen = new Book({
       GOD: this.IN.O,

@@ -26,7 +26,6 @@ import { Root } from "@/root";
 import { SPIRIT } from "@/types/wordActions/Spirit";
 import { TwoLetterContainer } from "@/types/TwoLetters";
 
-import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
 import LetterRenderer from "../letter/LetterRenderer.vue";
 import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
 
@@ -49,7 +48,7 @@ export default class VerseAsGrid extends Vue {
   public get verseText(): string {
     if (this.chapter && this.verse) {
       const text = Root.getInstance().BIBLE.getVerse(
-        BibleBooksEnglish.ENGLISH.GENESIS,
+        Root.getInstance().books.GENESIS,
         this.chapter,
         this.verse
       );

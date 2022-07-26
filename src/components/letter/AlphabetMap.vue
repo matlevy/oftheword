@@ -12,6 +12,7 @@
             ['lowerBorder']: hasDivider(letters[I]),
             ['hiddenBorder']: !hasDivider(letters[I]),
           }"
+          @click="focusNumbers(L)"
           :showAsShape="showOnlyColor"
           :letter="L"
           :colours="true"

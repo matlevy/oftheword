@@ -157,36 +157,40 @@ export class Scripture {
     for (let i = 0; i < words.length - 1; i++) {
       const wordA: Word = words[i];
       const wordB: Word = words[i + 1];
-      const maps: Array<Letter> = [
-        wordA.A[wordA.A.length - 2],
-        wordA.A[wordA.A.length - 1],
-        wordB.A[0],
-        wordB.A[1],
-      ];
-      if (wordA.A.length == 1) {
-        const wordP = words[i - 1];
-        maps[0] = wordP.A[wordP.A.length - 1];
-      }
-      if (wordB.A.length == 1 && words[i + 2]) {
-        const wordN = words[i + 2];
-        maps[3] = wordN.A[0];
-      }
-      for (let p = 0; p < maps.length; p++) {
-        if (maps[p + 2]) {
-          const str = maps[p].IN.E + maps[p + 1].IN.E + maps[p + 2].IN.E;
-          this.IN.GOD.O.O.store<Triplet>({
-            a: maps[p],
-            b: maps[p + 1],
-            c: maps[p + 2],
-            i: {
-              ref: this.IN.ref!,
-              index: this.E.indexOf(str),
-            },
-            GOD: this.IN.GOD,
-            remap: true,
-            scripture: this,
-          }).map(this.IN, this.E.indexOf(str));
+      try {
+        const maps: Array<Letter> = [
+          wordA.A[wordA.A.length - 2],
+          wordA.A[wordA.A.length - 1],
+          wordB.A[0],
+          wordB.A[1],
+        ];
+        if (wordA.A.length == 1) {
+          const wordP = words[i - 1];
+          maps[0] = wordP.A[wordP.A.length - 1];
         }
+        if (wordB.A.length == 1 && words[i + 2]) {
+          const wordN = words[i + 2];
+          maps[3] = wordN.A[0];
+        }
+        for (let p = 0; p < maps.length; p++) {
+          if (maps[p + 2]) {
+            const str = maps[p].IN.E + maps[p + 1].IN.E + maps[p + 2].IN.E;
+            this.IN.GOD.O.O.store<Triplet>({
+              a: maps[p],
+              b: maps[p + 1],
+              c: maps[p + 2],
+              i: {
+                ref: this.IN.ref!,
+                index: this.E.indexOf(str),
+              },
+              GOD: this.IN.GOD,
+              remap: true,
+              scripture: this,
+            }).map(this.IN, this.E.indexOf(str));
+          }
+        }
+      } catch (e) {
+        console.warn(e);
       }
     }
     return this;

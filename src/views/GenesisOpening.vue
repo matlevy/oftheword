@@ -40,7 +40,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_ONE.slice(0, 22)"
+        :inputH="getForm(1)"
         :rowFilter="FILTER_ABC"
         :showIndexValues="true"
         :showTally="true"
@@ -88,7 +88,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_ONE.slice(22, 44)"
+        :inputH="getForm(2)"
         :rowFilter="FILTER_ABC"
         :showLetterCrossReference="true"
         :colCountOffset="22"
@@ -167,7 +167,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_TWO.slice(0, 22)"
+        :inputH="getForm(3)"
         :rowFilter="FILTER_ABC"
         :showLetterCrossReference="true"
         :showIndexValues="true"
@@ -220,7 +220,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_TWO.slice(22, 44)"
+        :inputH="getForm(4)"
         :rowFilter="FILTER_ABC"
         :cuts="[3, 10]"
         :showLetterCrossReference="true"
@@ -269,7 +269,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_TWO.slice(44, 66)"
+        :inputH="getForm(5)"
         :rowFilter="FILTER_ABC"
         :showLetterCrossReference="true"
         :colCountOffset="12"
@@ -330,7 +330,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_TWO.slice(66, 88)"
+        :inputH="getForm(6)"
         :rowFilter="FILTER_ABC"
         :showLetterCrossReference="true"
         :colCountOffset="34"
@@ -377,7 +377,7 @@
       <AlphaBetMap
         class="grid"
         :showOnlyColor="false"
-        :inputH="GENESIS_ONE_TWO.slice(88, 154)"
+        :inputH="getForm(7)"
         :rowFilter="FILTER_ABC"
         :showLetterCrossReference="true"
         :colCountOffset="4"
@@ -420,7 +420,6 @@ import { Vue, Options } from "vue-class-component";
 import { Root } from "@/root";
 
 import AlphaBetMap from "@/components/letter/AlphabetMap.vue";
-import BibleBooksEnglish from "@/types/bibles/BibleBooksEnglish";
 import EncapsulationDecoratorVue from "@/components/reading/EncapsulationDecorator.vue";
 
 @Options({
@@ -436,13 +435,13 @@ export default class GenesisOpeningVue extends Vue {
   //
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   public GENESIS_ONE_ONE: string = Root.getInstance()
-    .BIBLE.getVerse(BibleBooksEnglish.ENGLISH.GENESIS, 1, 1)
+    .BIBLE.getVerse(Root.getInstance().books.GENESIS, 1, 1)
     .match(/[A-Za-z]/gi)!
     .join("")
     .toLocaleUpperCase();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   public GENESIS_ONE_TWO: string = Root.getInstance()
-    .BIBLE.getVerse(BibleBooksEnglish.ENGLISH.GENESIS, 1, 2)
+    .BIBLE.getVerse(Root.getInstance().books.GENESIS, 1, 2)
     .match(/[A-Za-z]/gi)!
     .join("")
     .toLocaleUpperCase();
@@ -451,6 +450,10 @@ export default class GenesisOpeningVue extends Vue {
   //
   constructor(...args: unknown[]) {
     super(args);
+  }
+  //
+  public getForm(index: number): string {
+    return Root.getInstance().IN.O.GO.getForm(index);
   }
 }
 </script>
