@@ -56,27 +56,44 @@ export class Root {
   }
 
   public get source(): BibleSource {
-    return Bibles.VULGATE;
+    return Bibles.KING_JAMES;
   }
 
   public get books(): BOOK_LIST {
-    return BOOKS["LATIN"];
+    return BOOKS["ENGLISH"];
+  }
+
+  public getBookName(index: number) {
+    const books: string[] = Object.keys(BOOKS["ENGLISH"]);
+    return books[index - 1];
   }
 
   public init() {
-    const book: BibleBook = this.BIBLE.getBook(this.books.GENESIS);
+    const GEN: BibleBook = this.BIBLE.getBook(this.books.GENESIS);
+    const EXO: BibleBook = this.BIBLE.getBook(this.books.EXODUS);
 
     this.gen = new Book({
       GOD: this.IN.O,
-    }).read({
-      book: 1,
-      chapters: book.chapters.map((v: BibleChapter, index: number) => {
-        return {
-          book: 1,
-          chapter: index + 1,
-          scripture: v.scripture,
-        };
-      }),
-    });
+    })
+      .read({
+        book: 1,
+        chapters: GEN.chapters.map((v: BibleChapter, index: number) => {
+          return {
+            book: 1,
+            chapter: index + 1,
+            scripture: v.scripture,
+          };
+        }),
+      })
+      .read({
+        book: 2,
+        chapters: EXO.chapters.map((v: BibleChapter, index: number) => {
+          return {
+            book: 2,
+            chapter: index + 1,
+            scripture: v.scripture,
+          };
+        }),
+      });
   }
 }

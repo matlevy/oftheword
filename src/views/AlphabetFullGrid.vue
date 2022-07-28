@@ -29,14 +29,20 @@
         size="30"
         max="26"
       />
-      <input placeholder="Filter Columns" v-model="cFilter" size="15" />
+      <input
+        placeholder="Enter A Custom Word"
+        v-model="verticalLetters"
+        size="30"
+        max="26"
+      />
+      <input placeholder="Filter Columns" v-model="cFilter" size="10" />
       <select v-model="searchRow" class="search-letters">
         <option v-for="(letter, index) in searchLetters" v-bind:key="index">
           {{ letter }}
         </option>
       </select>
-      <input placeholder="Filter Row" v-model="rFilter" size="15" />
-      <input placeholder="Only Colour" v-model="colorFilter" size="15" />
+      <input placeholder="Filter Row" v-model="rFilter" size="10" />
+      <input placeholder="Only Colour" v-model="colorFilter" size="10" />
       <span>
         <button v-if="chosenLetters.length > 0" @click="onPickSpelling">
           <span v-for="(el, index) in chosenLetters" v-bind:key="index">{{
@@ -67,6 +73,7 @@
       :showTally="true"
       :allowNumberFocus="true"
       :showTallyLetters="true"
+      :columnLetters="verticalLetters"
     ></AlphaBetMap>
     <div class="notes">
       <p>
@@ -123,6 +130,7 @@ export default class AlphabetFullGrid extends Vue {
   private formFocus = "C";
   private fmFilter = "";
   private fmColorFilter = "";
+  private vLetters = "";
   //
   private root = Root.getInstance();
   //
@@ -136,6 +144,13 @@ export default class AlphabetFullGrid extends Vue {
   public onRowPick(selection: string) {
     this.customH = selection;
     this.resetChosenLetters();
+  }
+  //
+  public get verticalLetters() {
+    return this.vLetters;
+  }
+  public set verticalLetters(value: string) {
+    this.vLetters = value.toLocaleUpperCase();
   }
   //
   public get formFilters() {

@@ -65,7 +65,11 @@ export class LetterMapInLatin implements LetterMap {
   }
   //
   public getAllAsString(): string {
-    return LetterMapInLatin.ALPHABET.join("");
+    return LetterMapInLatin.ALPHABET.filter((v: string) => {
+      const letter: Letter = this.getLetter(v);
+      if (letter.IN.R) return letter.IN.R.S(letter) > 0;
+      return false;
+    }).join("");
   }
   //
   public getPresenterClass(letter: Letter) {

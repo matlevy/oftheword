@@ -6,7 +6,9 @@
     >
       <div class="column column-label" v-if="!noColumnLabel">
         <letter-renderer
-          v-for="(L, I) in filterMatrixRowByLetters(letters, rowFilter)"
+          v-for="(L, I) in drawRows(
+            filterMatrixRowByLetters(letters, rowFilter)
+          )"
           v-bind:key="I"
           :class="{
             ['lowerBorder']: hasDivider(letters[I]),
@@ -24,7 +26,9 @@
           <div>
             <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
               <letter-renderer
-                v-for="(A, Y) in filterMatrixRowByLetters(C, rowFilter)"
+                v-for="(A, Y) in drawRows(
+                  filterMatrixRowByLetters(C, rowFilter)
+                )"
                 v-bind:key="Y"
                 :class="{
                   ['lowerBorder']: hasDivider(letters[Y]),
@@ -163,6 +167,7 @@ export interface GridCrossReference {
     allowNumberFocus: Boolean,
     showLetterCrossReference: Boolean,
     showTallyLetters: Boolean,
+    columnLetters: String,
   },
 })
 export default class AlphaBetMap extends Vue {
@@ -196,6 +201,7 @@ export default class AlphaBetMap extends Vue {
   public showIndexValues!: boolean;
   public showLetterCrossReference!: boolean;
   public showTallyLetters!: boolean;
+  public columnLetters!: string;
   //
   public GOD: God = new God({
     OD: this.wordMap,
@@ -266,6 +272,7 @@ export default class AlphaBetMap extends Vue {
       .join("");
     this.$emit("pick-row", row);
   }
+
   //
   public getNumberAsAlphabetLetter(index: number): Letter {
     const offset = this.colCountOffset ? this.colCountOffset : 0;
@@ -287,12 +294,6 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public get letters(): Letter[] {
-    if (this.inputV) {
-      return [...this.inputV].map((v: string) => {
-        console.log(Root.getInstance().IN.O.G.getLetter(v));
-        return Root.getInstance().IN.O.G.getLetter(v);
-      });
-    }
     return [...Root.getInstance().IN.O.G.getAllAsString()].map((v: string) =>
       Root.getInstance().IN.O.G.getLetter(v)
     );
@@ -315,10 +316,14 @@ export default class AlphaBetMap extends Vue {
     return false;
   }
   //
+  public getColumnLetter(index: number): string {
+    return Root.getInstance().IN.O.G.getAllAsString()[index];
+  }
+  //
   public filterMatrixRowByLetters(
     letters: Letter[],
     lettersToFilterBy: string
-  ) {
+  ): Letter[] {
     return letters.filter((letter: Letter, index: number) => {
       const rowLetter = Root.getInstance().IN.O.G.getAllAsString()[index];
       if (lettersToFilterBy && lettersToFilterBy.length > 0) {
@@ -326,6 +331,16 @@ export default class AlphaBetMap extends Vue {
       }
       return true;
     });
+  }
+  //
+  public drawRows(filtered: Letter[]): Letter[] {
+    if (this.columnLetters && this.columnLetters.length > 0) {
+      return [...this.columnLetters].map((v: string) => {
+        const letterPos = Root.getInstance().IN.O.G.getAllAsString().indexOf(v);
+        return filtered.filter((v: Letter, i: number) => i == letterPos)[0];
+      });
+    }
+    return filtered;
   }
   //
   public getMatrixRow(letter: string): Letter[] {

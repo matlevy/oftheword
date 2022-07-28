@@ -10,6 +10,13 @@
     </div>
     <div class="word-details">
       <AlphaBetMap></AlphaBetMap>
+      <div class="content" v-if="!canMoveToSecondary">
+        The first occurance of <b>{{ word.E }}</b> is found within
+        {{ book }}
+        {{ word.IN.scripture.IN.ref?.chapter }}:{{
+          word.IN.scripture.IN.ref?.verse
+        }}
+      </div>
       <div class="notes" v-if="canMoveToSecondary">
         Note: To have a better understanding of the word
         <b>{{ secondaryWord.E }}</b
@@ -75,6 +82,12 @@ export default class WordView extends Vue {
       params: { search: this.search, subsearch: word.E },
     });
   }
+  //
+  get book(): string {
+    const bookRef = this.word.IN.scripture.IN.ref?.book;
+    return Root.getInstance().getBookName(bookRef!);
+  }
+  //
   get word(): Word {
     console.log(this.subsearch);
     if (this.subsearch) {
@@ -132,6 +145,10 @@ export default class WordView extends Vue {
 }
 </script>
 <style scoped lang="scss">
+.content {
+  color: white;
+  margin-top: 2em;
+}
 .notes {
   color: white;
   margin-top: 2rem;
