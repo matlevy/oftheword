@@ -1,7 +1,15 @@
 <template>
   <router-view />
 </template>
+<script lang="ts">
+import { Vue, Options } from "vue-class-component";
 
+//
+@Options({
+  components: {},
+})
+export default class App extends Vue {}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

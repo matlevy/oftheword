@@ -1,5 +1,5 @@
 <template>
-  <div class="scripture" v-on:keyup="onKeyUp">
+  <div class="scripture">
     <raw-scripture-renderer
       :verse="scripture"
       :i="scripture.IN.ref?.verse"
@@ -46,8 +46,43 @@ export default class ScriptureView extends Vue {
     return scripture;
   }
   //
-  public onKeyUp(e: Event) {
-    console.log(e);
+  public get verse(): number {
+    return Number(this.$route.params.verse);
+  }
+  //
+  public get chapter(): number {
+    return Number(this.$route.params.chapter);
+  }
+  public get previousChapter(): number {
+    return this.chapter > 1 ? this.chapter - 1 : this.chapter;
+  }
+  //
+  public mounted() {
+    window.addEventListener("keypress", (e) => this.onKeyUp(e));
+  }
+  //
+  public onKeyUp(e: KeyboardEvent) {
+    switch (e.code) {
+      case "BracketRight":
+        this.gotoScripture(this.chapter, this.verse + 1);
+        break;
+      case "BracketLeft":
+        this.gotoScripture(
+          this.verse > 1 ? this.chapter : this.previousChapter,
+          this.verse > 1 ? this.verse - 1 : 1
+        );
+        break;
+    }
+  }
+  //
+  public gotoScripture(chapter: number, verse: number) {
+    this.$router.push({
+      name: "scripture",
+      params: {
+        chapter: chapter,
+        verse: verse,
+      },
+    });
   }
 }
 </script>
