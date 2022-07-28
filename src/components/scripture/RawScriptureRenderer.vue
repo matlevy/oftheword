@@ -116,6 +116,6 @@ a:hover {
   float: left;
 }
 .verse-label {
-  min-width: 40px;
+  min-width: 2rem;
 }
 </style>

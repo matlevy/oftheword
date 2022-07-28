@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="scripture-grid-view" ref="container" @click="expandToFullScreen">
     <div class="scripture-grid">
       <letter-renderer
         class="letter"
@@ -13,10 +13,10 @@
         :letter="letter"
       ></letter-renderer>
     </div>
-    <bi-letter-map-row
+    <!-- <bi-letter-map-row
       class="river"
       :letterMap="biGlyphStart"
-    ></bi-letter-map-row>
+    ></bi-letter-map-row> -->
   </div>
 </template>
 <script lang="ts">
@@ -88,40 +88,73 @@ export default class VerseAsGrid extends Vue {
   }
   //
   public highlightPrimary(letter: Letter, index: number): boolean {
+    if (!this.spirit) return false;
     const start = this.verseText.indexOf(this.spirit.S);
     const end = start + this.spirit.S.length;
     return start > -1 && index >= start && index < end;
   }
   //
   public highlightSecondary(letter: Letter, index: number): boolean {
+    if (!this.spirit) return false;
     const start = this.verseText.indexOf(this.spirit.S);
     const end = start + this.spirit.S.length;
     return start > -1 && (index == start - 1 || index == end);
   }
+  //
+  public expandToFullScreen() {
+    if (this.$el.requestFullscreen) {
+      this.$el.requestFullscreen();
+    } else if (this.$el.webkitRequestFullscreen) {
+      this.$el.webkitRequestFullscreen();
+    } else if (this.$el.msRequestFullscreen) {
+      this.$el.msRequestFullscreen();
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
+.scripture-grid-view {
+  margin-left: 2rem;
+  //
+  &:fullscreen {
+    margin-left: 0;
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    background-color: rgb(25, 25, 25);
+    .scripture-grid {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
+}
 .scripture-grid {
   margin-top: 2rem;
   display: flex;
-  max-width: 1000px;
-  min-width: 1000px;
+  max-width: 800px;
+  min-width: 800px;
   flex-direction: row;
   flex-wrap: wrap;
   border: 1px solid #444444;
   box-sizing: border-box;
   padding-top: 5px;
   padding-bottom: 5px;
+  &:fullscreen {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
   .letter {
-    width: 45px;
+    width: 36px;
     padding: 0;
     font-size: 18px;
     font-weight: bold;
     margin: 0;
     align-content: center;
     align-items: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     color: white;
     box-sizing: border-box;
   }

@@ -1,45 +1,53 @@
 <template>
-  <div class="scripture">
+  <div class="scripture" v-on:keyup="onKeyUp">
     <raw-scripture-renderer
       :verse="scripture"
       :i="scripture.IN.ref?.verse"
     ></raw-scripture-renderer>
-    <scripture-map-renderer
+    <!-- <scripture-map-renderer
       :word-border="true"
       class="scripture-map"
       :scripture="scripture"
       :map-direction="mapDirection"
       :input="search"
-    ></scripture-map-renderer>
+    ></scripture-map-renderer> -->
+    <VerseAsGrid
+      :chapter="scripture.IN.ref?.chapter"
+      :verse="scripture.IN.ref?.verse"
+    ></VerseAsGrid>
   </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { Scripture } from "@/types/Scripture";
 import { Root } from "@/root";
+import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 
 import ScriptureMapRenderer from "@/components/scripture/ScriptureMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
-import { TripletMappingDirection } from "@/types/TripletMappingDirection";
+import VerseAsGrid from "../components/scripture/VerseAsGrid.vue";
 
 //
 @Options({
   components: {
     RawScriptureRenderer,
     ScriptureMapRenderer,
+    VerseAsGrid,
   },
 })
 export default class ScriptureView extends Vue {
   public mapDirection: TripletMappingDirection = TripletMappingDirection.BAC;
   public search = "";
   //
-  constructor(...args: any[]) {
-    super(args);
-  }
   public get scripture(): Scripture {
     const c = Number(this.$route.params.chapter) - 1;
     const v = Number(this.$route.params.verse) - 1;
-    return Root.getInstance().gen.chapters[c].verse[v];
+    const scripture: Scripture = Root.getInstance().gen.chapters[c].verse[v];
+    return scripture;
+  }
+  //
+  public onKeyUp(e: Event) {
+    console.log(e);
   }
 }
 </script>

@@ -22,7 +22,13 @@ export default class ScriptureWordColumnView extends Vue {
   public get scripture(): Scripture {
     const c = Number(this.$route.params.chapter) - 1;
     const v = Number(this.$route.params.verse) - 1;
-    return Root.getInstance().gen.chapters[c].verse[v];
+
+    const old: Scripture = Root.getInstance().gen.chapters[c].verse[v];
+
+    const scr: Scripture = new Scripture(old.IN);
+    scr.read("NOISREVSEMAJGNIKDES IROHTUAELBIBYLOHEHT ");
+
+    return old;
   }
 }
 </script>
