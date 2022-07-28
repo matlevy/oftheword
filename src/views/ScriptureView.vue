@@ -26,6 +26,7 @@ import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import ScriptureMapRenderer from "@/components/scripture/ScriptureMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 import VerseAsGrid from "../components/scripture/VerseAsGrid.vue";
+import { Letter } from "@/types/Letter";
 
 //
 @Options({
@@ -107,6 +108,18 @@ export default class ScriptureView extends Vue {
           this.verse > 1 ? this.verse - 1 : this.endOfLastChapter
         );
         break;
+      default:
+        if (/[a-zA-Z]/gi.test(e.key)) {
+          let code =
+            Root.getInstance()
+              .IN.O.G.getAllAsString()
+              .indexOf(e.key.toLocaleUpperCase()) + 1;
+          if (e.shiftKey) code = code + 26;
+          // navigate to verse by letter
+          if (code <= this.maxVerses) {
+            this.gotoScripture(this.chapter, code);
+          }
+        }
     }
   }
   //
