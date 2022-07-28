@@ -11,10 +11,7 @@
       :map-direction="mapDirection"
       :input="search"
     ></scripture-map-renderer> -->
-    <VerseAsGrid
-      :chapter="scripture.IN.ref?.chapter"
-      :verse="scripture.IN.ref?.verse"
-    ></VerseAsGrid>
+    <VerseAsGrid class="grid" :scripture="scripture"></VerseAsGrid>
   </div>
 </template>
 <script lang="ts">
@@ -26,7 +23,6 @@ import { TripletMappingDirection } from "@/types/TripletMappingDirection";
 import ScriptureMapRenderer from "@/components/scripture/ScriptureMapRenderer.vue";
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 import VerseAsGrid from "../components/scripture/VerseAsGrid.vue";
-import { Letter } from "@/types/Letter";
 
 //
 @Options({
@@ -159,6 +155,10 @@ export default class ScriptureView extends Vue {
 .grid-view {
   margin-left: 2rem;
   margin-top: 1rem;
+}
+
+.grid {
+  width: fit-content;
 }
 
 .scripture-map {

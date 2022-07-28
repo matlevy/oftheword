@@ -1,6 +1,9 @@
 <template>
-  <div class="scripture-grid-view" ref="container" @click="expandToFullScreen">
-    <div class="scripture-grid">
+  <div class="scripture-grid-view" ref="container">
+    <button class="display-type-button" @click="switchViewType">
+      View {{ vertical ? "Horizontal" : "Vertical" }}
+    </button>
+    <div class="scripture-grid" v-if="!vertical" @click="expandToFullScreen">
       <letter-renderer
         class="letter"
         :class="{
@@ -13,6 +16,13 @@
         :letter="letter"
       ></letter-renderer>
     </div>
+    <ScriptureWordColumnRenderer
+      @click="expandToFullScreen"
+      v-if="vertical"
+      :scripture="scripture"
+      class="scripture-vertical"
+    >
+    </ScriptureWordColumnRenderer>
     <!-- <bi-letter-map-row
       class="river"
       :letterMap="biGlyphStart"
@@ -25,27 +35,34 @@ import { Letter } from "@/types/Letter";
 import { Root } from "@/root";
 import { SPIRIT } from "@/types/wordActions/Spirit";
 import { TwoLetterContainer } from "@/types/TwoLetters";
+import { Scripture } from "@/types/Scripture";
 
 import LetterRenderer from "../letter/LetterRenderer.vue";
 import BiGlyphMapRow from "@/components/search/BiGlyphMapRow.vue";
+import ScriptureWordColumnRenderer from "./ScriptureWordColumnRenderer.vue";
 
 @Options({
   components: {
     LetterRenderer,
     BiGlyphMapRow,
+    ScriptureWordColumnRenderer,
   },
   props: {
     chapter: Number,
     verse: Number,
     spirit: Object,
+    scripture: Scripture,
   },
 })
 export default class VerseAsGrid extends Vue {
   public chapter!: number;
   public verse!: number;
   public spirit!: SPIRIT;
+  public scripture!: Scripture;
+  public vertical = false;
   //
   public get verseText(): string {
+    if (this.scripture) return this.scripture.E;
     if (this.chapter && this.verse) {
       const text = Root.getInstance().BIBLE.getVerse(
         Root.getInstance().books.GENESIS,
@@ -110,9 +127,24 @@ export default class VerseAsGrid extends Vue {
       this.$el.msRequestFullscreen();
     }
   }
+  //
+  public switchViewType() {
+    this.vertical = !this.vertical;
+  }
 }
 </script>
 <style lang="scss" scoped>
+.display-type-button {
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid #444444;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.scripture-vertical {
+  margin-top: 2rem;
+}
 .scripture-grid-view {
   margin-left: 2rem;
   //

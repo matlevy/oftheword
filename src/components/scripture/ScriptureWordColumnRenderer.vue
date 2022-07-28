@@ -104,8 +104,11 @@ export default class ScriptureWordColumnRenderer extends Vue {
 <style scoped lang="scss">
 .words {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  border: 1px solid #444444;
+  padding: 1rem;
+  max-width: 800px;
+  width: fit-content;
+  overflow: scroll;
 }
 .word {
   display: flex;
