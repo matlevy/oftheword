@@ -53,6 +53,38 @@ export default class ScriptureView extends Vue {
   public get chapter(): number {
     return Number(this.$route.params.chapter);
   }
+  //
+  public get bookAsString(): string {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return Root.getInstance().getBookName(this.scripture.IN.ref!.book);
+  }
+  //
+  public get maxVerses(): number {
+    return Root.getInstance().BIBLE.getVerseCount(
+      this.bookAsString,
+      this.scripture.IN.ref?.chapter || 0
+    );
+  }
+  //
+  public get maxChapters(): number {
+    return Root.getInstance().BIBLE.getChapterCount(this.bookAsString);
+  }
+  //
+  public get endOfLastChapter(): number {
+    return Root.getInstance().BIBLE.getVerseCount(
+      this.bookAsString,
+      Math.max((this.scripture.IN.ref?.chapter || 0) - 1, 1)
+    );
+  }
+  //
+  public get nextChapter(): number {
+    return this.chapter < this.maxChapters ? this.chapter + 1 : 1;
+  }
+  //
+  public get nextVerse(): number {
+    return this.verse < this.maxVerses ? this.verse + 1 : 1;
+  }
+  //
   public get previousChapter(): number {
     return this.chapter > 1 ? this.chapter - 1 : this.chapter;
   }
@@ -64,12 +96,15 @@ export default class ScriptureView extends Vue {
   public onKeyUp(e: KeyboardEvent) {
     switch (e.code) {
       case "BracketRight":
-        this.gotoScripture(this.chapter, this.verse + 1);
+        this.gotoScripture(
+          this.nextVerse == 1 ? this.chapter + 1 : this.chapter,
+          this.nextVerse
+        );
         break;
       case "BracketLeft":
         this.gotoScripture(
           this.verse > 1 ? this.chapter : this.previousChapter,
-          this.verse > 1 ? this.verse - 1 : 1
+          this.verse > 1 ? this.verse - 1 : this.endOfLastChapter
         );
         break;
     }
