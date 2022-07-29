@@ -132,6 +132,12 @@ export default class AlphabetFullGrid extends Vue {
   private fmColorFilter = "";
   private vLetters = "";
   //
+  public mounted() {
+    if (this.$route.params.stream) {
+      this.customHorizontal = this.$route.params.stream as string;
+    }
+  }
+  //
   private root = Root.getInstance();
   //
   public chosenLetters: Array<{ P: Letter; I: number; C: number }> = [];

@@ -1,9 +1,10 @@
-import CustomView from "@/views/CustomView.vue";
 import AlphabetView from "../views/AlphabetView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import AlphabetFullGrid from "@/views/AlphabetFullGrid.vue";
 import GenesisOpeningVue from "@/views/GenesisOpening.vue";
 import MathematicalPhen from "@/views/MathematicalPhenomenom.vue";
+import FibonacciViewVue from "@/views/FibonacciView.vue";
+import PrimesView from "@/views/PrimesView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,6 +38,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/ScriptureWordColumnView.vue"),
   },
   {
+    path: "/alphabet/grid/:book/:chapter/:verse/:stream",
+    name: "alphabetgrid-by-stream",
+    component: AlphabetFullGrid,
+  },
+  {
     path: "/alphabet/grid",
     name: "alphabetgrid",
     component: AlphabetFullGrid,
@@ -50,6 +56,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/alphabet",
     name: "alphabet",
     component: AlphabetView,
+  },
+  {
+    path: "/fibonacci",
+    name: "fibonacci",
+    component: FibonacciViewVue,
+  },
+  {
+    path: "/primes",
+    name: "primes",
+    component: PrimesView,
   },
   {
     path: "/genesis/opening",

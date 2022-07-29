@@ -90,32 +90,53 @@ export default class ScriptureView extends Vue {
     window.addEventListener("keypress", (e) => this.onKeyUp(e));
   }
   //
+  public get scriptureMatrix(): string[] {
+    const chunks = new Array(Math.ceil(this.scripture.E.length / 22));
+    return this.scripture.E.split(/([a-z]{22,22})/gi).filter((v) => v != "");
+  }
+  //
   public onKeyUp(e: KeyboardEvent) {
-    switch (e.code) {
-      case "BracketRight":
-        this.gotoScripture(
-          this.nextVerse == 1 ? this.chapter + 1 : this.chapter,
-          this.nextVerse
-        );
-        break;
-      case "BracketLeft":
-        this.gotoScripture(
-          this.verse > 1 ? this.chapter : this.previousChapter,
-          this.verse > 1 ? this.verse - 1 : this.endOfLastChapter
-        );
-        break;
-      default:
-        if (/[a-zA-Z]/gi.test(e.key)) {
-          let code =
-            Root.getInstance()
-              .IN.O.G.getAllAsString()
-              .indexOf(e.key.toLocaleUpperCase()) + 1;
-          if (e.shiftKey) code = code + 26;
-          // navigate to verse by letter
-          if (code <= this.maxVerses) {
-            this.gotoScripture(this.chapter, code);
+    if (this.$route.name == "scripture") {
+      switch (e.code) {
+        case "BracketRight":
+          this.gotoScripture(
+            this.nextVerse == 1 ? this.chapter + 1 : this.chapter,
+            this.nextVerse
+          );
+          break;
+        case "BracketLeft":
+          this.gotoScripture(
+            this.verse > 1 ? this.chapter : this.previousChapter,
+            this.verse > 1 ? this.verse - 1 : this.endOfLastChapter
+          );
+          break;
+        default:
+          if (/[0-9]/gi.test(e.key)) {
+            const index = Number(e.key) == 0 ? 10 : Number(e.key) - 1;
+            if (this.scriptureMatrix[index]) {
+              this.$router.push({
+                name: "alphabetgrid-by-stream",
+                params: {
+                  book: this.scripture.IN.ref?.book,
+                  chapter: this.scripture.IN.ref?.chapter,
+                  verse: this.scripture.IN.ref?.verse,
+                  stream: this.scriptureMatrix[index],
+                },
+              });
+            }
           }
-        }
+          if (/[a-zA-Z]/gi.test(e.key)) {
+            let code =
+              Root.getInstance()
+                .IN.O.G.getAllAsString()
+                .indexOf(e.key.toLocaleUpperCase()) + 1;
+            if (e.shiftKey) code = code + 26;
+            // navigate to verse by letter
+            if (code <= this.maxVerses) {
+              this.gotoScripture(this.chapter, code);
+            }
+          }
+      }
     }
   }
   //

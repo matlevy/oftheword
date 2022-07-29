@@ -110,6 +110,15 @@ export class Triplet implements TripletInterface {
     return this.IN.c!;
   }
 
+  public FA(C: string) {
+    const P = this.IN.GOD.G.getAllAsString().indexOf(C);
+    return [this.a.FAC[P], this.b.FAC[P], this.c.FAC[P]];
+  }
+
+  public get FACE() {
+    return [...this.IN.GOD.G.getAllAsString()].map((C: string) => this.FA(C));
+  }
+
   get AD(): Array<Letter> {
     return [
       this.IN.a!,

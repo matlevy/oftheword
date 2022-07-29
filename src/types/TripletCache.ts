@@ -19,8 +19,14 @@ export class TripletCache implements Store<TripletIn, TripletIn, TripletIn> {
       const k: string = value
         .a!.IN.E.concat(value.b!.IN.E)
         .concat(value.c!.IN.E);
-      this.O.set(k, new Triplet(value));
+      const triplet: Triplet = new Triplet(value);
+      //
+      this.O.set(k, triplet);
       return this.get<R>(value);
     }
+  }
+
+  public get C(): Map<string, Triplet> {
+    return this.O as Map<string, Triplet>;
   }
 }

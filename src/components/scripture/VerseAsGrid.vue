@@ -1,6 +1,10 @@
 <template>
   <div class="scripture-grid-view" ref="container">
-    <button class="display-type-button" @click="switchViewType">
+    <button
+      v-if="allowVerical"
+      class="display-type-button"
+      @click="switchViewType"
+    >
       View {{ vertical ? "Horizontal" : "Vertical" }}
     </button>
     <div class="scripture-grid" v-if="!vertical" @click="expandToFullScreen">
@@ -52,6 +56,7 @@ import ScriptureWordColumnRenderer from "./ScriptureWordColumnRenderer.vue";
     verse: Number,
     spirit: Object,
     scripture: Scripture,
+    allowVertical: Boolean,
   },
 })
 export default class VerseAsGrid extends Vue {
@@ -60,6 +65,7 @@ export default class VerseAsGrid extends Vue {
   public spirit!: SPIRIT;
   public scripture!: Scripture;
   public vertical = false;
+  public allowVerical!: boolean;
   //
   public get verseText(): string {
     if (this.scripture) return this.scripture.E;

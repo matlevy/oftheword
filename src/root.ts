@@ -85,15 +85,16 @@ export class Root {
           };
         }),
       })
-      .read({
-        book: 2,
-        chapters: EXO.chapters.map((v: BibleChapter, index: number) => {
-          return {
-            book: 2,
-            chapter: index + 1,
-            scripture: v.scripture,
-          };
-        }),
-      });
+      .and();
+    // .read({
+    //   book: 2,
+    //   chapters: EXO.chapters.map((v: BibleChapter, index: number) => {
+    //     return {
+    //       book: 2,
+    //       chapter: index + 1,
+    //       scripture: v.scripture,
+    //     };
+    //   }),
+    // });
   }
 }

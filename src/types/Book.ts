@@ -1,4 +1,5 @@
 import { Chapter, ChapterSeed } from "./Chapter";
+import { Triplet } from "./Triplet";
 import { God } from "./wordActions/God";
 
 export interface BookIn {
@@ -19,6 +20,7 @@ export class Book {
     this.SEED = value;
     this.read(value);
   }
+  //
   public read(value: BookSeed) {
     value.chapters.forEach((value: ChapterSeed, index: number) => {
       const chapter: Chapter = new Chapter({
@@ -30,6 +32,15 @@ export class Book {
       });
       this.chapters.push(chapter);
     });
+    return this;
+  }
+  //
+  public and() {
+    const triplets: Map<string, Triplet> = this.IN.GOD.O.O.C;
+    const source = [...triplets.keys()]
+      .slice(0, 100)
+      .map((v: string) => triplets.get(v));
+    //console.log(source);
     return this;
   }
 }
