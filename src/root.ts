@@ -31,7 +31,7 @@ export class Root {
   public static getInstance(): Root {
     if (!Root._instance) {
       const GO: WATERS = new Waters();
-      const G: LetterMap = new LetterMapInLatin(GO);
+      const G: LetterMap = new LetterMapInHebrew(GO);
       const O: TripletMap = new TripletMap(G);
       const OD: WordMap = new WordMap({
         map: new Map<string, Word>(),
@@ -57,7 +57,7 @@ export class Root {
   }
 
   public get source(): BibleSource {
-    return Bibles.KING_JAMES;
+    return Bibles.TORAH;
   }
 
   public get books(): BOOK_LIST {

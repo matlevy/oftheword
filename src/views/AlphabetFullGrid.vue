@@ -121,7 +121,7 @@ export default class AlphabetFullGrid extends Vue {
   private customH = "";
   private searchR = "C";
   private colFilter = "";
-  private formFocus = "C";
+  private formFocus = Root.getInstance().IN.O.G.getFromIndex(3).IN.E;
   private fmFilter = "";
   private fmColorFilter = "";
   private vLetters = "";

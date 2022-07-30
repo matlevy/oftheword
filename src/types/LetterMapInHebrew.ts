@@ -68,7 +68,7 @@ export class LetterMapInHebrew implements LetterMap {
   }
   //
   public getAllAsString(): string {
-    return LetterMapInHebrew.ALPHABET.toString();
+    return LetterMapInHebrew.ALPHABET.join("");
   }
   //
   public getPresenterClass(letter: Letter) {

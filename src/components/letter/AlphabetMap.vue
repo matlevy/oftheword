@@ -1,10 +1,14 @@
 <template>
-  <div class="alphabet-view">
+  <div class="alphabet-view" :class="{ ['rtl']: rtl }">
     <div
       class="alphabet-grid"
       :class="{ ['borderContainer']: borderContainer }"
     >
-      <div class="column column-label" v-if="!noColumnLabel">
+      <div
+        class="column column-label"
+        :class="{ ['rtl']: rtl }"
+        v-if="!noColumnLabel"
+      >
         <div
           v-for="(L, I) in drawRows(
             filterMatrixRowByLetters(letters, rowFilter)
@@ -15,6 +19,7 @@
           :class="{
             ['lowerBorder']: hasDivider(letters[I]),
             ['hiddenBorder']: !hasDivider(letters[I]),
+            ['rtl']: rtl,
           }"
         >
           <LetterRenderer :letter="L" :colours="true"></LetterRenderer>
@@ -22,8 +27,13 @@
       </div>
       <div class="rows grid-display">
         <div class="grid-content">
-          <div class="referenced-letters">
-            <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
+          <div class="referenced-letters" :class="{ ['rtl']: rtl }">
+            <div
+              class="column"
+              :class="{ ['rtl']: rtl }"
+              v-for="(C, X) in matrix"
+              v-bind:key="X"
+            >
               <div
                 :class="{
                   ['row']: true,
@@ -31,6 +41,7 @@
                   ['hiddenBorder']: !hasDivider(letters[Y]),
                   ['unHighlightLetter']: unHiglightLetter(A),
                   ['whiteOnly']: colorOnly(A),
+                  ['rtl']: rtl,
                 }"
                 v-for="(A, Y) in drawRows(
                   filterMatrixRowByLetters(C, rowFilter)
@@ -49,6 +60,7 @@
           <div
             class="column alphabet-placement"
             v-if="showLetterCrossReference"
+            :class="{ ['rtl']: rtl }"
           >
             <div
               v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
@@ -61,7 +73,7 @@
               ></LetterRenderer>
             </div>
           </div>
-          <div class="numerology">
+          <!-- <div class="numerology">
             <div v-if="showIndexValues" class="row number-row">
               <div
                 class="column"
@@ -98,7 +110,7 @@
                 <LetterRenderer :letter="L" :colours="true"></LetterRenderer>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="column column-label search-col" v-if="canSubNav">
@@ -202,7 +214,7 @@ export default class AlphaBetMap extends Vue {
   public showColumnLetterAtBottom!: boolean;
   public colCountOffset!: number;
   public cuts!: number[];
-  public numberFocus = "C";
+  public numberFocus = Root.getInstance().IN.O.G.getFromIndex(3).IN.E;
   public tallyOffset!: number;
   public showTally!: boolean;
   public allowNumberFocus!: boolean;
@@ -222,6 +234,10 @@ export default class AlphaBetMap extends Vue {
     GOD: this.GOD,
     map: false,
   });
+  //
+  public get rtl() {
+    return Root.getInstance().IN.O.G.rtl;
+  }
   //
   public get stream(): string {
     if (this.crossReference && this.crossReference.C.length > 0)
@@ -302,9 +318,9 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public get letters(): Letter[] {
-    return [...Root.getInstance().IN.O.G.getAllAsString()].map((v: string) =>
-      Root.getInstance().IN.O.G.getLetter(v)
-    );
+    return [...Root.getInstance().IN.O.G.getAllAsString()].map((v: string) => {
+      return Root.getInstance().IN.O.G.getLetter(v);
+    });
   }
   //
   public get canToggleNumberView(): boolean {
@@ -430,13 +446,18 @@ export default class AlphaBetMap extends Vue {
 .alphabet-view {
   display: flex;
   flex-flow: column;
-  font-size: 14px;
+  &.rtl {
+    font-size: 24px;
+  }
 }
 .column {
   float: left;
   display: flex;
   flex-flow: column;
   min-width: 2em;
+  &.rtl {
+    min-width: 1.5em;
+  }
 }
 .row {
   display: flex;
@@ -445,6 +466,10 @@ export default class AlphaBetMap extends Vue {
   min-width: 2em;
   align-content: center;
   align-items: center;
+  &.rtl {
+    min-width: 1em;
+    min-height: 1.5em;
+  }
 }
 .rows {
   display: flex;
@@ -464,9 +489,17 @@ export default class AlphaBetMap extends Vue {
   .referenced-letters {
     display: flex;
     width: fit-content;
+    &.rtl {
+      flex-direction: row-reverse;
+    }
   }
   .alphabet-placement {
     flex-flow: row;
+    &.rtl {
+      .row {
+        min-width: 1.5em;
+      }
+    }
   }
 }
 .numerology {
