@@ -1,6 +1,15 @@
 <template>
   <div class="fibonacci-grid">
-    <VerseAsGrid class="grid" :scripture="scripture"></VerseAsGrid>
+    <VerseAsGrid
+      :reverse="reverse"
+      class="grid"
+      :scripture="scripture"
+    ></VerseAsGrid>
+    <VerseAsGrid
+      :reverse="reverse"
+      class="grid"
+      :scripture="genOneRemap"
+    ></VerseAsGrid>
   </div>
 </template>
 <script lang="ts">
@@ -21,28 +30,17 @@ import { Scripture } from "@/types/Scripture";
   props: {},
 })
 export default class FibonacciViewVue extends Vue {
+  public reverse = false;
   //
   mounted() {
     window.addEventListener("keypress", (e) => this.onKeyUp(e));
   }
   //
   public get fibonacci(): string[] {
-    const seed: number[] = new Array<number>(154).fill(0);
-    seed[0] = 1;
-    seed[1] = 1;
-    return seed
-      .reduce((p: number[], c: number, index: number) => {
-        if (index >= 2) {
-          p[index] = p[index - 2] + p[index - 1];
-        } else {
-          p[index] = c;
-        }
-        return p;
-      }, [])
-      .map((v: number) => {
-        return Root.getInstance().IN.O.G.getFromIndex(v % 26 !== 0 ? v % 26 : 1)
-          .IN.E;
-      });
+    return this.fib.map((v: number) => {
+      return Root.getInstance().IN.O.G.getFromIndex(v % 26 !== 0 ? v % 26 : 1)
+        .IN.E;
+    });
   }
   //
   public get scripture(): Scripture {
@@ -52,8 +50,39 @@ export default class FibonacciViewVue extends Vue {
     }).read(this.fibonacci.join(" ").concat(" "));
   }
   //
+  public get genOneRemap(): Scripture {
+    return new Scripture({
+      GOD: Root.getInstance().IN.O,
+      map: false,
+    }).read(this.genesisOne.join(" ").concat(" "));
+  }
+  //
+  public get fib(): number[] {
+    const seed: number[] = new Array<number>(154).fill(0);
+    seed[0] = 1;
+    seed[1] = 1;
+    return seed.reduce((p: number[], c: number, index: number) => {
+      if (index >= 2) {
+        p[index] = p[index - 2] + p[index - 1];
+      } else {
+        p[index] = c;
+      }
+      return p;
+    }, []);
+  }
+  //
+  public get genesisOne(): string[] {
+    return this.fib.map((v: number) => {
+      return Root.getInstance().gen.chapters[1].verse[1].E[
+        v % 44 !== 0 ? v % 44 : 1
+      ];
+    });
+  }
+  //
   public get scriptureMatrix(): string[] {
-    return this.scripture.E.split(/([a-z]{22,22})/gi).filter((v) => v != "");
+    return this.scripture.E.split(/([a-z]{22,22})/gi)
+      .filter((v) => v != "")
+      .map((v: string) => (this.reverse ? v.split("").reverse().join("") : v));
   }
   //
   public onKeyUp(e: KeyboardEvent) {
@@ -82,5 +111,6 @@ export default class FibonacciViewVue extends Vue {
 <style lang="scss" scoped>
 .fibonacci-grid {
   display: flex;
+  flex-flow: column;
 }
 </style>

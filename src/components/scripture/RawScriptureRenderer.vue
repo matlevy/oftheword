@@ -1,27 +1,12 @@
 <template>
   <div class="raw">
-    <router-link
-      class="verse-label"
-      :to="{
-        name: 'scripture',
-        params: {
-          book: verse.IN.chapter?.SEED.book,
-          chapter: verse.IN.chapter?.SEED.chapter,
-          verse: i,
-        },
-      }"
-      ><div>{{ verse.IN.ref?.verse }}.</div></router-link
-    >
-    <div class="verse-text" ref="scripture">
-      <span
+    <div class="verse-text" :class="{ ['rtl']: rtl }" ref="scripture">
+      <WordRenderer
         v-for="(word, index) in verse.I"
+        :color="false"
+        :word="word"
         v-bind:key="index"
-        :title="(index + 1).toString()"
-        @click="selectWord(word)"
-        class="letter"
-        >{{ word.WR?.R
-        }}{{ verse.X[index] ? verse.X[index].character : "" }}</span
-      >
+      ></WordRenderer>
     </div>
   </div>
 </template>
@@ -29,9 +14,17 @@
 import { Options, Vue } from "vue-class-component";
 import { Scripture } from "@/types/Scripture";
 import { Word } from "@/types/Word";
+import { Root } from "@/root";
+
+import WordRenderer from "../word/WordRenderer.vue";
+import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   name: "raw-scripture-renderer",
+  components: {
+    WordRenderer,
+    LetterRenderer,
+  },
   props: {
     verse: Scripture,
     i: Number,
@@ -49,35 +42,12 @@ export default class RawScriptureRenderer extends Vue {
     });
   }
   //
-  private debounce(fn: () => void, delay: number) {
-    let timer = -1;
-    return () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn.apply(this);
-      }, delay);
-    };
-  }
-  //
-  public mounted() {
-    document.addEventListener(
-      "selectionchange",
-      this.debounce(() => {
-        const selection = document
-          .getSelection()
-          ?.toString()
-          .normalize("NFD")
-          .replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, "")
-          ?.replace(/\n/gi, " ");
-        if (selection !== "") {
-          this.$emit("highlight", selection + " ");
-        }
-      }, 100)
-    );
-  }
-  //
   public selectWord(word: Word) {
     this.$emit("selectWord", word);
+  }
+  //
+  public get rtl() {
+    return Root.getInstance().IN.O.G.rtl;
   }
 }
 </script>
@@ -94,16 +64,26 @@ a {
   display: block;
   margin-bottom: 0.8rem;
   display: flex;
+  max-width: 840px;
 }
 .letter {
   margin-right: 7px;
   padding: 0;
+  font-size: 1.2em;
 }
 .verse-text {
-  max-width: 1000px;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
+
+.rtl {
+  flex-flow: row-reverse;
+  flex-wrap: wrap;
+  float: right !important;
+  right: 0;
+}
+
 ::selection {
   background-color: yellow;
   color: black;
@@ -114,8 +94,9 @@ a:hover {
 .verse-text,
 .verse-label {
   float: left;
+  font-size: 1em;
 }
 .verse-label {
-  min-width: 2rem;
+  min-width: 1rem;
 }
 </style>

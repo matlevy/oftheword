@@ -12,12 +12,12 @@
             ),
             permissable: isPermissable(letter),
           }"
-          v-for="(letter, i) in word.A"
+          v-for="(letter, i) in word.C"
           :data-n="n * word.E.length + i - word.E.length"
           :data-c="c"
           :colours="false"
           v-bind:key="i"
-          v-show="canRender(n, i, word.A.length)"
+          v-show="canRender(n, i, word.C.length)"
           @click="
             onLetterClick(letter, n * word.E.length + i - word.E.length, c, i)
           "
@@ -76,13 +76,13 @@ export default class ScriptureWordColumnRenderer extends Vue {
   public get permissableLetters(): Letter[] {
     const word: Word = this.scripture.I[this.aSelected[1]];
     if (!word) return [];
-    const letterA: Letter = word.A[this.aSelected[2]];
+    const letterA: Letter = word.C[this.aSelected[2]];
     if (!this.scripture.I) return [];
     return this.scripture.I.concat(...this.scripture.I)
       .concat(...this.scripture.I)
       .flatMap((w: Word) => {
-        if (!w.A) return [];
-        return w.A.flatMap((v: Letter, i: number, a: Letter[]) => {
+        if (!w.C) return [];
+        return w.C.flatMap((v: Letter, i: number, a: Letter[]) => {
           return v == letterA ? [a[i - 2], a[i - 1], a[i + 1], a[i + 2]] : [];
         }).reduce((p: Letter[], c: Letter) => {
           if (p.indexOf(c) == -1 && c != undefined) p.push(c);

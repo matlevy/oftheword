@@ -1,4 +1,5 @@
 import { LetterMapInLatin } from "./types/LetterMapInLatin";
+import { LetterMapInHebrew } from "./types/LetterMapInHebrew";
 import { SpecialLetterMap } from "./types/SpecialLetterMap";
 import { Word } from "./types/Word";
 import { God } from "./types/wordActions/God";
@@ -71,6 +72,9 @@ export class Root {
   public init() {
     const GEN: BibleBook = this.BIBLE.getBook(this.books.GENESIS);
     const EXO: BibleBook = this.BIBLE.getBook(this.books.EXODUS);
+
+    console.log(this.IN.O.G.getAllAsString());
+    console.log(this.IN.O.G.getFromIndex(1));
 
     this.gen = new Book({
       GOD: this.IN.O,

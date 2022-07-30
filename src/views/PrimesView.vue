@@ -1,6 +1,15 @@
 <template>
   <div class="primes-grid">
-    <VerseAsGrid class="grid" :scripture="scripture"></VerseAsGrid>
+    <VerseAsGrid
+      :reverse="reverse"
+      class="grid"
+      :scripture="scripture"
+    ></VerseAsGrid>
+    <VerseAsGrid
+      :reverse="reverse"
+      class="grid"
+      :scripture="genOneRemap"
+    ></VerseAsGrid>
   </div>
 </template>
 <script lang="ts">
@@ -21,13 +30,14 @@ import { Scripture } from "@/types/Scripture";
   props: {},
 })
 export default class PrimesView extends Vue {
+  public reverse = false;
   //
   mounted() {
     window.addEventListener("keypress", (e) => this.onKeyUp(e));
   }
   //
-  public get fibonacci(): string[] {
-    const seed: number[] = [
+  public get primes(): number[] {
+    return [
       2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67,
       71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149,
       151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229,
@@ -39,17 +49,35 @@ export default class PrimesView extends Vue {
       701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809,
       811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887,
     ];
-    return seed.map((v: number) => {
+  }
+  //
+  public get primesAsString(): string[] {
+    return this.primes.map((v: number) => {
       return Root.getInstance().IN.O.G.getFromIndex(v % 26 !== 0 ? v % 26 : 1)
         .IN.E;
     });
+  }
+  //
+  public get genesisOne(): string[] {
+    return this.primes.map((v: number) => {
+      return Root.getInstance().gen.chapters[1].verse[1].E[
+        v % 44 !== 0 ? v % 44 : 1
+      ];
+    });
+  }
+  //
+  public get genOneRemap(): Scripture {
+    return new Scripture({
+      GOD: Root.getInstance().IN.O,
+      map: false,
+    }).read(this.genesisOne.join(" ").concat(" "));
   }
   //
   public get scripture(): Scripture {
     return new Scripture({
       GOD: Root.getInstance().IN.O,
       map: false,
-    }).read(this.fibonacci.join(" ").concat(" "));
+    }).read(this.primesAsString.join(" ").concat(" "));
   }
   //
   public get scriptureMatrix(): string[] {
@@ -82,5 +110,6 @@ export default class PrimesView extends Vue {
 <style lang="scss" scoped>
 .primes-grid {
   display: flex;
+  flex-flow: column;
 }
 </style>

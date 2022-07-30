@@ -8,4 +8,5 @@ export interface LetterMap {
   getAllAsString(): string;
   getPresenterClass(letter: Letter): string;
   getLetterGroupPosition(letter: Letter): number;
+  rtl: boolean;
 }

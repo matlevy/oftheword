@@ -1,25 +1,30 @@
 <template>
-  <div class="word">
-    <a
-      href="#index"
-      v-for="(letter, index) in word.A"
+  <div class="word" :class="{ ['rtl']: rtl }">
+    <LetterRenderer
+      v-for="(letter, index) in word.C"
       v-bind:key="index"
-      :title="(index + 1).toString()"
-      class="letter"
-    >
-      <letter-renderer :letter="letter"></letter-renderer>
-    </a>
+      :grammar="word.X[index]"
+      :colours="colours"
+      :showAsShape="showAsShape"
+      :letter="letter"
+    ></LetterRenderer>
+    <LetterRenderer :letter="space"></LetterRenderer>
   </div>
 </template>
 <script lang="ts">
+import { Root } from "@/root";
 import { Word } from "@/types/Word";
 import { Options, Vue } from "vue-class-component";
+import { Letter } from "@/types/Letter";
+
 import LetterRenderer from "../letter/LetterRenderer.vue";
 
 @Options({
   name: "word-renderer",
   props: {
     word: Word,
+    colours: Boolean,
+    showAsShape: Boolean,
   },
   components: {
     LetterRenderer,
@@ -27,6 +32,16 @@ import LetterRenderer from "../letter/LetterRenderer.vue";
 })
 export default class WordRenderer extends Vue {
   public word!: Word;
+  public colours!: boolean;
+  public showAsShape!: boolean;
+  //
+  public get rtl(): boolean {
+    return Root.getInstance().IN.O.G.rtl;
+  }
+  //
+  public get space(): Letter {
+    return this.word.IN.GOD.IN.X.getLetter(" ");
+  }
 }
 </script>
 
@@ -43,5 +58,11 @@ export default class WordRenderer extends Vue {
     font-size: 24px;
     text-decoration: none;
   }
+}
+.rtl {
+  flex-flow: row-reverse;
+  flex-wrap: wrap;
+  float: right !important;
+  right: 0;
 }
 </style>

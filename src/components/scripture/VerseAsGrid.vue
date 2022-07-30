@@ -1,13 +1,11 @@
 <template>
   <div class="scripture-grid-view" ref="container">
-    <button
-      v-if="allowVerical"
-      class="display-type-button"
-      @click="switchViewType"
+    <div
+      class="scripture-grid"
+      :class="{ ['reverse']: reverse }"
+      v-if="!vertical"
+      @click="expandToFullScreen"
     >
-      View {{ vertical ? "Horizontal" : "Vertical" }}
-    </button>
-    <div class="scripture-grid" v-if="!vertical" @click="expandToFullScreen">
       <letter-renderer
         class="letter"
         :class="{
@@ -27,6 +25,13 @@
       class="scripture-vertical"
     >
     </ScriptureWordColumnRenderer>
+    <button
+      v-if="allowVerical"
+      class="display-type-button"
+      @click="switchViewType"
+    >
+      View {{ vertical ? "Horizontal" : "Vertical" }}
+    </button>
     <!-- <bi-letter-map-row
       class="river"
       :letterMap="biGlyphStart"
@@ -57,6 +62,7 @@ import ScriptureWordColumnRenderer from "./ScriptureWordColumnRenderer.vue";
     spirit: Object,
     scripture: Scripture,
     allowVertical: Boolean,
+    reverse: Boolean,
   },
 })
 export default class VerseAsGrid extends Vue {
@@ -66,6 +72,7 @@ export default class VerseAsGrid extends Vue {
   public scripture!: Scripture;
   public vertical = false;
   public allowVerical!: boolean;
+  public reverse: boolean = Root.getInstance().IN.O.G.rtl;
   //
   public get verseText(): string {
     if (this.scripture) return this.scripture.E;
@@ -75,7 +82,7 @@ export default class VerseAsGrid extends Vue {
         this.chapter,
         this.verse
       );
-      const matches = text.toLocaleUpperCase().match(/[A-Z]/gi);
+      const matches = text.toLocaleUpperCase().match(/[0-9]/gi);
       return matches ? matches.join("") : "";
     }
     return "";
@@ -183,10 +190,13 @@ export default class VerseAsGrid extends Vue {
     margin-top: auto;
     margin-bottom: auto;
   }
+  &.reverse {
+    flex-direction: row-reverse;
+  }
   .letter {
     width: 36px;
     padding: 0;
-    font-size: 18px;
+    font-size: 1.5rem;
     font-weight: bold;
     margin: 0;
     align-content: center;

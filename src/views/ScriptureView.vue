@@ -11,7 +11,11 @@
       :map-direction="mapDirection"
       :input="search"
     ></scripture-map-renderer> -->
-    <VerseAsGrid class="grid" :scripture="scripture"></VerseAsGrid>
+    <VerseAsGrid
+      class="grid"
+      :allowVertical="!rtl"
+      :scripture="scripture"
+    ></VerseAsGrid>
   </div>
 </template>
 <script lang="ts">
@@ -138,6 +142,10 @@ export default class ScriptureView extends Vue {
           }
       }
     }
+  }
+  //
+  public get rtl() {
+    return Root.getInstance().IN.O.G.rtl;
   }
   //
   public gotoScripture(chapter: number, verse: number) {

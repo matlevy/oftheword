@@ -2,10 +2,12 @@ import { Letter } from "./Letter";
 import { LetterMap } from "./LetterMap";
 
 export class SpecialLetterMap implements LetterMap {
+  public rtl = false;
+  //
   private static _instance: SpecialLetterMap;
 
   private static A: Array<string> = [";", ",", ":", "."];
-  private static B: Array<string> = ["-", "?"];
+  private static B: Array<string> = ["-", "?", " "];
 
   // TODO: Brackets
 

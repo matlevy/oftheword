@@ -12,11 +12,12 @@ export interface WordIn {
   map: boolean;
 }
 export class Word {
-  public A: Array<Letter> = [];
+  public C: Array<Letter> = [];
   public E = "";
   public O: Array<number> = [];
   public U: Array<number> = [];
-
+  public X: Array<number> = [];
+  //
   constructor(public IN: WordIn) {
     this.read().and();
     this.IN.GOD.ORD(this);
@@ -24,20 +25,25 @@ export class Word {
   //
   public read(): Word {
     this.E = this.R;
-    this.A = [];
+    this.C = [];
     this.U = [];
+    this.X = [];
     //
     for (let p = 0; p < this.E.length; p++) {
       const code: number = this.E.charCodeAt(p);
       const char: string = this.E.charAt(p);
-      if (this.E.indexOf(char) == p) {
-        // a unique character, stored in unique character hash
-        this.U.push(code - this.IN.GOD.G.start);
+      const C = this.IN.GOD.G.getLetter(char);
+      const X = this.IN.GOD.IN.X.getLetter(char);
+      if (C !== undefined && C.IN.T > 0) {
+        if (this.E.indexOf(char) == p) {
+          // a unique character, stored in unique character hash
+          this.U.push(code - this.IN.GOD.G.start);
+        }
+        this.O[p] = this.U.indexOf(code - this.IN.GOD.G.start);
+        this.C.push(C);
+      } else if (X !== undefined) {
+        console.log(X);
       }
-      this.O[p] = this.U.indexOf(code - this.IN.GOD.G.start);
-      //
-      const letter: Letter = this.IN.GOD.IN.G.getFromIndex(this.U[this.O[p]]);
-      this.A.push(letter);
     }
     return this;
   }
@@ -46,12 +52,12 @@ export class Word {
     if (this.IN.map) {
       if (this.R.length > 2) {
         for (let p = 0; p < this.E.length; p++) {
-          if (this.A[p + 2]) {
+          if (this.C[p + 2]) {
             const index = this.IN.scripture.E.indexOf(this.R);
             const input: TripletIn = {
-              a: this.A[p],
-              b: this.A[p + 1],
-              c: this.A[p + 2],
+              a: this.C[p],
+              b: this.C[p + 1],
+              c: this.C[p + 2],
               i: {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 ref: this.IN.scripture.IN.ref!,
@@ -92,7 +98,7 @@ export class Word {
   }
   //
   get BG(): TwoLetterContainer[] {
-    return this.A.reduce(
+    return this.C.reduce(
       (p: TwoLetterContainer[], c: Letter, i: number, all: Letter[]) => {
         if (i > 0 && i < all.length - 2) {
           p.push({

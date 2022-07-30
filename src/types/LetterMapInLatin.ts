@@ -3,6 +3,8 @@ import { LetterMap } from "./LetterMap";
 import { WATERS } from "./wordActions/Waters";
 
 export class LetterMapInLatin implements LetterMap {
+  public rtl = false;
+
   private static A: Array<string> = ["A", "B", "C", "D"];
   private static E: Array<string> = ["E", "F", "G", "H"];
   private static I: Array<string> = ["I", "J", "K", "L", "M", "N"];

@@ -1,22 +1,15 @@
 <template>
   <span
-    v-if="!showAsShape"
     class="letter"
     :title="letter.T.toString()"
     @click="pick"
     :class="{ [letterClass]: true }"
-    >{{ letterRender }}</span
+    >{{ letter.IN.E }}</span
   >
-  <span v-else class="letter">
-    <font-awesome-icon
-      icon="fa-solid fa-circle-dot"
-      :class="{ [letterClass]: true }"
-    />
-  </span>
+  <span class="letter" v-if="grammar">{{ grammar.IN.E }}</span>
 </template>
 
 <script lang="ts">
-import { Root } from "@/root";
 import { Letter } from "@/types/Letter";
 import { Options, Vue } from "vue-class-component";
 
@@ -31,8 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
     selected: Boolean,
     letter: Letter,
     colours: Boolean,
-    viewAsNumbers: Boolean,
-    showAsShape: Boolean,
+    grammar: Letter,
   },
 })
 export default class LetterRenderer extends Vue {
@@ -41,13 +33,14 @@ export default class LetterRenderer extends Vue {
   public colours!: boolean;
   public viewAsNumbers!: boolean;
   public showAsShape!: boolean;
+  public grammar!: Letter;
   //
   public get letterClass() {
     if (this.letter.IN.TT && this.colours)
       return this.letter.IN.TT.getPresenterClass(this.letter);
     return "";
   }
-
+  //
   public pick() {
     if (this.selected) {
       this.selected = false;
@@ -56,15 +49,6 @@ export default class LetterRenderer extends Vue {
       this.selected = true;
       this.$emit("pick", this.letter);
     }
-  }
-
-  public get letterRender(): string {
-    if (this.viewAsNumbers) {
-      return Root.getInstance()
-        .IN.O.G.getLetterGroupPosition(this.letter)
-        .toString();
-    }
-    return this.letter.IN.E;
   }
 }
 </script>

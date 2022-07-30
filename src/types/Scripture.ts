@@ -100,6 +100,9 @@ export class Scripture {
       const code: number = this.text.charCodeAt(p);
       const char: string = this.text.charAt(p);
       const lE: number = this.E.length;
+      const G = this.IN.GOD.G.getLetter(char);
+      const X = this.IN.GOD.IN.X.getLetter(char);
+
       if (code == 32) {
         // a space, signifies new word
         this.I.push(
@@ -112,12 +115,7 @@ export class Scripture {
           }).WR as Word
         );
         lastWordStart = lE;
-      } else if (code < 65 || code > 90) {
-        // a character, therefore acts as a letter decorator
-        if (this.IN.GOD.IN.X.getLetter(char).IN.E != "*") {
-          this.X[this.I.length] = this.IN.GOD.IN.X.getLetter(char);
-        }
-      } else {
+      } else if (G !== undefined && G.IN.T > 0) {
         this.E = this.E.concat(char);
         this.A = this.A.concat(
           this.IN.GOD.IN.G.getFromIndex(code - this.IN.GOD.G.start)
@@ -126,6 +124,11 @@ export class Scripture {
         this.U.push(code - this.IN.GOD.G.start);
         if (this.O.indexOf(code - this.IN.GOD.G.start) == -1) {
           this.O.push(code - this.IN.GOD.G.start);
+        }
+      } else if (X !== undefined) {
+        // a character, therefore acts as a letter decorator
+        if (this.IN.GOD.IN.X.getLetter(char).IN.E != "*") {
+          this.X[this.I.length] = this.IN.GOD.IN.X.getLetter(char);
         }
       }
     }
@@ -146,7 +149,7 @@ export class Scripture {
           this.IN.chapter.verse[this.IN.ref!.verse - 2].I;
         const lastWordOfPrevious: Word =
           lastWordsOfPrevious[lastWordsOfPrevious.length - 1];
-        if (lastWordOfPrevious.A.length == 1) {
+        if (lastWordOfPrevious.C.length == 1) {
           words.push(lastWordsOfPrevious[lastWordsOfPrevious.length - 2]);
           console.warn("had to get previous but one word... ");
         }
@@ -159,18 +162,18 @@ export class Scripture {
       const wordB: Word = words[i + 1];
       try {
         const maps: Array<Letter> = [
-          wordA.A[wordA.A.length - 2],
-          wordA.A[wordA.A.length - 1],
-          wordB.A[0],
-          wordB.A[1],
+          wordA.C[wordA.C.length - 2],
+          wordA.C[wordA.C.length - 1],
+          wordB.C[0],
+          wordB.C[1],
         ];
-        if (wordA.A.length == 1) {
+        if (wordA.C.length == 1) {
           const wordP = words[i - 1];
-          maps[0] = wordP.A[wordP.A.length - 1];
+          maps[0] = wordP.C[wordP.C.length - 1];
         }
-        if (wordB.A.length == 1 && words[i + 2]) {
+        if (wordB.C.length == 1 && words[i + 2]) {
           const wordN = words[i + 2];
-          maps[3] = wordN.A[0];
+          maps[3] = wordN.C[0];
         }
         for (let p = 0; p < maps.length; p++) {
           if (maps[p + 2]) {

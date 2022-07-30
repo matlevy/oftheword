@@ -2,7 +2,9 @@ import { Letter } from "./Letter";
 import { LetterMap } from "./LetterMap";
 import { WATERS } from "./wordActions/Waters";
 
-export class GlyphMapHebrew implements LetterMap {
+export class LetterMapInHebrew implements LetterMap {
+  public rtl = true;
+
   private static A: Array<number> = [1488, 1489, 1490, 1491, 1492];
   private static V: Array<number> = [1493];
   private static Z: Array<number> = [1494, 1495, 1496, 1497, 1498, 1499];
@@ -12,17 +14,17 @@ export class GlyphMapHebrew implements LetterMap {
 
   private letters: Array<Letter> = [];
 
-  private static ALPHABET: Array<string> = GlyphMapHebrew.A.concat(
-    GlyphMapHebrew.V
+  private static ALPHABET: Array<string> = LetterMapInHebrew.A.concat(
+    LetterMapInHebrew.V
   )
-    .concat(GlyphMapHebrew.Z)
-    .concat(GlyphMapHebrew.L)
-    .concat(GlyphMapHebrew.P)
-    .concat(GlyphMapHebrew.T)
+    .concat(LetterMapInHebrew.Z)
+    .concat(LetterMapInHebrew.L)
+    .concat(LetterMapInHebrew.P)
+    .concat(LetterMapInHebrew.T)
     .map((v: number) => String.fromCharCode(v));
 
   constructor(public waters: WATERS) {
-    this.letters = GlyphMapHebrew.ALPHABET.map((E: string, T: number) => {
+    this.letters = LetterMapInHebrew.ALPHABET.map((E: string, T: number) => {
       return new Letter({
         R: this.waters,
         E,
@@ -66,26 +68,26 @@ export class GlyphMapHebrew implements LetterMap {
   }
   //
   public getAllAsString(): string {
-    return GlyphMapHebrew.ALPHABET.toString();
+    return LetterMapInHebrew.ALPHABET.toString();
   }
   //
   public getPresenterClass(letter: Letter) {
-    if (GlyphMapHebrew.A.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
+    if (LetterMapInHebrew.A.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
       return "letter-a";
     }
-    if (GlyphMapHebrew.Z.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
+    if (LetterMapInHebrew.Z.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
       return "letter-e";
     }
-    if (GlyphMapHebrew.L.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
+    if (LetterMapInHebrew.L.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
       return "letter-i";
     }
-    if (GlyphMapHebrew.T.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
+    if (LetterMapInHebrew.T.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
       return "letter-o";
     }
-    if (GlyphMapHebrew.P.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
+    if (LetterMapInHebrew.P.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
       return "letter-u";
     }
-    if (GlyphMapHebrew.V.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
+    if (LetterMapInHebrew.V.indexOf(letter.IN.E.charCodeAt(0)) != -1) {
       return "letter-u";
     }
     return "";
