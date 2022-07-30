@@ -52,32 +52,49 @@
       :showTallyLetters="true"
       :columnLetters="verticalLetters"
     ></AlphaBetMap>
-    <div class="notes">
-      <p>
-        Connecting to the selected position of the letter
-        <span class="letters-marker">{{ focusedForm }}</span
-        >, from the alphabet, we can see the following
-        <router-link :to="{ name: 'genesis-opening' }">form</router-link>
-        highlighted;
-      </p>
+    <div class="forms" :class="[formsVisiblityClass]">
+      <div class="forms-buttons">
+        <button
+          class="form-focus-button"
+          :class="[formFocusButtonClass]"
+          @click="toggleForms"
+        >
+          {{ focusedForm }}
+        </button>
+      </div>
+      <div class="forms-details">
+        <div class="notes">
+          <p>
+            Connecting to the selected position of the letter
+            <span class="letters-marker">{{ focusedForm }}</span
+            >, from the alphabet, we can see the following
+            <router-link :to="{ name: 'genesis-opening' }">form</router-link>
+            highlighted;
+          </p>
+        </div>
+        <div class="filters">
+          <input placeholder="Filter Row" v-model="formFilters" size="15" />
+          <input
+            placeholder="Only Colour"
+            v-model="formsColourFilters"
+            size="15"
+          />
+        </div>
+        <AlphaBetMap
+          class="grid"
+          :showOnlyColor="false"
+          :inputH="form"
+          :showLetterCrossReference="true"
+          :colCountOffset="4"
+          :showIndexValues="false"
+          :showTally="true"
+          :allowNumberFocus="true"
+          :showTallyLetters="true"
+          :rowFilter="formFilters"
+          :onlyColour="formsColourFilters"
+        ></AlphaBetMap>
+      </div>
     </div>
-    <div class="filters">
-      <input placeholder="Filter Row" v-model="formFilters" size="15" />
-      <input placeholder="Only Colour" v-model="formsColourFilters" size="15" />
-    </div>
-    <AlphaBetMap
-      class="grid"
-      :showOnlyColor="false"
-      :inputH="form"
-      :showLetterCrossReference="true"
-      :colCountOffset="4"
-      :showIndexValues="false"
-      :showTally="true"
-      :allowNumberFocus="true"
-      :showTallyLetters="true"
-      :rowFilter="formFilters"
-      :onlyColour="formsColourFilters"
-    ></AlphaBetMap>
   </div>
 </template>
 <script lang="ts">
@@ -108,6 +125,16 @@ export default class AlphabetFullGrid extends Vue {
   private fmFilter = "";
   private fmColorFilter = "";
   private vLetters = "";
+  //
+  public formsAreVisible = false;
+  //
+  public toggleForms() {
+    this.formsAreVisible = this.formsAreVisible == true ? false : true;
+  }
+  //
+  public get formsVisiblityClass() {
+    return this.formsAreVisible ? "in-view" : "";
+  }
   //
   public mounted() {
     if (this.$route.params.stream) {
@@ -226,6 +253,12 @@ export default class AlphabetFullGrid extends Vue {
   public onFocusForm(letter: string) {
     this.formFocus = letter;
   }
+  //
+  public get formFocusButtonClass() {
+    return Root.getInstance().IN.O.G.getPresenterClass(
+      Root.getInstance().IN.O.G.getLetter(this.formFocus || "*")
+    );
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -251,5 +284,53 @@ input {
   margin-right: 1rem;
   margin-bottom: 1rem;
   outline: 1px dotted rgba(255, 255, 255, 0.2);
+}
+.forms {
+  position: absolute;
+  top: 0;
+  //right: -400px;
+  z-index: 1000;
+  background-color: rgb(25, 25, 25);
+  width: 900px;
+  display: flex;
+  flex-direction: row;
+  padding-top: 1em;
+  right: calc(-900px + 2em);
+  transition: right 0.2s ease-in;
+  overflow: hidden;
+  min-height: 100vh;
+  &.in-view {
+    right: 0;
+  }
+  filter: drop-shadow(0 10px 2px rgb(50, 50, 50));
+}
+.forms-buttons {
+  .form-focus-button {
+    border: none;
+    margin: 0;
+    outline: none;
+    font-weight: bold;
+    min-width: 3em;
+    &.letter-a {
+      background-color: red;
+      color: black;
+    }
+    &.letter-e {
+      background-color: limegreen;
+      color: black;
+    }
+    &.letter-i {
+      background-color: rgb(0, 132, 255);
+      color: black;
+    }
+    &.letter-o {
+      background-color: yellow;
+      color: black;
+    }
+    &.letter-u {
+      background-color: rgb(193, 0, 223);
+      color: black;
+    }
+  }
 }
 </style>
