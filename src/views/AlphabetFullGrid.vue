@@ -286,7 +286,7 @@ input {
   outline: 1px dotted rgba(255, 255, 255, 0.2);
 }
 .forms {
-  position: absolute;
+  position: fixed;
   top: 0;
   //right: -400px;
   z-index: 1000;
@@ -297,7 +297,7 @@ input {
   padding-top: 1em;
   right: calc(-900px + 2em);
   transition: right 0.2s ease-in;
-  overflow: hidden;
+  overflow: scroll;
   min-height: 100vh;
   &.in-view {
     right: 0;
