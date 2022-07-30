@@ -1,9 +1,10 @@
+<!-- eslint-disable no-undef -->
 <template>
   <span
     class="letter"
     :title="letter.T.toString()"
     @click="pick"
-    :class="{ [letterClass]: true }"
+    :class="[customClasses, { [letterClass]: true }]"
     >{{ letter.IN.E }}</span
   >
   <span class="letter" v-if="grammar">{{ grammar.IN.E }}</span>
@@ -17,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 @Options({
   name: "letter-renderer",
+  emits: ["pick", "unpick", "click"],
   components: {
     FontAwesomeIcon,
   },
@@ -25,6 +27,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
     letter: Letter,
     colours: Boolean,
     grammar: Letter,
+    customClasses: null,
+    class: null,
   },
 })
 export default class LetterRenderer extends Vue {
@@ -34,6 +38,7 @@ export default class LetterRenderer extends Vue {
   public viewAsNumbers!: boolean;
   public showAsShape!: boolean;
   public grammar!: Letter;
+  public customClasses: undefined;
   //
   public get letterClass() {
     if (this.letter.IN.TT && this.colours)

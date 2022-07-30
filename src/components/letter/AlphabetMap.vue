@@ -5,83 +5,100 @@
       :class="{ ['borderContainer']: borderContainer }"
     >
       <div class="column column-label" v-if="!noColumnLabel">
-        <letter-renderer
+        <div
           v-for="(L, I) in drawRows(
             filterMatrixRowByLetters(letters, rowFilter)
           )"
           v-bind:key="I"
+          @click="focusNumbers(L)"
+          class="row alphabet-letter"
           :class="{
             ['lowerBorder']: hasDivider(letters[I]),
             ['hiddenBorder']: !hasDivider(letters[I]),
           }"
-          @click="focusNumbers(L)"
-          :showAsShape="showOnlyColor"
-          :letter="L"
-          :colours="true"
-          class="row alphabet-letter"
-        ></letter-renderer>
+        >
+          <LetterRenderer :letter="L" :colours="true"></LetterRenderer>
+        </div>
       </div>
-      <div class="rows">
-        <div>
-          <div>
+      <div class="rows grid-display">
+        <div class="grid-content">
+          <div class="referenced-letters">
             <div class="column" v-for="(C, X) in matrix" v-bind:key="X">
-              <letter-renderer
-                v-for="(A, Y) in drawRows(
-                  filterMatrixRowByLetters(C, rowFilter)
-                )"
-                v-bind:key="Y"
+              <div
                 :class="{
+                  ['row']: true,
                   ['lowerBorder']: hasDivider(letters[Y]),
                   ['hiddenBorder']: !hasDivider(letters[Y]),
                   ['unHighlightLetter']: unHiglightLetter(A),
                   ['whiteOnly']: colorOnly(A),
                 }"
-                :showAsShape="showOnlyColor"
-                :viewAsNumbers="viewGridLettersAsNumbers"
-                :letter="A"
-                :colours="true"
-                @click="onLetterPick({ P: A, I: X, C: Y })"
-                class="row alphabet-letter"
-              ></letter-renderer>
+                v-for="(A, Y) in drawRows(
+                  filterMatrixRowByLetters(C, rowFilter)
+                )"
+                v-bind:key="Y"
+              >
+                <LetterRenderer
+                  :letter="A"
+                  :colours="true"
+                  @click="onLetterPick({ P: A, I: X, C: Y })"
+                  class=""
+                ></LetterRenderer>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="showLetterCrossReference">
-          <letter-renderer
-            v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
-            v-bind:key="I"
-            :showAsShape="showOnlyColor"
-            :letter="getNumberAsAlphabetLetter(I)"
-            :colours="true"
-            class="column alphabet-letter"
-          ></letter-renderer>
-        </div>
-        <div v-if="showIndexValues" class="row number-row">
-          <VerticalNumberRenderer
-            v-for="(L, I) in getMatrixRow(numberFocus)"
-            v-bind:key="I"
-            :number="L.IN.E.charCodeAt(0) - 64"
-          ></VerticalNumberRenderer>
-        </div>
-        <div v-if="showTally" class="row number-row">
-          <VerticalNumberRenderer
-            ref="vNumberRenderer"
-            v-for="(L, I) in getMatrixRowSequentialIndexTally(numberFocus)"
-            v-bind:key="I"
-            :number="L + (tallyOffset || 0)"
-            :asLetters="showTallyLetters"
-          ></VerticalNumberRenderer>
-        </div>
-        <div v-if="allowNumberFocus">
-          <letter-renderer
-            v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
-            v-bind:key="I"
-            @click="focusNumbers(L)"
-            :showAsShape="showOnlyColor"
-            :letter="L"
-            :colours="true"
-            class="column alphabet-letter"
-          ></letter-renderer>
+          <div
+            class="column alphabet-placement"
+            v-if="showLetterCrossReference"
+          >
+            <div
+              v-for="(L, I) in filteredColumn(letters.slice(0, stream.length))"
+              v-bind:key="I"
+              class="row"
+            >
+              <LetterRenderer
+                :letter="getNumberAsAlphabetLetter(I)"
+                :colours="true"
+              ></LetterRenderer>
+            </div>
+          </div>
+          <div class="numerology">
+            <div v-if="showIndexValues" class="row number-row">
+              <div
+                class="column"
+                v-for="(L, I) in getMatrixRow(numberFocus)"
+                v-bind:key="I"
+              >
+                <VerticalNumberRenderer
+                  :number="L.IN.E.charCodeAt(0) - 64"
+                ></VerticalNumberRenderer>
+              </div>
+            </div>
+            <div v-if="showTally" class="row number-row">
+              <div
+                class="column"
+                v-for="(L, I) in getMatrixRowSequentialIndexTally(numberFocus)"
+                v-bind:key="I"
+              >
+                <VerticalNumberRenderer
+                  ref="vNumberRenderer"
+                  :number="L + (tallyOffset || 0)"
+                  :asLetters="showTallyLetters"
+                ></VerticalNumberRenderer>
+              </div>
+            </div>
+            <div v-if="allowNumberFocus" class="row alphabet-placement">
+              <div
+                v-for="(L, I) in filteredColumn(
+                  letters.slice(0, stream.length)
+                )"
+                v-bind:key="I"
+                @click="focusNumbers(L)"
+                class="column alphabet-letter"
+              >
+                <LetterRenderer :letter="L" :colours="true"></LetterRenderer>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="column column-label search-col" v-if="canSubNav">
@@ -97,14 +114,6 @@
           />
         </div>
       </div>
-    </div>
-    <div class="controls-and-notes" v-if="allowToggle">
-      <span
-        v-if="canToggleNumberView"
-        class="toggle-numbers"
-        @click="toggleNumbers()"
-        >{{ toggleNumbersLabel() }}</span
-      >
     </div>
   </div>
 </template>
@@ -185,7 +194,6 @@ export default class AlphaBetMap extends Vue {
   public noDivisions!: boolean;
   public noColumnLabel!: boolean;
   public onlyColour!: string;
-  public viewGridLettersAsNumbers = false;
   public allowToggle!: boolean;
   public borderContainer!: boolean;
   public inputHSearchSource!: string;
@@ -383,18 +391,6 @@ export default class AlphaBetMap extends Vue {
     return false;
   }
   //
-  public toggleNumbers() {
-    this.viewGridLettersAsNumbers = this.viewGridLettersAsNumbers
-      ? false
-      : true;
-  }
-  //
-  public toggleNumbersLabel(): string {
-    return !this.viewGridLettersAsNumbers
-      ? "View As Numbers & Colours In Grid"
-      : "View As Letters In Grid";
-  }
-  //
   public onLetterPick(choice: GridLetterChoice) {
     this.$emit("letterPick", choice);
   }
@@ -420,6 +416,7 @@ export default class AlphaBetMap extends Vue {
   }
   //
   public focusNumbers(focus: Letter) {
+    console.log(focus);
     this.numberFocus = focus.IN.E;
     const tally: number[] = this.getMatrixRowSequentialIndexTally(
       this.numberFocus
@@ -430,18 +427,55 @@ export default class AlphaBetMap extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.alphabet-view {
+  display: flex;
+  flex-flow: column;
+  font-size: 14px;
+}
 .column {
   float: left;
+  display: flex;
+  flex-flow: column;
+  min-width: 2em;
 }
 .row {
   display: flex;
   flex-direction: row;
+  min-height: 2em;
+  min-width: 2em;
+  align-content: center;
+  align-items: center;
 }
 .rows {
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
 }
+.grid-display {
+  max-width: 100%;
+  overflow: scroll;
+  height: fit-content;
+}
+.grid-content {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  .numerology,
+  .alphabet-placement,
+  .referenced-letters {
+    display: flex;
+    width: fit-content;
+  }
+  .alphabet-placement {
+    flex-flow: row;
+  }
+}
+.numerology {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
 .column-label {
   border-right: 1px dotted rgba(255, 255, 255, 0.2);
 }
@@ -455,8 +489,6 @@ export default class AlphaBetMap extends Vue {
   border-top: 1px solid rgb(25, 25, 25);
 }
 .alphabet-letter {
-  margin: 0rem;
-  padding: 0.5rem;
   text-align: center;
   align-content: center;
   justify-content: center;
@@ -479,10 +511,7 @@ export default class AlphaBetMap extends Vue {
   display: flex;
   margin-top: 1rem;
 }
-.alphabet-view {
-  display: flex;
-  flex-flow: column;
-}
+
 .alphabet-grid {
   display: flex;
   flex-flow: row;
@@ -504,5 +533,6 @@ export default class AlphaBetMap extends Vue {
   border-top: 1px dotted rgba(255, 255, 255, 0.2);
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  align-items: baseline;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <router-view :class="{ [baseClass]: true }" />
+  <router-view :class="{ [baseClass]: true, ['rtl']: rtl }" />
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
@@ -13,6 +13,10 @@ export default class App extends Vue {
   public get baseClass(): string {
     return Root.getInstance().IN.O.G.rtl ? "hebrew" : "latin";
   }
+  //
+  public get rtl() {
+    return Root.getInstance().IN.O.G.rtl;
+  }
 }
 </script>
 <style lang="scss">
@@ -24,6 +28,7 @@ export default class App extends Vue {
   color: #2c3e50;
   margin: 0;
   padding: 0;
+  max-width: 900px;
   .hebrew {
     font-family: "Times New Roman", Times, serif;
     font-size: 24px;

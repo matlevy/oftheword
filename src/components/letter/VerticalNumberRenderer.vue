@@ -58,10 +58,8 @@ export default class VerticalNumberRenderer extends Vue {
 .vertical-number-renderer {
   display: flex;
   flex-direction: column;
-  align-content: flex-start;
-  align-items: flex-start;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  align-content: center;
+  align-items: center;
 }
 .number {
   font-size: 1rem;

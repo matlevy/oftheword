@@ -1,6 +1,7 @@
 <template>
   <div class="scripture">
     <raw-scripture-renderer
+      :class="{ rtl: rtl }"
       :verse="scripture"
       :i="scripture.IN.ref?.verse"
     ></raw-scripture-renderer>
@@ -13,6 +14,7 @@
     ></scripture-map-renderer> -->
     <VerseAsGrid
       class="grid"
+      :class="{ rtl: rtl }"
       :allowVertical="!rtl"
       :scripture="scripture"
     ></VerseAsGrid>
@@ -169,6 +171,12 @@ export default class ScriptureView extends Vue {
   text-align: left;
 }
 
+.grid {
+  max-width: 800px;
+  min-width: 800px;
+  display: flex;
+}
+
 .intro {
   margin-top: 2rem;
   margin-left: 2.5rem;
@@ -182,7 +190,6 @@ export default class ScriptureView extends Vue {
 }
 .scripture-map,
 .grid-view {
-  margin-left: 2rem;
   margin-top: 1rem;
 }
 

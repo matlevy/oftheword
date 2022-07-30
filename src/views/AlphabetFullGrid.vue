@@ -1,47 +1,24 @@
 <template>
   <div class="alphabet-map-view">
-    <!-- <h1>Full Alphabet Grid</h1>
-    <div class="notes">
-      <p>
-        As discussed previously, it is possible to divide the Alphabet into
-        principal, abstract sections of concious experience: by vowel;
-      </p>
-      <p>
-        Applying the divisions, the first occurance of a given letter is
-        observed, and the preceeding two letters mapped to rows one [A] and two
-        [B]: succeeding of the first occurance are placed vertically, providing
-        each column with a number of letters representative to the count of
-        those within the alphabet;
-      </p>
-      <p>
-        This provides the following grid: again mapped vertically by the
-        divisions of the alphabet: providing a form of cross-reference;
-      </p>
-      <p>
-        The "natural word", to which we write, is contructed of letters in row
-        [C];
-      </p>
-    </div> -->
     <div class="filters">
       <input
-        placeholder="Enter A Custom Word"
+        placeholder="1. Type a Word"
         v-model="customHorizontal"
         size="30"
         max="26"
       />
       <input
-        placeholder="Enter A Custom Word"
+        placeholder="2. Crossreference With"
         v-model="verticalLetters"
         size="30"
         max="26"
       />
-      <input placeholder="Filter Columns" v-model="cFilter" size="10" />
+      <input placeholder="Look for" v-model="cFilter" size="10" />
       <select v-model="searchRow" class="search-letters">
         <option v-for="(letter, index) in searchLetters" v-bind:key="index">
           {{ letter }}
         </option>
       </select>
-      <input placeholder="Filter Row" v-model="rFilter" size="10" />
       <input placeholder="Only Colour" v-model="colorFilter" size="10" />
       <span>
         <button v-if="chosenLetters.length > 0" @click="onPickSpelling">
@@ -255,10 +232,6 @@ export default class AlphabetFullGrid extends Vue {
 .alphabet-map-view {
   text-align: left;
   color: white;
-  margin: 1rem;
-  max-width: 1000px;
-  margin-bottom: 2rem !important;
-  margin: 2rem;
 }
 .notes {
   color: white;

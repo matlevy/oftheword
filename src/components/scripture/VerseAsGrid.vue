@@ -155,12 +155,17 @@ export default class VerseAsGrid extends Vue {
   margin-top: 0.5rem;
 }
 
+.rtl {
+  flex-flow: row-reverse;
+  flex-wrap: wrap;
+  float: right !important;
+  right: 0;
+}
+
 .scripture-vertical {
   margin-top: 2rem;
 }
 .scripture-grid-view {
-  margin-left: 2rem;
-  //
   &:fullscreen {
     margin-left: 0;
     min-width: 100%;
@@ -178,14 +183,13 @@ export default class VerseAsGrid extends Vue {
 .scripture-grid {
   margin-top: 2rem;
   display: flex;
-  max-width: 800px;
-  min-width: 800px;
+  max-width: 520px;
+  min-width: 520px;
   flex-direction: row;
   flex-wrap: wrap;
   border: 1px solid #444444;
   box-sizing: border-box;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 0.5em;
   &:fullscreen {
     margin-top: auto;
     margin-bottom: auto;
