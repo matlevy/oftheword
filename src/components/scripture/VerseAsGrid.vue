@@ -78,7 +78,7 @@ export default class VerseAsGrid extends Vue {
     if (this.scripture) return this.scripture.E;
     if (this.chapter && this.verse) {
       const text = Root.getInstance().BIBLE.getVerse(
-        Root.getInstance().books.GENESIS,
+        Root.getInstance().bookList.GENESIS,
         this.chapter,
         this.verse
       );

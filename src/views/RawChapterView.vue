@@ -1,12 +1,11 @@
 <template>
   <div class="chapter">
-    <h1>Chapter {{ theChapter.SEED.chapter }}</h1>
+    <h1>Chapter {{ chapter.SEED.chapter }}</h1>
     <raw-scripture-renderer
-      v-for="(verse, index) in theChapter.verse"
+      v-for="(verse, index) in chapter?.verse"
       v-bind:key="index"
       :verse="verse"
       :i="index + 1"
-      @selectWord="atWordSelected"
       class="verse"
     ></raw-scripture-renderer>
   </div>
@@ -15,7 +14,6 @@
 import { Vue, Options } from "vue-class-component";
 import { Chapter } from "@/types/Chapter";
 import { Root } from "@/root";
-import { Word } from "@/types/Word";
 
 import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vue";
 
@@ -30,19 +28,49 @@ import RawScriptureRenderer from "@/components/scripture/RawScriptureRenderer.vu
 })
 export default class RawChapterView extends Vue {
   public chapter!: Chapter;
-
-  public get theChapter(): Chapter {
-    if (this.chapter) return this.chapter;
-    return Root.getInstance().gen.chapters[
-      Number(this.$route.params.chapter) - 1
-    ];
+  //
+  public get chapterNumber(): number {
+    return Number(this.$route.params.chapter) - 1;
   }
-
-  public atWordSelected(word: Word) {
-    this.$router.replace({
-      name: "word",
-      params: { search: word.E },
+  //
+  public get bookAsString(): string {
+    const bookNum = Number(this.$route.params.book) - 1;
+    return Root.getInstance().getBookName(bookNum);
+  }
+  //
+  public mounted() {
+    window.addEventListener("keypress", (e) => this.onKeyUp(e));
+  }
+  //
+  public get maxChapters(): number {
+    return Root.getInstance().BIBLE.getChapterCount(this.bookAsString);
+  }
+  //
+  public get nextChapter(): number {
+    return this.chapterNumber < this.maxChapters ? this.chapterNumber + 1 : 1;
+  }
+  //
+  public gotoScripture(chapter: number, verse: number) {
+    this.$router.push({
+      name: "scripture",
+      params: {
+        chapter: chapter,
+        verse: verse,
+      },
     });
+  }
+  //
+  public onKeyUp(e: KeyboardEvent) {
+    if (this.$route.name == "scripture") {
+      switch (e.code) {
+        case "BracketRight":
+          this.gotoScripture(this.chapterNumber + 1, 1);
+          break;
+        case "BracketLeft":
+          this.gotoScripture(this.chapterNumber - 1, 1);
+          break;
+      }
+    }
   }
 }
 </script>

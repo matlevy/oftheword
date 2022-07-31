@@ -60,9 +60,11 @@ export default class PrimesView extends Vue {
   //
   public get genesisOne(): string[] {
     return this.primes.map((v: number) => {
-      return Root.getInstance().gen.chapters[1].verse[1].E[
-        v % 44 !== 0 ? v % 44 : 1
-      ];
+      return (
+        Root.getInstance().gen?.chapters[1].verse[1].E[
+          v % 44 !== 0 ? v % 44 : 1
+        ] || ""
+      );
     });
   }
   //

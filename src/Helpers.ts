@@ -19,10 +19,10 @@ export default class Helpers {
         triad.P.toString().slice(triad.P.toString().length - 3)
       );
       if (chapter && verse) {
-        const cr: Scripture =
-          Root.getInstance().gen.chapters[chapter - 1].verse[verse - 1];
+        const cr: Scripture | undefined =
+          Root.getInstance().gen?.chapters[chapter - 1].verse[verse - 1];
         crossReferences = [];
-        crossReferences.push(cr);
+        if (cr) crossReferences.push(cr);
       }
     }
   }

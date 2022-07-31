@@ -1,7 +1,7 @@
 <template>
   <div class="book">
     <raw-chapter-view
-      v-for="(chapter, index) in book.chapters"
+      v-for="(chapter, index) in book?.chapters"
       v-bind:key="index"
       :chapter="chapter"
     ></raw-chapter-view>
@@ -20,7 +20,7 @@ import { Root } from "@/root";
   },
 })
 export default class RawBookView extends Vue {
-  public get book(): Book {
+  public get book(): Book | undefined {
     return Root.getInstance().gen;
   }
 }

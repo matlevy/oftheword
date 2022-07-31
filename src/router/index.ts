@@ -5,6 +5,9 @@ import GenesisOpeningVue from "@/views/GenesisOpening.vue";
 import MathematicalPhen from "@/views/MathematicalPhenomenom.vue";
 import FibonacciViewVue from "@/views/FibonacciView.vue";
 import PrimesView from "@/views/PrimesView.vue";
+import { Book } from "@/types/Book";
+import { Chapter } from "@/types/Chapter";
+import { Root } from "@/root";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +28,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/book/:book/:chapter",
     name: "chapter",
+    props: (route) => {
+      const chapterNumber = Number(route.params.chapter) - 1;
+      const bookNum = Number(route.params.book) - 1;
+      const books: Book[] = Root.getInstance().currentSource?.books as Book[];
+      const chapter: Chapter = books[bookNum].chapters[chapterNumber];
+      return {
+        chapter,
+      };
+    },
     component: () => import("../views/RawChapterView.vue"),
   },
   {

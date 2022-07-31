@@ -12,12 +12,12 @@
       :map-direction="mapDirection"
       :input="search"
     ></scripture-map-renderer> -->
-    <VerseAsGrid
+    <!-- <VerseAsGrid
       class="grid"
       :class="{ rtl: rtl }"
       :allowVertical="!rtl"
       :scripture="scripture"
-    ></VerseAsGrid>
+    ></VerseAsGrid> -->
   </div>
 </template>
 <script lang="ts">
@@ -45,8 +45,7 @@ export default class ScriptureView extends Vue {
   public get scripture(): Scripture {
     const c = Number(this.$route.params.chapter) - 1;
     const v = Number(this.$route.params.verse) - 1;
-    const scripture: Scripture = Root.getInstance().gen.chapters[c].verse[v];
-    return scripture;
+    return Root.getInstance().gen?.chapters[c].verse[v] as Scripture;
   }
   //
   public get verse(): number {
@@ -59,10 +58,11 @@ export default class ScriptureView extends Vue {
   //
   public get bookAsString(): string {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return Root.getInstance().getBookName(this.scripture.IN.ref!.book);
+    return Root.getInstance().getBookName(this.scripture?.IN.ref!.book);
   }
   //
   public get maxVerses(): number {
+    console.log(Root.getInstance().BIBLE);
     return Root.getInstance().BIBLE.getVerseCount(
       this.bookAsString,
       this.scripture.IN.ref?.chapter || 0
@@ -74,6 +74,7 @@ export default class ScriptureView extends Vue {
   }
   //
   public get endOfLastChapter(): number {
+    console.log(Root.getInstance().BIBLE);
     return Root.getInstance().BIBLE.getVerseCount(
       this.bookAsString,
       Math.max((this.scripture.IN.ref?.chapter || 0) - 1, 1)

@@ -7,7 +7,7 @@
     :class="[customClasses, { [letterClass]: true }]"
     >{{ letter.IN.E }}</span
   >
-  <span class="letter" v-if="grammar">{{ grammar.IN.E }}</span>
+  <!-- <span class="letter" v-if="grammar">{{ grammar.IN.E }}</span> -->
 </template>
 
 <script lang="ts">

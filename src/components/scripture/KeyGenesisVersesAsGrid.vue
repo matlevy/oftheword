@@ -27,12 +27,12 @@ import LetterRenderer from "../letter/LetterRenderer.vue";
 export default class KeyGenesisVersesAsGrid extends Vue {
   public get combinedText(): Letter[] {
     const AA: string = Root.getInstance().BIBLE.getVerse(
-      Root.getInstance().books.GENESIS,
+      Root.getInstance().bookList.GENESIS,
       1,
       1
     );
     const AB: string = Root.getInstance().BIBLE.getVerse(
-      Root.getInstance().books.GENESIS,
+      Root.getInstance().bookList.GENESIS,
       1,
       2
     );

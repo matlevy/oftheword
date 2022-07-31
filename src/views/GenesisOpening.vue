@@ -435,13 +435,13 @@ export default class GenesisOpeningVue extends Vue {
   //
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   public GENESIS_ONE_ONE: string = Root.getInstance()
-    .BIBLE.getVerse(Root.getInstance().books.GENESIS, 1, 1)
+    .BIBLE.getVerse(Root.getInstance().bookList?.GENESIS, 1, 1)
     .match(/[A-Za-z]/gi)!
     .join("")
     .toLocaleUpperCase();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   public GENESIS_ONE_TWO: string = Root.getInstance()
-    .BIBLE.getVerse(Root.getInstance().books.GENESIS, 1, 2)
+    .BIBLE.getVerse(Root.getInstance().bookList?.GENESIS, 1, 2)
     .match(/[A-Za-z]/gi)!
     .join("")
     .toLocaleUpperCase();
