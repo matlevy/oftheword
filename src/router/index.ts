@@ -8,6 +8,7 @@ import PrimesView from "@/views/PrimesView.vue";
 import { Book } from "@/types/Book";
 import { Chapter } from "@/types/Chapter";
 import { Root } from "@/root";
+import { Scripture } from "@/types/Scripture";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,6 +24,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/book/:book/:chapter/:verse",
     name: "scripture",
+    props: (route) => {
+      const books: Book[] = Root.getInstance().currentSource?.books as Book[];
+      const b = Number(route.params.book) - 1;
+      const c = Number(route.params.chapter) - 1;
+      const v = Number(route.params.verse) - 1;
+      const chapter: Chapter = books[b].chapters[c];
+      const scripture = chapter.verse[v] as Scripture;
+      return {
+        scripture,
+      };
+    },
     component: () => import("../views/ScriptureView.vue"),
   },
   {

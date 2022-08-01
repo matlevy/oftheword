@@ -6,6 +6,7 @@
         :color="false"
         :word="word"
         v-bind:key="index"
+        @click="onWordClick(word, $event)"
       ></WordRenderer>
     </div>
   </div>
@@ -29,18 +30,11 @@ import LetterRenderer from "../letter/LetterRenderer.vue";
     verse: Scripture,
     i: Number,
   },
+  emits: ["wordPick"],
 })
 export default class RawScriptureRenderer extends Vue {
   public verse!: Scripture;
   public i!: number;
-  public onWordClick(word: Word) {
-    this.$router.push({
-      name: "word",
-      params: {
-        word: word.E.toLocaleUpperCase(),
-      },
-    });
-  }
   //
   public selectWord(word: Word) {
     this.$emit("selectWord", word);
@@ -48,6 +42,10 @@ export default class RawScriptureRenderer extends Vue {
   //
   public get rtl() {
     return Root.getInstance().IN.O.G.rtl;
+  }
+  //
+  public onWordClick(word: Word, e: MouseEvent) {
+    this.$emit("wordPick", word, e.metaKey);
   }
 }
 </script>

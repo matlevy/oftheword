@@ -200,6 +200,10 @@ export class Root {
     return this.currentSource?.explorer;
   }
 
+  public get BOOKS(): Book[] {
+    return this.currentSource?.books || [];
+  }
+
   public get IN(): RootIn {
     return this.currentSource?.rootSource.root as RootIn;
   }
