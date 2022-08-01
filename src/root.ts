@@ -34,6 +34,7 @@ export interface Source {
   name: string;
   rootSource: RootSource;
   books?: Book[];
+  explorer?: BibleExplorer;
 }
 
 export class RootFactory {
@@ -49,6 +50,7 @@ export class RootFactory {
       const explorer: BibleExplorer = new BibleExplorer(v.rootSource.source);
       const books: string[] = Object.keys(v.rootSource.books);
       v.books = this.constructBooks(v.rootSource.root.O, [books[0]], explorer);
+      v.explorer = explorer;
       return v;
     });
   }
@@ -95,13 +97,15 @@ export class RootFactory {
   }
   //
   public createHebrew(): RootIn {
-    const G: LetterMap = new LetterMapInHebrew(this.createWaters());
-    return this.createRootIn(G, new TripletMap(G));
+    const W: WATERS = this.createWaters();
+    const G: LetterMap = new LetterMapInHebrew(W);
+    return this.createRootIn(G, new TripletMap(G), W);
   }
   //
   public createLatin(): RootIn {
-    const G: LetterMap = new LetterMapInLatin(this.createWaters());
-    return this.createRootIn(G, new TripletMap(G));
+    const W: WATERS = this.createWaters();
+    const G: LetterMap = new LetterMapInLatin(W);
+    return this.createRootIn(G, new TripletMap(G), W);
   }
   //
   public createWaters(): WATERS {
@@ -118,11 +122,10 @@ export class RootFactory {
     });
   }
   //
-  public createRootIn(G: LetterMap, O: TripletMap): RootIn {
+  public createRootIn(G: LetterMap, O: TripletMap, GO: WATERS): RootIn {
     const OD: WordMap = new WordMap({
       map: new Map<string, Word>(),
     });
-    const GO = new Waters();
     return {
       O: new God({
         G,
@@ -193,8 +196,8 @@ export class Root {
     }
   }
 
-  public get BIBLE(): BibleExplorer {
-    return this.currentSource?.rootSource.source as BibleExplorer;
+  public get EXPLORER(): BibleExplorer | undefined {
+    return this.currentSource?.explorer;
   }
 
   public get IN(): RootIn {
@@ -219,7 +222,9 @@ export class Root {
   }
 
   public getBookName(index: number) {
-    const books: string[] = Object.keys(BOOKS["ENGLISH"]);
-    return books[index - 1];
+    const books: string[] = Object.keys(
+      this.currentSource?.rootSource.books as BOOK_LIST
+    );
+    return books[index];
   }
 }

@@ -77,11 +77,12 @@ export default class VerseAsGrid extends Vue {
   public get verseText(): string {
     if (this.scripture) return this.scripture.E;
     if (this.chapter && this.verse) {
-      const text = Root.getInstance().BIBLE.getVerse(
-        Root.getInstance().bookList.GENESIS,
-        this.chapter,
-        this.verse
-      );
+      const text =
+        Root.getInstance().EXPLORER?.getVerse(
+          Root.getInstance().bookList.GENESIS,
+          this.chapter,
+          this.verse
+        ) || "";
       const matches = text.toLocaleUpperCase().match(/[0-9]/gi);
       return matches ? matches.join("") : "";
     }

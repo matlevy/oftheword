@@ -30,7 +30,7 @@ export default class RawChapterView extends Vue {
   public chapter!: Chapter;
   //
   public get chapterNumber(): number {
-    return Number(this.$route.params.chapter) - 1;
+    return Number(this.$route.params.chapter);
   }
   //
   public get bookAsString(): string {
@@ -43,31 +43,32 @@ export default class RawChapterView extends Vue {
   }
   //
   public get maxChapters(): number {
-    return Root.getInstance().BIBLE.getChapterCount(this.bookAsString);
+    return Root.getInstance().EXPLORER?.getChapterCount(this.bookAsString) || 0;
   }
   //
   public get nextChapter(): number {
     return this.chapterNumber < this.maxChapters ? this.chapterNumber + 1 : 1;
   }
   //
-  public gotoScripture(chapter: number, verse: number) {
+  public gotoScripture(chapter: number) {
     this.$router.push({
-      name: "scripture",
+      name: "chapter",
       params: {
         chapter: chapter,
-        verse: verse,
       },
     });
   }
   //
   public onKeyUp(e: KeyboardEvent) {
-    if (this.$route.name == "scripture") {
+    if (this.$route.name == "chapter") {
       switch (e.code) {
         case "BracketRight":
-          this.gotoScripture(this.chapterNumber + 1, 1);
+          this.gotoScripture(this.nextChapter);
           break;
         case "BracketLeft":
-          this.gotoScripture(this.chapterNumber - 1, 1);
+          this.gotoScripture(
+            this.chapterNumber - 1 > 0 ? this.chapterNumber - 1 : 1
+          );
           break;
       }
     }

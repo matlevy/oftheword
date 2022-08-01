@@ -26,16 +26,18 @@ import LetterRenderer from "../letter/LetterRenderer.vue";
 })
 export default class KeyGenesisVersesAsGrid extends Vue {
   public get combinedText(): Letter[] {
-    const AA: string = Root.getInstance().BIBLE.getVerse(
-      Root.getInstance().bookList.GENESIS,
-      1,
-      1
-    );
-    const AB: string = Root.getInstance().BIBLE.getVerse(
-      Root.getInstance().bookList.GENESIS,
-      1,
-      2
-    );
+    const AA: string =
+      Root.getInstance().EXPLORER?.getVerse(
+        Root.getInstance().bookList.GENESIS,
+        1,
+        1
+      ) || "";
+    const AB: string =
+      Root.getInstance().EXPLORER?.getVerse(
+        Root.getInstance().bookList.GENESIS,
+        1,
+        2
+      ) || "";
     return [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...AA.concat(AB).toLocaleUpperCase().match(/[A-Z]/gi)!.join("")!,

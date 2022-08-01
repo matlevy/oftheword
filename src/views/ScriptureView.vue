@@ -62,22 +62,24 @@ export default class ScriptureView extends Vue {
   }
   //
   public get maxVerses(): number {
-    console.log(Root.getInstance().BIBLE);
-    return Root.getInstance().BIBLE.getVerseCount(
-      this.bookAsString,
-      this.scripture.IN.ref?.chapter || 0
+    return (
+      Root.getInstance().EXPLORER?.getVerseCount(
+        this.bookAsString,
+        this.scripture.IN.ref?.chapter || 1
+      ) || 1
     );
   }
   //
   public get maxChapters(): number {
-    return Root.getInstance().BIBLE.getChapterCount(this.bookAsString);
+    return Root.getInstance().EXPLORER?.getChapterCount(this.bookAsString) || 1;
   }
   //
   public get endOfLastChapter(): number {
-    console.log(Root.getInstance().BIBLE);
-    return Root.getInstance().BIBLE.getVerseCount(
-      this.bookAsString,
-      Math.max((this.scripture.IN.ref?.chapter || 0) - 1, 1)
+    return (
+      Root.getInstance().EXPLORER?.getVerseCount(
+        this.bookAsString,
+        Math.max((this.scripture.IN.ref?.chapter || 0) - 1, 1)
+      ) || 1
     );
   }
   //
@@ -139,8 +141,9 @@ export default class ScriptureView extends Vue {
                 .indexOf(e.key.toLocaleUpperCase()) + 1;
             if (e.shiftKey) code = code + 26;
             // navigate to verse by letter
+            console.log(code, Root.getInstance().IN.O.G);
             if (code <= this.maxVerses) {
-              this.gotoScripture(this.chapter, code);
+              this.gotoScripture(this.chapter, 1);
             }
           }
       }
